@@ -1,0 +1,130 @@
+﻿<?xml version="1.0"?>
+
+<project name="plugins" basedir="." default="all">
+	<property name="project.dir" value="." />
+	<property file="build.properties" />
+	
+	<path id="compile.classpath">
+        <fileset dir="lib">
+            <include name="*.jar"/>
+        </fileset>
+    </path>
+	
+	<path id="tomcat.class.path">
+		<fileset dir="${tomcat.home}/lib">
+			<include name="**/*.jar"/>
+			<include name="**/*.zip"/>
+		</fileset>
+		<pathelement location="${tomcat.home}/bin/bootstrap.jar"/>
+		<pathelement location="${tomcat.home}/bin/tomcat-juli.jar"/>
+	</path>
+	
+	<target name="compile" depends="clean" description="compile *.java => *.class">
+		<mkdir dir="${classes.dir}" />
+		<mkdir dir="${junit.classes.dir}" />
+		<javac srcdir="${src.dir}" destdir="${classes.dir}" encoding="UTF8">
+			<classpath refid="build.class.path" />
+		</javac>
+		<javac srcdir="${junit.src.dir}" destdir="${junit.classes.dir}" encoding="UTF8">
+			<classpath refid="build.class.path" />
+		</javac>
+	</target>
+	
+	<target name="build" description="Build the system">
+        <mkdir dir="${build.dir}"/>
+        <mkdir dir="${build.classes.dir}"/>
+        <javac
+            srcdir="${src.dir}"
+            destdir="${build.classes.dir}"
+            debug="true"
+            debuglevel="lines,vars,source"
+            encoding="utf-8"
+            compiler="modern"
+            target="1.5"
+            source="1.5"
+        >
+            <classpath refid="compile.classpath"/>
+            <compilerarg value="-Xlint:unchecked" />
+            <compilerarg value="-Xlint:deprecation" />
+        </javac>
+    </target>
+	
+	<!--Kohendada vastavalt projekti struktuurile-->
+	<target name="war">
+		<war destfile="${app-name}-${app.version}.war">
+		  <fileset dir="${src.dir}"/>
+		  <lib dir="thirdparty/libs">
+			<exclude name="jdbc1.jar"/>
+		  </lib>
+		  <classes dir="build/main"/>
+		  <zipfileset dir="src/graphics/images/gifs"
+					  prefix="images"/>
+		</war>
+	</target>
+	<target name="clean" description="Clean up build system results">
+        <delete dir="${build.dir}"/>
+    </target>
+	
+	<target name="start-tomcat">
+		<java classname="org.apache.catalina.startup.Bootstrap" fork="true"
+			classpathref="tomcat.class.path">
+			<jvmarg value="-Dcatalina.home=${tomcat.home}"/>
+		</java>
+	</target>
+
+	<target name="stop-tomcat" depends="tomcat-check-status" if="tomcat.started">
+		<java classname="org.apache.catalina.startup.Bootstrap" fork="true"
+			classpathref="tomcat.class.path">
+			<jvmarg value="-Dcatalina.home=${tomcat.home}"/>
+			<arg line="stop"/>
+		</java>
+		<sleep seconds="5"/>
+	</target>
+
+	<target name="tomcat-check-status">
+		<condition property="tomcat.started">
+			<socket server="localhost" port="8080"/>
+		</condition>
+	</target>
+
+	<target name="restart-tomcat">
+		<antcall target="stop-tomcat" inheritall="false" />
+		<antcall target="start-tomcat" inheritall="false" />
+	</target>
+	
+	<target name="unzip-tomcat">
+		<unzip src="${workspace.bimps.dir}/${tomcat.archive}" dest="${app.server.home.dir}" overwrite="false"/>
+	</target>
+	
+	<macrodef name = "git">
+		<attribute name = "command" />
+		<attribute name = "dir" default = "" />
+		<element name = "args" optional = "true" />
+		<sequential>
+			<echo message = "git @{command}" />
+			<exec executable = "git" dir = "@{dir}">
+				<arg value = "@{command}" />
+				<args/>
+			</exec>
+		</sequential>
+	</macrodef>
+
+	<macrodef name = "git-clone-pull">
+		<attribute name = "repository" />
+		<attribute name = "dest" />
+		<sequential>
+			<git command = "clone">
+				<args>
+					<arg value = "@{repository}" />
+					<arg value = "@{dest}" />
+				</args>
+			</git>
+			<git command = "pull" dir = "@{dest}" />
+		</sequential>
+	</macrodef>
+	
+	<target name="get-latest-code">
+		<git-clone-pull repository="${git.repo.url}" dest="${ext.work.dir}" />
+	</target>
+
+</project>
