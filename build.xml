@@ -5,7 +5,7 @@
 	<property file="build.properties" />
 	
 	<path id="compile.classpath">
-        <fileset dir="lib">
+        <fileset dir="${lib.dir}">
             <include name="*.jar"/>
         </fileset>
     </path>
@@ -19,7 +19,7 @@
 		<pathelement location="${tomcat.home}/bin/tomcat-juli.jar"/>
 	</path>
 	
-	<target name="compile" depends="clean" description="compile *.java => *.class">
+	<!--<target name="compile" depends="clean" description="compile *.java => *.class">
 		<mkdir dir="${classes.dir}" />
 		<mkdir dir="${junit.classes.dir}" />
 		<javac srcdir="${src.dir}" destdir="${classes.dir}" encoding="UTF8">
@@ -28,11 +28,12 @@
 		<javac srcdir="${junit.src.dir}" destdir="${junit.classes.dir}" encoding="UTF8">
 			<classpath refid="build.class.path" />
 		</javac>
-	</target>
+	</target>-->
 	
 	<target name="build" description="Build the system">
         <mkdir dir="${build.dir}"/>
         <mkdir dir="${build.classes.dir}"/>
+        <mkdir dir="${war.classes.dir}"/>
         <javac
             srcdir="${src.dir}"
             destdir="${build.classes.dir}"
@@ -47,22 +48,49 @@
             <compilerarg value="-Xlint:unchecked" />
             <compilerarg value="-Xlint:deprecation" />
         </javac>
+		<mkdir dir=""/>
+		<copy todir="${war.classes.dir}" >
+			<fileset dir="${build.classes.dir}"></fileset>
+		</copy>
     </target>
 	
-	<!--Kohendada vastavalt projekti struktuurile-->
-	<target name="war">
-		<war destfile="${app-name}-${app.version}.war">
+	<target name="war" depends="build" >
+		<mkdir dir="${dist.dir}"/>
+		<zip destfile="${dist.dir}/${app.name}-${app.version}.war"
+		       basedir="${war.dir}"
+		       update="true"
+		  />
+		
+		<!--<war destfile="${app.name}-${app.version}.war">
 		  <fileset dir="${src.dir}"/>
-		  <lib dir="thirdparty/libs">
-			<exclude name="jdbc1.jar"/>
-		  </lib>
-		  <classes dir="build/main"/>
-		  <zipfileset dir="src/graphics/images/gifs"
-					  prefix="images"/>
-		</war>
+		  <fileset dir="${jsp.dir}" prefix="jsp"/>
+		  <lib dir="${lib.dir}"/>
+		  <classes dir="${build.classes.dir}"/>
+		  <zipfileset dir="${gfx.dir}"
+					  prefix="gfx"/>
+		</war>-->
 	</target>
+	
+	<target name="copy-confs">
+		<copy file="${conf.dir}/server.xml" todir="${app.server.dir}/conf">
+			<filterset>
+			    <filter token="WARDIR" value="${war.dir}"/>
+			  </filterset>
+		</copy>
+		
+	</target>
+	
+	<target name="deploy" depends="build">
+		
+	</target>
+	
+	<target name="all" depends="stop-tomcat,unzip-tomcat,copy-confs,build,start-tomcat">
+	
+	</target>
+	
 	<target name="clean" description="Clean up build system results">
         <delete dir="${build.dir}"/>
+		<delete dir="${war.classes.dir}"/>
     </target>
 	
 	<target name="start-tomcat">
@@ -94,37 +122,6 @@
 	
 	<target name="unzip-tomcat">
 		<unzip src="${workspace.bimps.dir}/${tomcat.archive}" dest="${app.server.home.dir}" overwrite="false"/>
-	</target>
-	
-	<macrodef name = "git">
-		<attribute name = "command" />
-		<attribute name = "dir" default = "" />
-		<element name = "args" optional = "true" />
-		<sequential>
-			<echo message = "git @{command}" />
-			<exec executable = "git" dir = "@{dir}">
-				<arg value = "@{command}" />
-				<args/>
-			</exec>
-		</sequential>
-	</macrodef>
-
-	<macrodef name = "git-clone-pull">
-		<attribute name = "repository" />
-		<attribute name = "dest" />
-		<sequential>
-			<git command = "clone">
-				<args>
-					<arg value = "@{repository}" />
-					<arg value = "@{dest}" />
-				</args>
-			</git>
-			<git command = "pull" dir = "@{dest}" />
-		</sequential>
-	</macrodef>
-	
-	<target name="get-latest-code">
-		<git-clone-pull repository="${git.repo.url}" dest="${ext.work.dir}" />
 	</target>
 
 </project>
