@@ -7,7 +7,6 @@ import ee.ut.bpsimulator.logger.KpiCalculator;
 import ee.ut.bpsimulator.logger.MxmlLogger;
 import ee.ut.bpsimulator.BPSimulator;
 
-
 @Service
 public class SimulatorServiceImpl implements SimulatorService {
 

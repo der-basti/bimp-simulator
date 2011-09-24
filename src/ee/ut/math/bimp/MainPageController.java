@@ -22,20 +22,12 @@ public class MainPageController {
 
 		return "index";
 	}
-	@RequestMapping(value="/", method = RequestMethod.GET)
-	public String init2(ModelMap model){
+	
+	@RequestMapping(value="/upload", method = RequestMethod.GET)
+	public String upload(ModelMap model){
 		
-		log.debug("/ requested, sending message");
-		model.addAttribute("msg", "It works!");
+		log.debug("/upload requested, sending page");
 
-		return "index";
-	}
-	@RequestMapping(value="/asd", method = RequestMethod.GET)
-	public String init3(ModelMap model){
-		
-		log.debug("/ requested, sending message");
-		model.addAttribute("msg", "It works!");
-
-		return "index";
+		return "upload";
 	}
 }

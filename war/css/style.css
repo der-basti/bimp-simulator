@@ -1,0 +1,14 @@
+.upload-area {
+	width: 300px;
+}
+
+#file-drag {
+	border: 3px solid #888;
+	border-radius: 10px;
+	font-size: 22px;
+    text-align: center;
+    color: #999;
+}
+#file-drag.hover{
+	border: 3px solid green;
+}
