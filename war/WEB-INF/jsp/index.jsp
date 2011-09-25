@@ -8,8 +8,9 @@
 	<title>BIMP Simulator</title>
 </head>
 	<body>
-		<p>
-			${msg} barely.
-		</p>
+		<div class ="main">
+			<jsp:include page="_header.jspf"/>
+			
+		</div>
 	</body>
 </html>

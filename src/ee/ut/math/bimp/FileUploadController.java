@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +22,7 @@ public class FileUploadController {
 	private static Logger log = Logger.getLogger(FileUploadController.class);
 	
 	@RequestMapping(value="/uploadfile", method = RequestMethod.POST)
-	public String onSubmit(HttpServletRequest request, UploadItem uploadItem, BindingResult result){
+	public String onSubmit(HttpServletRequest request, UploadItem uploadItem, BindingResult result, ModelMap model){
 
 	    if (result.hasErrors())
 	    {
@@ -37,17 +38,21 @@ public class FileUploadController {
         } else {
         	log.debug("File " + file.getName() + " uploaded.");
         	File ff;
-        	File f = new File(request.getSession().getServletContext().getRealPath("/WEB-INF/tmp/"));
+        	File f = new File(request.getSession().getServletContext().getRealPath("/tmp/"));
         	f.mkdirs();
 			try {
 				ff = File.createTempFile("in_", ".bpmn", f);
 				file.transferTo(ff);
 				log.info("Uploaded file: " + ff.getAbsolutePath());
+				model.addAttribute("file", file);
+				
+				model.addAttribute("msg", "<span>File uploaded.</span> <a href='./tmp/"+ff.getName()+"'>Download</a>");
 			} catch (IOException e) {
+				model.addAttribute("msg", "<span>Error uploading file.</span>");
 				log.error("Could not create file", e);
 			} 
         }
-
+        	
 			return "upload";
     }
 }

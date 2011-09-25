@@ -11,6 +11,8 @@
 		<title>BIMP Simulator</title>
 	</head>
 	<body>
+		${msg}
+		${file.originalFilename}
 		<div class="upload-area">
 			<form id="upload" modelAttribute="uploadItem" action="/uploadfile" method="POST" enctype="multipart/form-data">
 	
