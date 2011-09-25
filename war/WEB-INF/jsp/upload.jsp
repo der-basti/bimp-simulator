@@ -7,6 +7,8 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF8">
 		<script type="text/javascript" src="./js/jquery-1.6.4.min.js"></script>
 		<script type="text/javascript" src="./js/bimp.file.js"></script>
+		<script type="text/javascript" src="./js/bimp.parse.js"></script>
+		
 		<link rel="stylesheet" type="text/css"  href="./css/style.css"></link>
 		<title>BIMP Simulator</title>
 	</head>
