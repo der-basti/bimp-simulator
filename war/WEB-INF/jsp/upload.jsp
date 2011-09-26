@@ -41,5 +41,10 @@
 			<div id="file-info">
 			</div>
 		</div>
+		${enabledElements} <br />
+		Minimum process cost: ${minProcessCost} <br />
+		Maximum process cost: ${maxProcessCost} <br />
+		Minimum process duration: ${minProcessDuration} <br />
+		Maximum process duration: ${maxProcessDuration} <br />
 	</body>
 </html>
