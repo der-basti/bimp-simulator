@@ -4,6 +4,8 @@ bimp.parser = {
 		this.readStartEvent();
 		this.readTasks();
 		this.readIntermediateCatchEvents();
+		this.readConditionExpressions();
+		console.log("Finished reading data");
 	},
 	startEvent : {
 		arrivalRateDistribution : {
@@ -61,6 +63,13 @@ bimp.parser = {
 	addIntermediateCatchEvent : function (id, catchEventObj){
 		this.intermediateCatchEvents[id] =  $.extend(new bimp.parser.intermediateCatchEvent(), catchEventObj);
 	},
+	conditionExpressions : [],
+	conditionExpression : function(id, targetRef, sourceRef, value) {
+		this.id = id;
+		this.targetRef = targetRef;
+		this.sourceRef = sourceRef;
+		this.value = value;
+	},
 	init : function () {
 		this.xmlFile = bimp.file.xmlFile;
 	},
@@ -74,6 +83,7 @@ bimp.parser = {
 		} else {
 			console.log("No documentation info found for startEvent");
 		}
+		return true;
 	},
 	readTasks : function() {
 		var tasks = $(this.xmlFile).find("task");
@@ -81,10 +91,12 @@ bimp.parser = {
 		$(tasks).each(function(index, task){
 			var data = $(task).find("documentation");
 			var taskObj = $.parseJSON($(data).text());
+			//TODO: test if data[0] fails in some cases
 			var id = data[0].getAttribute("id");
 			bimp.parser.addTask(id, taskObj);
 			console.log("Added task with id =", id);
 		});
+		return true;
 	},
 	readIntermediateCatchEvents : function() {
 		var events = $(this.xmlFile).find("intermediateCatchEvent");
@@ -97,6 +109,23 @@ bimp.parser = {
 			bimp.parser.addIntermediateCatchEvent(id, catchEventObj);
 			console.log("Added catchEvent with id =", id);
 		});
+		return true;
+	},
+	readConditionExpressions : function() {
+		sequenceFlows = $(this.xmlFile).find("sequenceFlow");
+		$(sequenceFlows).each(function(index, sequenceFlow){
+			var conditionExpression = $(sequenceFlow).find("conditionExpression");
+			if (conditionExpression.length > 0) {
+				console.log("Found conditionExpression and added it");
+				var id = sequenceFlow.getAttribute("id");
+				var targetRef = sequenceFlow.getAttribute("targetRef");
+				var sourceRef = sequenceFlow.getAttribute("sourceRef");
+				var value = sequenceFlow.textContent;
+				ce = new bimp.parser.conditionExpression(id, targetRef, sourceRef, value);
+				console.log("conditionExpression", ce);
+				bimp.parser.conditionExpressions.push(ce);
+			}
+		});
+		return true;
 	}
-	
 };
