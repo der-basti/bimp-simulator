@@ -22,13 +22,21 @@ bimp.file = {
 		parseFile : function (file) {
 			console.log("Parsing file: ", file);
 			try {
-				bimp.file.xmlFile = $.parseXML(bimp.file.inputFiles[0].getAsBinary());
-				console.log("Parse success..");
-				if (bimp.file.xmlFile.getElementsByTagName(bimp.file.simulationInfoTag).length > 0){
-					console.log("File with simulation information provided");
-				} else {
-					console.log("File with no simulation information provided");
-				}
+				var reader = new FileReader();
+				reader.readAsText(this.inputFiles[0]);
+				reader.onloadend = function (e) {
+					bimp.file.xmlFile = $.parseXML(e.target.result);
+					console.log("Parse success..");
+					var doc = $(bimp.file.xmlFile).find("documentation");
+					if (doc.length > 0) {
+						console.log("File with simulation information provided");
+						bimp.parser.init();
+						bimp.parser.start();
+					} else {
+						console.log("File with no simulation information provided");
+					}
+				};
+				
 			} catch (e) {
 				alert("Error parsing .xml document", e);
 				console.log(e);
@@ -95,10 +103,11 @@ function FileDragHover(e) {
 	e.preventDefault();
 	e.target.className = (e.type == "dragover" ? "hover" : "");
 }
-
+var aaa;
 function FileSelectHandler(e) {
 	FileDragHover(e);
-
+	aaa= e.target
+	console.log(e.target)
 	bimp.file.inputFiles = e.target.files || e.dataTransfer.files;
 
 	for (var i = 0, f; f = bimp.file.inputFiles[i]; i++) {
