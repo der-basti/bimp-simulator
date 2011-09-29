@@ -12,11 +12,11 @@
 		<link rel="stylesheet" type="text/css"  href="./css/style.css"></link>
 		<title>BIMP Simulator</title>
 	</head>
-	<body>
-		${msg}
-		${file.originalFilename}
+		<body>
+		${msg} ${file.originalFilename}
 		<div class="upload-area">
-			<form id="upload" modelAttribute="uploadItem" action="/uploadfile" method="POST" enctype="multipart/form-data">
+			<form id="upload" modelAttribute="uploadItem" action="/uploadfile"
+				method="POST" enctype="multipart/form-data">
 	
 				<fieldset>
 					<legend>Upload your .BPMN file</legend>
@@ -25,8 +25,8 @@
 						value="300000" />
 	
 					<div>
-						<label for="file-select">Select the file:</label> <input type="file"
-							id="file-select" name="fileData" />
+						<label for="file-select">Select the file:</label> <input
+							type="file" id="file-select" name="fileData" />
 						<div id="file-drag">or drop it here</div>
 					</div>
 	
@@ -37,11 +37,76 @@
 				</fieldset>
 	
 			</form>
-	
 			<div id="progress"></div>
-	
+		</div>
+			<div class="data-input">
+				<form action="">
+					<div class="startEvent">
+						<h2>Main start event</h2>
+						<table class="form">
+							<tbody>
+								<tr id="name">
+									<th>Name: </th>
+									<td>
+										<select name="name">
+											<option value="generate">Will be generated from file</option>
+										</select>
+									</td>
+								</tr>
+								<tr id="arrivalRateDistribution">
+									<th>Arrival rate: </th>
+									<td>
+										<select name="type">
+											<option value="fixed">Fixed</option>
+											<option value="standard">Standard</option>
+											<option value="exponential">Exponential</option>
+											<option value="uniform">Uniform</option>
+										</select>
+										<div class="value"> Value: <input class="small" name="value" type="text"></div>
+										<div class="mean"> Mean: <input class="small" name="mean" type="text"></div>
+										<div class="standardDeviation">  Standard deviation: <input class="small" type="text"></div>
+										<div class="min"> Min: <input class="small" type="text"></div>
+										<div class="max"> Max: <input class="small" type="text"></div>
+									</td>
+								</tr>
+								<tr>
+									<th># of instances</th>
+									<td>
+										<input class="small" type="text">
+									</td>
+								</tr>
+								<tr>
+									<th>Simulation start time</th>
+									<td>
+										<input class="normal" type="text">
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="resources">
+						<h2>Resources</h2>
+						<table>
+							<tbody>
+								<tr>
+									<th>Name</th>
+									<th>Cost per hour</th>
+									<th>Amount</th>
+								<tr>
+								<tr class="resource">
+									<td><input class="normal" type="text"></td>
+									<td><input class="small" type="text"></td>
+									<td><input class="small" type="text"></td>
+								</tr>
+								<tr>
+									<td><button name="add">Add new field</button> <button name="clear">Clear</button></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</form>
+			</div>
 			<div id="file-info">
 			</div>
-		</div>
 	</body>
 </html>

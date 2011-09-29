@@ -12,3 +12,17 @@
 #file-drag.hover{
 	border: 3px solid green;
 }
+
+/* = Input form design
+----------------------------------*/
+.data-input table TH {
+	vertical-align: top;
+	text-align: left;
+}
+.data-input input.small {
+	width: 50px;
+}
+#arrivalRateDistribution select,
+#arrivalRateDistribution div {
+	float: left;
+}
