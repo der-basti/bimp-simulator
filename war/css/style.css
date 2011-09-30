@@ -13,6 +13,11 @@
 	border: 3px solid green;
 }
 
+.ui-datepicker {
+	width: 200px !important;
+	font-size: 12px !important;
+}
+
 /* = Input form design
 ----------------------------------*/
 .data-input table TH {
@@ -23,6 +28,40 @@
 	width: 50px;
 }
 #arrivalRateDistribution select,
-#arrivalRateDistribution div {
+#arrivalRateDistribution div,
+.task div,
+.task select,
+.catchEvents div,
+.catchEvents select{
 	float: left;
+}
+.trigger {
+	float: left;
+	background: #ffffff;
+	background: -moz-linear-gradient(top, #ffffff 0%, #cccccc 100%);
+	background: -webkit-linear-gradient(top, #ffffff 0%,#cccccc 100%);
+	border: 1px solid #aaa;
+	font-family: helvetica, sans-serif;
+	font-size: 0.7em;
+	font-weight: bold;
+	text-decoration: none;
+	text-transform: lowercase;
+	text-align: center;
+	color: #333;
+	padding: 5px;
+	border-radius: 20px;
+	display: block;
+	margin: 0 5px 0 0;
+	width: 50px;
+	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.3), inset 0 1px 10px #fff;
+	-moz-box-shadow: 0 1px 2px rgba(0,0,0,0.3), inset 0 1px 10px #fff;
+}
+        
+.trigger:active {
+    background: -moz-linear-gradient(top, #bbbbbb 0%, #eeeeee 100%);
+    background: -webkit-linear-gradient(top, #bbbbbb 0%, #eeeeee 100%);
+    position: relative;
+    top: 2px;
+    -webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.3), inset 0 1px 5px rgba(0,0,0,0.1);
+    -moz-box-shadow: 0 1px 2px rgba(0,0,0,0.3), inset 0 1px 5px rgba(0,0,0,0.1);
 }
