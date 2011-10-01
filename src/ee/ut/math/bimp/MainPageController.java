@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -12,19 +13,20 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class MainPageController {
 
 	private static Logger log = Logger.getLogger(MainPageController.class);
 
-	@Autowired
-	private SimulatorService service;
+	public SimulatorRunner runner;
+
+	public SimulationChecker checker;
 
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public String init(ModelMap model) {
@@ -91,22 +93,50 @@ public class MainPageController {
 		}
 
 	}
-	
-	@RequestMapping(value="/getStatus", method=RequestMethod.POST)
-	public JSONObject getStatus() {
+
+	@RequestMapping(value = "/getStatus", method = RequestMethod.POST)
+	public void getStatus(HttpServletResponse response) {
+
+		response.setContentType("application/json");
 		JSONObject json = new JSONObject();
-		String status = service.getChecker().getStatus();
+		String status = checker.getStatus();
+		log.debug("!!Status: " + status);
+		if(status.equals(null)) {
+			status = "RUNNING";
+		}
 		json.put("status", status);
-		return json;
+
+		try {
+			PrintWriter writer = response.getWriter();
+			writer.print(json.toString());
+			writer.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 	@RequestMapping(value = "/simulate", method = RequestMethod.GET)
 	public String simulate(ModelMap model, HttpServletRequest request) {
-		String path = request.getSession()
-			.getServletContext().getRealPath("/samples/")
-			+ "12895InsuranceClaimHandlingTimeTable.bpmn";
-		service.startSimulator(path);
-		
+		String path = request.getSession().getServletContext()
+				.getRealPath("/samples/")
+				+ "\\12895InsuranceClaimHandlingTimeTable.bpmn";
+		runner = new SimulatorRunner();
+		runner.init(path);
+		checker = new SimulationChecker(path, runner.getSim(),
+				runner.getKpiStats(), null);
+
+		runner.start();
+
 		return "loading";
+	}
+	
+	@RequestMapping(value = "/getResults", method = RequestMethod.GET)
+	public ModelAndView getResults(ModelAndView model) {
+		model.setViewName("results");
+		model.addObject("stats", runner.getKpiStats());
+		return model;
+		
 	}
 }
