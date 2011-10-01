@@ -30,11 +30,11 @@ bimp.file = {
 					var doc = $(bimp.file.xmlFile).find("documentation");
 					if (doc.length > 0) {
 						console.log("File with simulation information provided");
-						bimp.parser.init();
-						bimp.parser.start();
 					} else {
 						console.log("File with no simulation information provided");
 					}
+					bimp.parser.init();
+					bimp.parser.start();
 				};
 				
 			} catch (e) {

@@ -6,6 +6,7 @@ bimp.parser = {
 		this.readIntermediateCatchEvents();
 		this.readConditionExpressions();
 		console.log("Finished reading data");
+		bimp.forms.generate.start();
 	},
 	startEvent : {
 		arrivalRateDistribution : {
@@ -42,7 +43,8 @@ bimp.parser = {
 			"max" : ""
 		},
 		this.resource = "",
-		this.fixedCost = ""
+		this.fixedCost = "",
+		this.name = ""
 	},
 	addTask : function (id, taskObj) {
 		this.tasks[id] = $.extend(new bimp.parser.task(), taskObj);
@@ -64,11 +66,12 @@ bimp.parser = {
 		this.intermediateCatchEvents[id] =  $.extend(new bimp.parser.intermediateCatchEvent(), catchEventObj);
 	},
 	conditionExpressions : [],
-	conditionExpression : function(id, targetRef, sourceRef, value) {
+	conditionExpression : function(id, targetRef, sourceRef, value, type) {
 		this.id = id;
 		this.targetRef = targetRef;
 		this.sourceRef = sourceRef;
 		this.value = value;
+		this.type = type;
 	},
 	init : function () {
 		this.xmlFile = bimp.file.xmlFile;
@@ -90,11 +93,17 @@ bimp.parser = {
 		console.log("Found",tasks.length,"tasks");
 		$(tasks).each(function(index, task){
 			var data = $(task).find("documentation");
-			var taskObj = $.parseJSON($(data).text());
-			//TODO: test if data[0] fails in some cases
-			var id = data[0].getAttribute("id");
+			var taskObj = {};
+			if (data.length > 0) {
+				taskObj = $.parseJSON($(data).text());
+			}
+			var id = task.getAttribute("id");
+			var name = {
+					name : task.getAttribute("name")
+			};
+			$.extend(taskObj, name);
 			bimp.parser.addTask(id, taskObj);
-			console.log("Added task with id =", id);
+			console.log("Added task", name," with id =", id);
 		});
 		return true;
 	},
@@ -103,7 +112,10 @@ bimp.parser = {
 		console.log("Found", events.length, "intermediateCatchEvents");
 		$(events).each(function(index, event){
 			var data = $(event).find("documentation");
-			var catchEventObj = $.parseJSON($(data).text());
+			var catchEventObj = {};
+			if (data.length > 0) {
+				catchEventObj = $.parseJSON($(data).text());
+			}
 			//TODO: check if it works with multiple catchEvents also..
 			var id = event.getAttribute("id");
 			bimp.parser.addIntermediateCatchEvent(id, catchEventObj);
@@ -113,19 +125,49 @@ bimp.parser = {
 	},
 	readConditionExpressions : function() {
 		sequenceFlows = $(this.xmlFile).find("sequenceFlow");
+		// TODO: find sequenceflows where sourceRef is XOR or OR split gateway 
+		// gatewayDirection="diverging" or gatewayDirection="mixed";
+		// XOR = exclusiveGateway, sum for XORs have to be 100%
+		// OR = inclusiveGateway, are independent
+		
 		$(sequenceFlows).each(function(index, sequenceFlow){
-			var conditionExpression = $(sequenceFlow).find("conditionExpression");
-			if (conditionExpression.length > 0) {
+			var sourceRef = sequenceFlow.getAttribute("sourceRef");
+			var type = bimp.parser.findSplitGateway(sourceRef);
+			if (type !== null) {
+				var conditionExpression = $(sequenceFlow).find("conditionExpression");
+				var value = "";
+				if (conditionExpression.length > 0) {
+					value = conditionExpression[0].textContent;
+				}
 				console.log("Found conditionExpression and added it");
-				var id = sequenceFlow.getAttribute("id");
 				var targetRef = sequenceFlow.getAttribute("targetRef");
-				var sourceRef = sequenceFlow.getAttribute("sourceRef");
-				var value = sequenceFlow.textContent;
-				ce = new bimp.parser.conditionExpression(id, targetRef, sourceRef, value);
+				var id = sequenceFlow.getAttribute("id");
+				ce = new bimp.parser.conditionExpression(id, targetRef, sourceRef, value, type);
 				console.log("conditionExpression", ce);
 				bimp.parser.conditionExpressions.push(ce);
 			}
 		});
 		return true;
+	},
+	findSplitGateway : function(id) {
+		var result = null;
+		var exclusiveGateways = $(this.xmlFile).find("exclusiveGateway");
+		var inclusiveGateways = $(this.xmlFile).find("inclusiveGateway");
+		$(exclusiveGateways).each(function(index, exclusiveGateway) {
+			if (exclusiveGateway.getAttribute("id") == id && 
+					(exclusiveGateway.getAttribute("gatewayDirection") == "diverging" ||
+					exclusiveGateway.getAttribute("gatewayDirection") == "mixed")) {
+				result = "XOR";
+			}
+		});
+		$(inclusiveGateways).each(function(index, inclusiveGateway) {
+			inclusiveGateway.getAttribute("id")
+			if (inclusiveGateway.getAttribute("id") == id && 
+					(inclusiveGateway.getAttribute("gatewayDirection") == "diverging" ||
+					inclusiveGateway.getAttribute("gatewayDirection") == "mixed")) {
+				result = "OR";
+			}
+		});
+		return result;	
 	}
 };
