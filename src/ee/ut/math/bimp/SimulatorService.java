@@ -1,19 +1,26 @@
 package ee.ut.math.bimp;
 
-import ee.ut.bpsimulator.logger.KpiCalculator;
+import org.springframework.stereotype.Service;
+
+
 
 /**
  * Service for running the simulator.
  * @author Marko
  *
  */
+@Service
 public interface SimulatorService {
 	
 	/**
 	 * Starts the simulation.
 	 * @param path the path to the file.
-	 * @return KpiCalculator for report.
 	 */
-	public KpiCalculator startSimulator(String path);
+	public void startSimulator(String path);
+	
+	/**
+	 * @return checker
+	 */
+	public SimulationChecker getChecker();
 	
 }

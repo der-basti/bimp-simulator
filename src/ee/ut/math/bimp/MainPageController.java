@@ -11,8 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.*;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,7 +24,7 @@ public class MainPageController {
 	private static Logger log = Logger.getLogger(MainPageController.class);
 
 	@Autowired
-	private SimulatorService simulatorService;
+	private SimulatorService service;
 
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public String init(ModelMap model) {
@@ -90,10 +91,22 @@ public class MainPageController {
 		}
 
 	}
+	
+	@RequestMapping(value="/getStatus", method=RequestMethod.POST)
+	public JSONObject getStatus() {
+		JSONObject json = new JSONObject();
+		String status = service.getChecker().getStatus();
+		json.put("status", status);
+		return json;
+	}
 
-	// @RequestMapping(value="/simulate", method = RequestMethod.GET)
-	// public String simulate(ModelMap model) {
-	//
-	// return "results";
-	// }
+	@RequestMapping(value = "/simulate", method = RequestMethod.GET)
+	public String simulate(ModelMap model, HttpServletRequest request) {
+		String path = request.getSession()
+			.getServletContext().getRealPath("/samples/")
+			+ "12895InsuranceClaimHandlingTimeTable.bpmn";
+		service.startSimulator(path);
+		
+		return "loading";
+	}
 }
