@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import ee.ut.bpsimulator.logger.KpiCalculator;
 import ee.ut.bpsimulator.model.Activity;
 
 @Controller
@@ -107,8 +106,7 @@ public class MainPageController {
 		response.setContentType("application/json");
 		JSONObject json = new JSONObject();
 		String status = checker.getStatus();
-		log.debug("!!Status: " + status);
-		if(status.equals(null)) {
+		if (status.equals(null)) {
 			status = "RUNNING";
 		}
 		json.put("status", status);
@@ -138,31 +136,40 @@ public class MainPageController {
 
 		return "loading";
 	}
-	
+
 	@RequestMapping(value = "/getResults", method = RequestMethod.GET)
 	public ModelAndView getResults(ModelAndView model) {
 		model.setViewName("results");
 		model.addObject("stats", runner.getKpiStats());
-		
-		List<Map> elements = new ArrayList<Map>();
-		for(Activity activity : runner.getKpiStats().getAllElements()) {
-			Map activityMap = new HashMap();
-			
+
+		List<Map<String, Object>> elements = new ArrayList<Map<String, Object>>();
+		for (Activity activity : runner.getKpiStats().getAllElements()) {
+			Map<String, Object> activityMap = new HashMap<String, Object>();
+			int count = runner.getKpiStats().getElementCount(activity);
 			activityMap.put("description", activity.getDescription());
-			activityMap.put("durDistInfoArg1", activity.getDurationDistributionInfo().getArg1());
-			activityMap.put("durDistInfoArg2", activity.getDurationDistributionInfo().getArg2());
-			activityMap.put("durDistInfoMean", activity.getDurationDistributionInfo().getMean());
-			activityMap.put("durDistInfoTypeName", activity.getDurationDistributionInfo().getType().name());
-			activityMap.put("totalCost",runner.getKpiStats().getElementTotalCost(activity));
-			activityMap.put("totalDuration",runner.getKpiStats().getElementTotalDuration(activity));
-			activityMap.put("totalIdle",runner.getKpiStats().getElementTotalIdleTime(activity));
-			activityMap.put("totalWaiting",runner.getKpiStats().getElementTotalWaitingTime(activity));
-			
+			activityMap.put("durDistInfoArg1", activity
+					.getDurationDistributionInfo().getArg1());
+			activityMap.put("durDistInfoArg2", activity
+					.getDurationDistributionInfo().getArg2());
+			activityMap.put("durDistInfoMean", activity
+					.getDurationDistributionInfo().getMean());
+			activityMap.put("durDistInfoTypeName", activity
+					.getDurationDistributionInfo().getType().name());
+			activityMap.put("totalCost", runner.getKpiStats()
+					.getElementTotalCost(activity) / count);
+			activityMap.put("totalDuration", runner.getKpiStats()
+					.getElementTotalDuration(activity) / count);
+			activityMap.put("totalIdle", runner.getKpiStats()
+					.getElementTotalIdleTime(activity) / count);
+			//TODO: jaga countiga, aga kontrolli et poleks null
+			activityMap.put("totalWaiting", runner.getKpiStats()
+					.getElementTotalWaitingTime(activity));
+
 			elements.add(activityMap);
 		}
 		model.addObject("elements", elements);
-		
+
 		return model;
-		
+
 	}
 }
