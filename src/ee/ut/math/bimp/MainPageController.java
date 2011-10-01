@@ -5,6 +5,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +22,9 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+
+import ee.ut.bpsimulator.logger.KpiCalculator;
+import ee.ut.bpsimulator.model.Activity;
 
 @Controller
 public class MainPageController {
@@ -136,6 +143,25 @@ public class MainPageController {
 	public ModelAndView getResults(ModelAndView model) {
 		model.setViewName("results");
 		model.addObject("stats", runner.getKpiStats());
+		
+		List<Map> elements = new ArrayList<Map>();
+		for(Activity activity : runner.getKpiStats().getAllElements()) {
+			Map activityMap = new HashMap();
+			
+			activityMap.put("description", activity.getDescription());
+			activityMap.put("durDistInfoArg1", activity.getDurationDistributionInfo().getArg1());
+			activityMap.put("durDistInfoArg2", activity.getDurationDistributionInfo().getArg2());
+			activityMap.put("durDistInfoMean", activity.getDurationDistributionInfo().getMean());
+			activityMap.put("durDistInfoTypeName", activity.getDurationDistributionInfo().getType().name());
+			activityMap.put("totalCost",runner.getKpiStats().getElementTotalCost(activity));
+			activityMap.put("totalDuration",runner.getKpiStats().getElementTotalDuration(activity));
+			activityMap.put("totalIdle",runner.getKpiStats().getElementTotalIdleTime(activity));
+			activityMap.put("totalWaiting",runner.getKpiStats().getElementTotalWaitingTime(activity));
+			
+			elements.add(activityMap);
+		}
+		model.addObject("elements", elements);
+		
 		return model;
 		
 	}

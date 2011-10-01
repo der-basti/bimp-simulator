@@ -9,9 +9,35 @@
 </head>
 	<body>
 		<div class ="main">
-			${stats.totalCost } <br />
-			${stats.totalDuration } <br />
-			
+		${stats.completedElements } <br />
+		${stats.completedProcesseInstances } <br />
+		${stats.maxProcessCost } <br />
+		${stats.maxProcessDuration } <br />
+		${stats.minProcessCost } <br />
+		${stats.minProcessDuration } <br />
+		${stats.totalCost } <br />
+		${stats.totalDuration } <br />
 		</div>
+		<table border="1">
+		<c:forEach var="element" items="${elements}">
+		<tr>
+			<td>
+			${element.description }
+			</td>
+			<td>
+			${element.totalCost }
+			</td>
+			<td>
+			${element.totalDuration }
+			</td>
+			<td>
+			${element.totalIdle }
+			</td>
+			<td>
+			${element.totalWaiting }
+			</td>
+		</tr>
+		</c:forEach>
+		</table>
 	</body>
 </html>
