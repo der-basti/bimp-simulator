@@ -3,6 +3,8 @@ bimp.forms = {
 			start : function() {
 				this.startEvent("test");
 				this.tasks();
+				this.conditionExpressions();
+				this.intermediateCatchEvents();
 			},
 			startEvent : function(name) {
 				var se = bimp.parser.startEvent;
@@ -22,23 +24,47 @@ bimp.forms = {
 					$(".resources .resource:first").attr("data-id", name);
 				} else {
 					var resourceHTML = $(".resources .resource:first").clone(true);
+					$(resourceHTML).attr("data-id", name);
 					bimp.forms.populateWithData(".resources tbody", resourceObj, true, resourceHTML);
 					
 				}
 			},
 			timetable : function(name, timetableObj) {
-				//TODO: DATE AND TIME!
-				// use populateWithData?
-				console.log("TT", name,timetableObj)
+				//TODO: use populateWithData?
+				var days;
+				var times;
+				try {
+					$.each(timetableObj, function(_days, _times) {
+						days = _days;
+						times = _times;
+					});
+					console.log("days:", days, "times:", times);
+					startday = days.split("-")[0];
+					endday = days.split("-")[1];
+					begintime = times.split("-")[0];
+					endtime = times.split("-")[1];
+				} catch (e) {
+					console.error("Error getting timetable", e);
+				}
+				
 				if(!$(".timetables .timetable:first").attr("data-name")) {
 					$.each(bimp.parser.startEvent.resources, function(resourceName, resource) {
 						$(".timetables .timetable .resource").append($("<option></option>").attr("value", resourceName).text(resourceName));
 					});
-					$(".timetables .timetable").attr("data-name", name);
 					$(".timetables .timetable .resource").val(name);
+					$(".timetables .timetable .startday").val(startday);
+					$(".timetables .timetable .endday").val(endday);
+					$(".timetables .timetable .begintime").val(begintime);
+					$(".timetables .timetable .endtime").val(endtime);
+					$(".timetables .timetable").attr("data-name", name);
 				} else {
 					var timetableHTML = $(".timetables .timetable:first").clone(true);
 					$(timetableHTML).find(".resource").val(name);
+					$(timetableHTML).find(".startday").val(startday);
+					$(timetableHTML).find(".endday").val(endday);
+					$(timetableHTML).find(".begintime").val(begintime);
+					$(timetableHTML).find(".endtime").val(endtime);
+					$(timetableHTML).attr("data-name", name);
 					$(".timetables tbody").append(timetableHTML);
 				}
 			},
@@ -55,7 +81,38 @@ bimp.forms = {
 				} else {
 					var taskHTML = $(".tasks .task:first").clone(true);
 					$(taskHTML).find(".id").text(id);
+					$(taskHTML).attr("data-id", id);
 					bimp.forms.populateWithData(".tasks", taskObj, true, taskHTML);
+				}
+			},
+			conditionExpressions : function() {
+				$.each(bimp.parser.conditionExpressions, function(id, ce) {
+					bimp.forms.generate.conditionExpression(id, ce);
+				});
+			},
+			conditionExpression : function(id, gatewayObj) {
+				if(!$(".gateways .gateway:first").attr("data-id")) {
+					bimp.forms.populateWithData(".gateways .gateway", gatewayObj);
+					$(".gateways .gateway:first").attr("data-id", gatewayObj.id);
+				} else {
+					var gatewayHTML = $(".gateways .gateway:first").clone(true);
+					$(gatewayHTML).attr("data-id", gatewayObj.id);
+					bimp.forms.populateWithData(".gateways", gatewayObj, true, gatewayHTML);
+				}
+			},
+			intermediateCatchEvents : function() {
+				$.each(bimp.parser.intermediateCatchEvents, function(id, ice) {
+					bimp.forms.generate.intermediateCatchEvent(id, ice);
+				});
+			},
+			intermediateCatchEvent : function(id, eventObj) {
+				if(!$(".catchEvents .catchEvent:first").attr("data-id")) {
+					bimp.forms.populateWithData(".catchEvents .catchEvent", eventObj);
+					$(".catchEvents .catchEvent:first").attr("data-id", id);
+				} else {
+					var eventHTML = $(".catchEvents .catchEvent:first").clone(true);
+					$(eventHTML).attr("data-id", id);
+					bimp.forms.populateWithData(".catchEvents", eventObj, true, eventHTML);
 				}
 			}
 			
@@ -68,7 +125,7 @@ bimp.forms = {
 		},
 		populateWithData : function (selector, obj, clone, htmlObj) {
 			$.each(obj, function(name, value){
-				console.log("name:",name,"value:",value);
+				console.log(name, " - ", value);
 				if (typeof(value) == "object"){
 					$.each(value, function(name, value) {
 						if (typeof(value) !== "object") {

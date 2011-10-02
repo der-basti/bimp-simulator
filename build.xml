@@ -41,8 +41,8 @@
             debuglevel="lines,vars,source"
             encoding="utf-8"
             compiler="modern"
-            target="1.5"
-            source="1.5"
+            target="1.6"
+            source="1.6"
         >
             <classpath refid="compile.classpath"/>
             <compilerarg value="-Xlint:unchecked" />
@@ -72,9 +72,10 @@
 	</target>
 	
 	<target name="copy-confs">
-		<copy file="${conf.dir}/server.xml" todir="${app.server.dir}/conf">
+		<copy file="${conf.dir}/server.xml" todir="${app.server.dir}/conf" overwrite="true">
 			<filterset>
 			    <filter token="WARDIR" value="${war.dir}"/>
+			    <filter token="PORT" value="${tomcat.connector.port}"/>
 			  </filterset>
 		</copy>
 		
@@ -94,9 +95,19 @@
     </target>
 	
 	<target name="start-tomcat">
-		<java classname="org.apache.catalina.startup.Bootstrap" fork="true"
+		<java classname="org.apache.catalina.startup.Bootstrap" fork="true" spawn="true"
 			classpathref="tomcat.class.path">
 			<jvmarg value="-Dcatalina.home=${tomcat.home}"/>
+			<arg line="start"/>
+		</java>
+	</target>
+	
+	<!-- Not working at the moment -->
+	<target name="start-tomcat-jpda">
+		<java classname="org.apache.catalina.startup.Bootstrap" fork="true" spawn="true"
+			classpathref="tomcat.class.path">
+			<jvmarg value="-Dcatalina.home=${tomcat.home}"/>
+			<arg line="jpda start"/>
 		</java>
 	</target>
 
@@ -111,7 +122,7 @@
 
 	<target name="tomcat-check-status">
 		<condition property="tomcat.started">
-			<socket server="localhost" port="8080"/>
+			<socket server="localhost" port="${tomcat.connector.port}"/>
 		</condition>
 	</target>
 

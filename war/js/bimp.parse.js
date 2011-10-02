@@ -61,7 +61,6 @@ bimp.parser = {
 			"max" : ""
 		}
 	},
-	
 	addIntermediateCatchEvent : function (id, catchEventObj){
 		this.intermediateCatchEvents[id] =  $.extend(new bimp.parser.intermediateCatchEvent(), catchEventObj);
 	},
@@ -70,7 +69,7 @@ bimp.parser = {
 		this.id = id;
 		this.targetRef = targetRef;
 		this.sourceRef = sourceRef;
-		this.value = value;
+		this.probability = value;
 		this.type = type;
 	},
 	init : function () {
@@ -118,6 +117,10 @@ bimp.parser = {
 			}
 			//TODO: check if it works with multiple catchEvents also..
 			var id = event.getAttribute("id");
+			var name = {
+					name : event.getAttribute("name")
+			};
+			$.extend(catchEventObj, name);
 			bimp.parser.addIntermediateCatchEvent(id, catchEventObj);
 			console.log("Added catchEvent with id =", id);
 		});

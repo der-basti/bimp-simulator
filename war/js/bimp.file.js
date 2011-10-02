@@ -45,14 +45,14 @@ bimp.file = {
 			if (bimp.file.getFileExtension(file) == "bpmn") {
 				var reader = new FileReader();
 				reader.onload = function(e) {
-					bimp.file.outputFileInfo(
+					/*bimp.file.outputFileInfo(
 							"<p>File information: <strong>" + file.name +
 							"</strong> type: <strong>" + file.type +
 							"</strong> size: <strong>" + file.size +
 							"</strong> bytes</p>" + "<pre>" +
 						e.target.result.replace(/</g, "&lt;").replace(/>/g, "&gt;") +
 						"</pre>"
-					);
+					);*/
 				};
 				reader.readAsText(file);
 			}

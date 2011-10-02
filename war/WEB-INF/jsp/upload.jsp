@@ -178,7 +178,7 @@
 									</tr>
 									<tr>
 										<th>Task id:</th>
-										<td><span class="id">12312312</span></td>
+										<td><span class="id">id</span></td>
 									</tr>
 									<tr>
 										<th>Resource:</th>
@@ -219,11 +219,27 @@
 								<tbody>
 									<tr>
 										<th>Name:</th>
-										<td>Gateway name/target name?</td>
+										<td><span class="name">Gateway name/target name?</span></td>
+									</tr>
+									<tr>
+										<th>Type:</th>
+										<td><span class="type">Type</span></td>
+									</tr>
+									<tr>
+										<th>Id:</th>
+										<td><span class="id">id</span></td>
+									</tr>
+									<tr>
+										<th>SourceRef</th>
+										<td><span class="sourceRef">SourceRef</span></td>
+									</tr>
+									<tr>
+										<th>TargetRef</th>
+										<td><span class="targetRef">TargetRef</span></td>
 									</tr>
 									<tr>
 										<th>Probability of execution:</th>
-										<td><input class="small probability" name="probability"/><label for="probability">%</label></td>
+										<td><input class="small probability" name="probability"/><label for="probability"></label></td>
 									</tr>
 								</tbody>
 							</table>
@@ -236,10 +252,10 @@
 								<tbody>
 									<tr>
 										<th>Name:</th>
-										<td>Event name<td>
+										<td><span class="name">Event name</span><td>
 									</tr>
 									<tr>
-										<th>Type</th>
+										<th>Type:</th>
 										<td>
 											<select class="type" name="type">
 												<option value="fixed">Fixed</option>
@@ -261,6 +277,7 @@
 					
 				</form>
 			</div>
+			<br>
 			<div id="file-info">
 			</div>
 	</body>
