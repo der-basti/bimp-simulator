@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -47,6 +46,8 @@ public class FileUploadController {
 				model.addAttribute("file", file);
 				
 				model.addAttribute("msg", "<span>File uploaded.</span> <a href='./tmp/"+ff.getName()+"'>Download</a>");
+				model.addAttribute("path", ff.getAbsolutePath());
+				
 			} catch (IOException e) {
 				model.addAttribute("msg", "<span>Error uploading file.</span>");
 				log.error("Could not create file", e);
