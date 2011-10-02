@@ -31,7 +31,8 @@ bimp.file = {
 						var doc = $(bimp.file.xmlFile).find("documentation");
 						if (doc.length > 0) {
 							console.log("File with simulation information provided");
-							$("#uploadButton").attr("disabled", false);
+							$("#startSimulationButton").attr("disabled", false);
+							$(".data-input").show(500);
 						} else {
 							console.log("File with no simulation information provided");
 						}

@@ -15,7 +15,7 @@
 		$(document).ready(function() {
 			 getStatus = function() {
 				timer += interval;
-				if (timer > 3000) {
+				if (timer > 10000) {
 					clearInterval(timerId);
 					window.location = "/getResults";
 				}
@@ -41,7 +41,7 @@
 
 				})
 			};
-			var interval = 200;
+			var interval = 500;
 			var timerId = setInterval("getStatus()", interval);
 			var timer = 0;
 		});
