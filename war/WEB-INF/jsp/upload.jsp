@@ -10,13 +10,25 @@
 		<script type="text/javascript" src="./js/bimp.file.js"></script>
 		<script type="text/javascript" src="./js/bimp.parse.js"></script>
 		<script type="text/javascript" src="./js/bimp.forms.js"></script>
+		<script type="text/javascript">
+		$(document).ready(function(){
+  			$("#continue-button").click(function(){
+    			$(".upload-area").hide(1000);
+    			$(".data-input").show(1000);
+  			});
+		});
+		</script>
 		
 		<link rel="stylesheet" type="text/css"  href="./css/style.css"></link>
 		<link rel="stylesheet" type="text/css"  href="./css/jquery-ui-1.8.16.custom.css"></link>
+		<link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
 		<title>BIMP Simulator</title>
 	</head>
-		<body>
+	<body>
+	<div class="main">
+	<jsp:include page="_header.jsp"></jsp:include>
 		${msg} ${file.originalFilename}
+		<div class="contents">
 		<div class="upload-area">
 			<form id="upload" modelAttribute="uploadItem" action="/uploadfile"
 				method="POST" enctype="multipart/form-data">
@@ -34,13 +46,14 @@
 					</div>
 	
 					<div id="submit-button">
-						<button type="submit">Upload File</button>
+						<button type="submit" class="button">Upload File</button>
 					</div>
 	
 				</fieldset>
-	
+				
 			</form>
 			<div id="progress"></div>
+			<button class="button" id="continue-button">Continue</button>
 		</div>
 			<div class="data-input">
 				<form action="">
@@ -280,5 +293,9 @@
 			<br>
 			<div id="file-info">
 			</div>
+			
+		</div>
+		<jsp:include page="_footer.jsp"></jsp:include>
+		</div>
 	</body>
 </html>

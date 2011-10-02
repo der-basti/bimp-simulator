@@ -4,6 +4,6 @@
 	</div>
 	
 	<div class = "slogan">
-		
+		Fast Lightning BIMP Simulator
 	</div>
 </div>

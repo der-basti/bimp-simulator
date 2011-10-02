@@ -5,39 +5,34 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF8">
+	<link rel="stylesheet" type="text/css" href="./css/style.css"></link>
+
 	<title>BIMP Simulator results</title>
 </head>
-	<body>
-		<div class ="main">
-		${stats.completedElements } <br />
-		${stats.completedProcesseInstances } <br />
-		${stats.maxProcessCost } <br />
-		${stats.maxProcessDuration } <br />
-		${stats.minProcessCost } <br />
-		${stats.minProcessDuration } <br />
-		${stats.totalCost } <br />
-		${stats.totalDuration } <br />
+<body>
+	<div class="main">
+		<jsp:include page="_header.jsp"></jsp:include>
+		<div class="contents">
+			<div class="results">
+				${stats.completedElements } <br />
+				${stats.completedProcesseInstances } <br /> ${stats.maxProcessCost
+				} <br /> ${stats.maxProcessDuration } <br />
+				${stats.minProcessCost } <br /> ${stats.minProcessDuration } <br />
+				${stats.totalCost } <br /> ${stats.totalDuration } <br />
+			</div>
+			<table border="1">
+				<c:forEach var="element" items="${elements}">
+					<tr>
+						<td>${element.description }</td>
+						<td>${element.totalCost }</td>
+						<td>${element.totalDuration }</td>
+						<td>${element.totalIdle }</td>
+						<td>${element.totalWaiting }</td>
+					</tr>
+				</c:forEach>
+			</table>
 		</div>
-		<table border="1">
-		<c:forEach var="element" items="${elements}">
-		<tr>
-			<td>
-			${element.description }
-			</td>
-			<td>
-			${element.totalCost }
-			</td>
-			<td>
-			${element.totalDuration }
-			</td>
-			<td>
-			${element.totalIdle }
-			</td>
-			<td>
-			${element.totalWaiting }
-			</td>
-		</tr>
-		</c:forEach>
-		</table>
-	</body>
+		<jsp:include page="_footer.jsp"></jsp:include>
+	</div>
+</body>
 </html>
