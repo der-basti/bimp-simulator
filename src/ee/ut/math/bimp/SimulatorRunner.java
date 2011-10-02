@@ -8,7 +8,7 @@ import ee.ut.bpsimulator.logger.ComplexLogger;
 import ee.ut.bpsimulator.logger.KpiCalculator;
 
 /**
- * Implementation for simulator service.
+ * Simulator runner.
  * 
  * @author Marko
  * 
@@ -19,6 +19,10 @@ public class SimulatorRunner {
 
 	public BPSimulator sim;
 
+	public KpiCalculator kpiStats;
+
+	public String path;
+
 	public BPSimulator getSim() {
 		return sim;
 	}
@@ -27,13 +31,25 @@ public class SimulatorRunner {
 		return kpiStats;
 	}
 
-	public KpiCalculator kpiStats;
+	public String getPath() {
+		return path;
+	}
 
+	/**
+	 * Initializes the simulator and stats calculator.
+	 * 
+	 * @param path
+	 *            the file path.
+	 */
 	public void init(String path) {
+		this.path = path;
 		sim = new BPSimulator(path);
 		kpiStats = new KpiCalculator(sim);
 	}
 
+	/**
+	 * Starts the simulation.
+	 */
 	public void start() {
 		if (sim != null && kpiStats != null) {
 

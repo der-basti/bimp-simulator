@@ -10,7 +10,7 @@
 	<body>
 		<div class ="main">
 			<jsp:include page="_header.jspf"/>
-			
+			<button type="button" onClick="window.location='/simulate'">Continue</button>
 		</div>
 	</body>
 </html>

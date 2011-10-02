@@ -4,11 +4,6 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -16,29 +11,27 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
-import org.json.simple.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
-
-import ee.ut.bpsimulator.model.Activity;
 
 @Controller
 public class MainPageController {
 
 	private static Logger log = Logger.getLogger(MainPageController.class);
 
-	public SimulatorRunner runner;
-
-	public SimulationChecker checker;
-
+	/**
+	 * Default. Adds the runner to the session.
+	 * @return
+	 */
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public String init(ModelMap model) {
+	public String init(ModelMap model, HttpServletRequest request) {
 
 		log.debug("/ requested, sending message");
 		model.addAttribute("msg", "It works!");
+
+		HttpSession session = request.getSession(true);
 
 		return "index";
 	}
@@ -51,7 +44,8 @@ public class MainPageController {
 	}
 
 	/**
-	 * Secure(?) handling for the logfile download.
+	 * Handles for the logfile download.
+	 * Writes the file to the response.
 	 */
 	@RequestMapping(value = "/file", method = RequestMethod.GET)
 	public void getFile(HttpServletRequest request, HttpServletResponse response) {
@@ -77,14 +71,12 @@ public class MainPageController {
 				stream.write(readBytes);
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-			if (stream != null) {
+			if (stream != null ) {
 				try {
 					stream.close();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -92,7 +84,6 @@ public class MainPageController {
 				try {
 					buf.close();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -100,76 +91,5 @@ public class MainPageController {
 
 	}
 
-	@RequestMapping(value = "/getStatus", method = RequestMethod.POST)
-	public void getStatus(HttpServletResponse response) {
 
-		response.setContentType("application/json");
-		JSONObject json = new JSONObject();
-		String status = checker.getStatus();
-		if (status.equals(null)) {
-			status = "RUNNING";
-		}
-		json.put("status", status);
-
-		try {
-			PrintWriter writer = response.getWriter();
-			writer.print(json.toString());
-			writer.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	}
-
-	@RequestMapping(value = "/simulate", method = RequestMethod.GET)
-	public String simulate(ModelMap model, HttpServletRequest request) {
-		String path = request.getSession().getServletContext()
-				.getRealPath("/samples/")
-				+ "\\12895InsuranceClaimHandlingTimeTable.bpmn";
-		runner = new SimulatorRunner();
-		runner.init(path);
-		checker = new SimulationChecker(path, runner.getSim(),
-				runner.getKpiStats(), null);
-
-		runner.start();
-
-		return "loading";
-	}
-
-	@RequestMapping(value = "/getResults", method = RequestMethod.GET)
-	public ModelAndView getResults(ModelAndView model) {
-		model.setViewName("results");
-		model.addObject("stats", runner.getKpiStats());
-
-		List<Map<String, Object>> elements = new ArrayList<Map<String, Object>>();
-		for (Activity activity : runner.getKpiStats().getAllElements()) {
-			Map<String, Object> activityMap = new HashMap<String, Object>();
-			int count = runner.getKpiStats().getElementCount(activity);
-			activityMap.put("description", activity.getDescription());
-			activityMap.put("durDistInfoArg1", activity
-					.getDurationDistributionInfo().getArg1());
-			activityMap.put("durDistInfoArg2", activity
-					.getDurationDistributionInfo().getArg2());
-			activityMap.put("durDistInfoMean", activity
-					.getDurationDistributionInfo().getMean());
-			activityMap.put("durDistInfoTypeName", activity
-					.getDurationDistributionInfo().getType().name());
-			activityMap.put("totalCost", runner.getKpiStats()
-					.getElementTotalCost(activity) / count);
-			activityMap.put("totalDuration", runner.getKpiStats()
-					.getElementTotalDuration(activity) / count);
-			activityMap.put("totalIdle", runner.getKpiStats()
-					.getElementTotalIdleTime(activity) / count);
-			//TODO: jaga countiga, aga kontrolli et poleks null
-			activityMap.put("totalWaiting", runner.getKpiStats()
-					.getElementTotalWaitingTime(activity));
-
-			elements.add(activityMap);
-		}
-		model.addObject("elements", elements);
-
-		return model;
-
-	}
 }
