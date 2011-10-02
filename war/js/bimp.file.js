@@ -25,20 +25,25 @@ bimp.file = {
 				var reader = new FileReader();
 				reader.readAsText(this.inputFiles[0]);
 				reader.onloadend = function (e) {
-					bimp.file.xmlFile = $.parseXML(e.target.result);
-					console.log("Parse success..");
-					var doc = $(bimp.file.xmlFile).find("documentation");
-					if (doc.length > 0) {
-						console.log("File with simulation information provided");
-					} else {
-						console.log("File with no simulation information provided");
+					try {
+						bimp.file.xmlFile = $.parseXML(e.target.result);
+						console.log("Parse success..");
+						var doc = $(bimp.file.xmlFile).find("documentation");
+						if (doc.length > 0) {
+							console.log("File with simulation information provided");
+							$("#uploadButton").attr("disabled", false);
+						} else {
+							console.log("File with no simulation information provided");
+						}
+						bimp.parser.init();
+						bimp.parser.start();
+					} catch (e) {
+						alert("Error parsing file, please provide valid file");
 					}
-					bimp.parser.init();
-					bimp.parser.start();
 				};
 				
 			} catch (e) {
-				alert("Error parsing .xml document", e);
+				alert("Error reading file", e);
 				console.log(e);
 			}
 			

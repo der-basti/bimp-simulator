@@ -5,12 +5,13 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF8">
+	<link rel="stylesheet" type="text/css"  href="./css/style.css"></link>
 	<title>BIMP Simulator</title>
 </head>
 	<body>
 		<div class ="main">
 			<jsp:include page="_header.jspf"/>
-			<button type="button" onClick="window.location='/simulate'">Continue</button>
+			<a class="trigger" href="/upload">Continue to upload page</a>
 		</div>
 	</body>
 </html>

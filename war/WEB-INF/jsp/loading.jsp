@@ -10,15 +10,22 @@
 </head>
 <body>
 	<h1>LOADING ...</h1>
+	<h2 class="status"></h2>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			function getStatus() {
+			 getStatus = function() {
+				timer += interval;
+				if (timer > 3000) {
+					clearInterval(timerId);
+					window.location = "/getResults";
+				}
 				$.ajax({
 					contentType : 'application/json',
 					type : 'post',
 					url : '/getStatus',
 					success : function(data) {
 						console.log("Status: ", data.status);
+						$(".status").text(data.status);
 						if (data.status == "FINISHED") {
 							clearInterval(timerId);
 							console.log("FINISHED");
@@ -26,11 +33,17 @@
 						} else {
 							console.log(data.status);
 						}
+					},
+					error : function(e) {
+						console.log(e);
+						clearInterval(timerId);
 					}
 
 				})
 			};
-			var timerId = setInterval(getStatus(), 100);
+			var interval = 200;
+			var timerId = setInterval("getStatus()", interval);
+			var timer = 0;
 		});
 	</script>
 </body>

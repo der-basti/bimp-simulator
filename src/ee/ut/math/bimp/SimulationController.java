@@ -29,22 +29,18 @@ import ee.ut.bpsimulator.model.Activity;
 public class SimulationController {
 	
 	private static Logger log = Logger.getLogger(SimulationController.class);
-
-	public SimulatorRunner runner;
-
-	public SimulationChecker checker;
-	
-	public void init() {
-		runner = new SimulatorRunner();
-//		checker = new SimulationChecker();
-	}
+	private HashMap<String, Simulation> simulations = new HashMap<String, Simulation>();
 	
 	/**
 	 * Shows the status of the simulation, writes it out as JSON into the response.
 	 */
 	@RequestMapping(value = "/getStatus", method = RequestMethod.POST)
-	public void getStatus(HttpServletResponse response) {
-
+	public void getStatus(HttpServletResponse response, HttpServletRequest request) {
+		
+		String id = (String) request.getSession().getAttribute("id");
+		Simulation simulation = simulations.get(id);
+		SimulationChecker checker = simulation.getChecker();
+		
 		response.setContentType("application/json");
 		JSONObject json = new JSONObject();
 		String status = checker.getStatus();
@@ -53,7 +49,7 @@ public class SimulationController {
 		}
 		json.put("status", status);
 
-		// TODO: tagastaks file name session id järgi kui finalized?
+		// TODO: tagastaks file name session id j2rgi kui finalized?
 
 		try {
 			PrintWriter writer = response.getWriter();
@@ -72,20 +68,14 @@ public class SimulationController {
 	 */
 	@RequestMapping(value = "/simulate", method = RequestMethod.GET)
 	public String simulate(ModelMap model, HttpServletRequest request) {
-		init();
+		String id = (String) request.getSession().getAttribute("id");
 		String path = request.getSession().getServletContext()
-				.getRealPath("/samples/")
-				+ "\\12895InsuranceClaimHandlingTimeTable.bpmn";
-
-		// TODO: kas kysida sessioonist?
-		// runner = new SimulatorRunner();
-
-		runner.init(path);
-		checker = new SimulationChecker(path, runner.getSim(),
-				runner.getKpiStats(), null);
-
-		runner.start();
-
+				.getRealPath("/tmp/")
+				+ "\\in_" + id + ".bpmn";
+		Simulation simulation = new Simulation(path);
+		simulation.start();
+		simulations.put(id, simulation);
+		model.addAttribute("id", id);
 		return "loading";
 	}
 	
@@ -95,7 +85,12 @@ public class SimulationController {
 	 * @return View "results", kpiCalculator object and all activities' data
 	 */
 	@RequestMapping(value = "/getResults", method = RequestMethod.GET)
-	public ModelAndView getResults(ModelAndView model) {
+	public ModelAndView getResults(ModelAndView model, HttpServletRequest request) {
+		
+		String id = (String) request.getSession().getAttribute("id");
+		Simulation simulation = simulations.get(id);
+		SimulatorRunner runner = simulation.getRunner();
+		
 		model.setViewName("results");
 		model.addObject("stats", runner.getKpiStats());
 

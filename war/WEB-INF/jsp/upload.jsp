@@ -34,7 +34,7 @@
 					</div>
 	
 					<div id="submit-button">
-						<button type="submit">Upload File</button>
+						<button id="uploadButton" type="submit" disabled="disabled">Upload File</button>
 					</div>
 	
 				</fieldset>

@@ -41,20 +41,27 @@ public class FileUploadController {
         	f.mkdirs();
 			try {
 				ff = File.createTempFile("in_", ".bpmn", f);
+				
 				file.transferTo(ff);
 				log.info("Uploaded file: " + ff.getAbsolutePath());
-				model.addAttribute("file", file);
+				String fileName = ff.getName();
+				String[] al = fileName.split("\\.");
+				String id = al[0].split("_")[1];
+				System.out.println(id);
+				request.getSession().setAttribute("id", id);
+				/*model.addAttribute("file", file);
 				
 				model.addAttribute("msg", "<span>File uploaded.</span> <a href='./tmp/"+ff.getName()+"'>Download</a>");
-				model.addAttribute("path", ff.getAbsolutePath());
+				model.addAttribute("path", ff.getAbsolutePath());*/
 				
 			} catch (IOException e) {
 				model.addAttribute("msg", "<span>Error uploading file.</span>");
 				log.error("Could not create file", e);
+				return "upload";
 			} 
         }
         	
-			return "upload";
+			return "redirect:/simulate";
     }
 }
 
