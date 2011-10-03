@@ -70,8 +70,7 @@ public class SimulationController {
 	public String simulate(ModelMap model, HttpServletRequest request) {
 		String id = (String) request.getSession().getAttribute("id");
 		String path = request.getSession().getServletContext()
-				.getRealPath("/tmp/")
-				+ "\\in_" + id + ".bpmn";
+				.getRealPath("/tmp/"+ "in_" + id + ".bpmn");
 		Simulation simulation = new Simulation(path);
 		simulation.start();
 		simulations.put(id, simulation);

@@ -15,7 +15,7 @@
 		$(document).ready(function() {
 			 getStatus = function() {
 				timer += interval;
-				if (timer > 10000) {
+				if (timer > 50000) {
 					clearInterval(timerId);
 					window.location = "/getResults";
 				}
