@@ -109,10 +109,9 @@ function FileDragHover(e) {
 	e.preventDefault();
 	e.target.className = (e.type == "dragover" ? "hover" : "");
 }
-var aaa;
+
 function FileSelectHandler(e) {
 	FileDragHover(e);
-	aaa= e.target
 	console.log(e.target)
 	bimp.file.inputFiles = e.target.files || e.dataTransfer.files;
 

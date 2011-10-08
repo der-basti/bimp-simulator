@@ -117,12 +117,6 @@ bimp.forms = {
 			}
 			
 		},
-		validate : function() {
-			
-		},
-		read : function() {
-			
-		},
 		populateWithData : function (selector, obj, clone, htmlObj) {
 			$.each(obj, function(name, value){
 				console.log(name, " - ", value);
@@ -147,5 +141,25 @@ bimp.forms = {
 				}
 			});
 			clone ? $(selector).append(htmlObj) : true;
-		}
+		},
+		validate : function() {
+			
+		},
+		read : {
+			startEvent : function() {
+				$.each(bimp.parser.startEvent, function(name, value) {
+					console.log(name, value, typeof (value));
+					if (typeof(value) !== "function") {
+						if (typeof(value) == "object") {
+							// lets read resources and timetable
+							// bimp.forms.read[name]();
+							console.log("read {}", name)
+						} else {
+							// lets read field values
+							bimp.parser.startEvent[name] = value;
+						}
+					}
+				});
+			}
+		},
 };
