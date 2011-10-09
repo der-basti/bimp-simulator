@@ -10,6 +10,7 @@
 		<script type="text/javascript" src="./js/bimp.file.js"></script>
 		<script type="text/javascript" src="./js/bimp.parse.js"></script>
 		<script type="text/javascript" src="./js/bimp.forms.js"></script>
+		<script type="text/javascript" src="./js/javascript.js"></script>
 		
 		<link rel="stylesheet" type="text/css"  href="./css/style.css"></link>
 		<link rel="stylesheet" type="text/css"  href="./css/jquery-ui-1.8.16.custom.css"></link>
@@ -66,7 +67,7 @@
 										</select>
 										<div> Value: <input class="small value" name="value" type="text"></div>
 										<div> Mean: <input class="small mean" name="mean" type="text"></div>
-										<div> Standard deviation: <input class="small standardDeviation" name="standardDeviation" type="text"></div>
+										<div> Standard deviation: <input class="small stdev" name="stdev" type="text"></div>
 										<div> Min: <input class="small min" name="min" type="text"></div>
 										<div> Max: <input class="small max" name="max" type="text"></div>
 									</td>
@@ -95,7 +96,7 @@
 						<table>
 							<tbody>
 								<tr>
-									<td><a class="trigger" href="#">Add</a></td>
+									<td><a class="trigger add" href="javascript:void(0)">Add</a></td>
 									<th>Name</th>
 									<th>Cost per hour</th>
 									<th>Amount</th>
@@ -105,7 +106,7 @@
 									<td><input class="normal name" name="name" type="text"></td>
 									<td><input class="small costPerHour" name="costPerHour" type="text"></td>
 									<td><input class="small text amount" name="amount" type="text"></td>
-									<td><a class="trigger remove" href="#" title="Remove field">X</a></td>
+									<td><a class="trigger remove" href="javascript:void(0)" title="Remove field">X</a></td>
 								</tr>
 							</tbody>
 						</table>
@@ -115,7 +116,7 @@
 						<table>
 							<tbody>
 								<tr>
-									<td><a class="trigger add" href="#" title="Add new field">+</a></td>
+									<td><a class="trigger add" href="javascript:void(0)" title="Add new field">+</a></td>
 									<th>Resource</th>
 									<th>Begin day</th>
 									<th>End day</th>
@@ -158,7 +159,7 @@
 										<td>
 											<input class="endtime" name="endtime" class="timepicker">
 										</td>
-										<td><a class="trigger remove" href="#" title="Remove field">X</a></td>
+										<td><a class="trigger remove" href="javascript:void(0)" title="Remove field">X</a></td>
 								</tr>
 								<tr>
 									
@@ -202,7 +203,7 @@
 											</select>
 											<div> Value: <input class="small value" name="value" type="text"></div>
 											<div> Mean: <input class="small mean" name="mean" type="text"></div>
-											<div> Standard deviation: <input class="small standardDeviation" name="standardDeviation" type="text"></div>
+											<div> Standard deviation: <input class="small stdev" name="stdev" type="text"></div>
 											<div> Min: <input class="small min" name="min" type="text"></div>
 											<div> Max: <input class="small max" name="max" type="text"></div>
 										</td>
@@ -265,7 +266,7 @@
 											</select>
 											<div> Value: <input class="small value" name="value" type="text"></div>
 											<div> Mean: <input class="small mean" name="mean" type="text"></div>
-											<div> Standard deviation: <input class="small standardDeviation" name="standardDeviation" type="text"></div>
+											<div> Standard deviation: <input class="small stdev" name="stdev" type="text"></div>
 											<div> Min: <input class="small min" name="min" type="text"></div>
 											<div> Max: <input class="small max" name="max" type="text"></div>
 										</td>

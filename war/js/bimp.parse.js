@@ -21,7 +21,7 @@ bimp.parser = {
 		resources : {},
 		startAt : "",
 		timetable : {},
-		addResource : function(id,name, costPerHour, amount) {
+		addResource : function(id, name, costPerHour, amount) {
 			this.resources[id] = {
 					"name" : name,
 					"costPerHour" : costPerHour,
@@ -47,7 +47,7 @@ bimp.parser = {
 		this.name = ""
 	},
 	addTask : function (id, taskObj) {
-		this.tasks[id] = $.extend(new bimp.parser.task(), taskObj);
+		this.tasks[id] = $.extend(true, new bimp.parser.task(), taskObj);
 		
 	},
 	intermediateCatchEvents : {},
@@ -62,9 +62,9 @@ bimp.parser = {
 		}
 	},
 	addIntermediateCatchEvent : function (id, catchEventObj){
-		this.intermediateCatchEvents[id] =  $.extend(new bimp.parser.intermediateCatchEvent(), catchEventObj);
+		this.intermediateCatchEvents[id] =  $.extend(true, new bimp.parser.intermediateCatchEvent(), catchEventObj);
 	},
-	conditionExpressions : [],
+	conditionExpressions : {},
 	conditionExpression : function(id, targetRef, sourceRef, value, type) {
 		this.id = id;
 		this.targetRef = targetRef;
@@ -81,7 +81,7 @@ bimp.parser = {
 		if (doc.length > 0) {
 			console.log("Found startEvent and added it");
 			var simInfo = $.parseJSON(doc.text());
-			$.extend(this.startEvent, simInfo);
+			$.extend(true, this.startEvent, simInfo);
 		} else {
 			console.log("No documentation info found for startEvent");
 		}
@@ -100,7 +100,7 @@ bimp.parser = {
 			var name = {
 					name : task.getAttribute("name")
 			};
-			$.extend(taskObj, name);
+			$.extend(true, taskObj, name);
 			bimp.parser.addTask(id, taskObj);
 			console.log("Added task", name," with id =", id);
 		});
@@ -120,7 +120,7 @@ bimp.parser = {
 			var name = {
 					name : event.getAttribute("name")
 			};
-			$.extend(catchEventObj, name);
+			$.extend(true, catchEventObj, name);
 			bimp.parser.addIntermediateCatchEvent(id, catchEventObj);
 			console.log("Added catchEvent with id =", id);
 		});
@@ -147,7 +147,7 @@ bimp.parser = {
 				var id = sequenceFlow.getAttribute("id");
 				ce = new bimp.parser.conditionExpression(id, targetRef, sourceRef, value, type);
 				console.log("conditionExpression", ce);
-				bimp.parser.conditionExpressions.push(ce);
+				bimp.parser.conditionExpressions[id] = ce;
 			}
 		});
 		return true;

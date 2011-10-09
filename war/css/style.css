@@ -75,7 +75,7 @@
 /* = Input form design
 ----------------------------------*/
 .data-input {
-        display: none;
+        display: block;
 }
 .data-input table TH {
         vertical-align: top;
