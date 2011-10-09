@@ -6,13 +6,16 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF8">
 <link rel="stylesheet" type="text/css" href="./css/style.css"></link>
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
 <title>BIMP Simulator</title>
 </head>
 <body>
 	<div class="main">
 		<jsp:include page="_header.jsp"></jsp:include>
 		<div class="contents">
-			<button type="button" onClick="window.location='/simulate'">Continue</button>
+			<div class="startbutton">
+				<button type="button" onClick="window.location='/simulate'" class="startsimbutton">Continue</button>
+			</div>
 		</div>
 		<jsp:include page="_footer.jsp"></jsp:include>
 	</div>

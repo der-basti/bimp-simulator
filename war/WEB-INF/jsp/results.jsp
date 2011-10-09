@@ -5,6 +5,7 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF8">
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" href="./css/style.css"></link>
 
 	<title>BIMP Simulator results</title>
