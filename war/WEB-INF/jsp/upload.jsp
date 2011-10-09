@@ -20,10 +20,8 @@
 </script>
 
 <link rel="stylesheet" type="text/css" href="./css/style.css"></link>
-<link rel="stylesheet" type="text/css"
-	href="./css/jquery-ui-1.8.16.custom.css"></link>
-<link href='http://fonts.googleapis.com/css?family=Open+Sans:300'
-	rel='stylesheet' type='text/css'>
+<link rel="stylesheet" type="text/css" href="./css/jquery-ui-1.8.16.custom.css"></link>
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
 <title>BIMP Simulator</title>
 </head>
 <body>
@@ -48,15 +46,15 @@
 						</div>
 
 						<div id="submit-button">
-							<button id="startSimulationButton" type="submit">Start Simulation</button>
 						</div>
 
 					</fieldset>
 
 				</form>
 				<div id="progress"></div>
-				<button class="button" id="continue-button">Continue</button>
+				<button class="button" id="continue-button">Continue</button>				
 			</div>
+			<button id="startSimulationButton" type="submit">Start Simulation</button>
 			<div class="data-input">
 				<form action="">
 					<div class="startEvent">

@@ -13,8 +13,8 @@
 	<div class="main">
 		<jsp:include page="_header.jsp"></jsp:include>
 		<div class="contents">
-			<div class="startbutton">
-				<a class="startsimbutton" href="/upload">Continue to upload page</a>
+			<div class="startButton">
+				<a class="goToUploadButton" href="/upload">Continue to upload page</a>
 			</div>
 		</div>
 		<jsp:include page="_footer.jsp"></jsp:include>
