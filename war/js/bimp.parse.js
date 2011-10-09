@@ -7,6 +7,7 @@ bimp.parser = {
 		this.readConditionExpressions();
 		console.log("Finished reading data");
 		bimp.forms.generate.start();
+		updateAllTypeSelections();
 	},
 	startEvent : {
 		arrivalRateDistribution : {

@@ -8,7 +8,7 @@ html {
 
 body {
         margin: 0px;
-        background-image: url(images/background.png);
+        background-image: url(../gfx/background.png);
         color: white;
 }
 

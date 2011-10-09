@@ -28,6 +28,7 @@ bimp.forms = {
 					bimp.forms.populateWithData(".resources tbody", resourceObj, true, resourceHTML);
 					
 				}
+				$(".resources .resource .remove").show();
 			},
 			timetable : function (name, timetableObj) {
 				//TODO: use populateWithData?
@@ -49,7 +50,8 @@ bimp.forms = {
 				
 				if(!$(".timetables .timetable:first").attr("data-name")) {
 					$.each(bimp.parser.startEvent.resources, function(resourceName, resource) {
-						$(".timetables .timetable .resource").append($("<option></option>").attr("value", resourceName).text(resourceName));
+						$(".timetables .timetable .resource").append($("<option></option>").attr("value", 
+								resourceName).text(resource.name));
 					});
 					$(".timetables .timetable .resource").val(name);
 					$(".timetables .timetable .startday").val(startday);
@@ -129,7 +131,8 @@ bimp.forms = {
 				} else if (name === "resource") {
 					if (!clone) {
 						$.each(bimp.parser.startEvent.resources, function(resourceName, resource) {
-							$(selector +" ." + name).append($("<option></option>").attr("value", resourceName).text(resourceName));
+							$(selector +" ." + name).append($("<option></option>").attr("value", 
+									resourceName).text(resource.name));
 						});
 					}
 					clone ? $(htmlObj).find("." + name).val(value) : $(selector +" ." + name).val(value); 
@@ -162,7 +165,7 @@ bimp.forms = {
 				var resources = $(".resources .resource");
 				bimp.parser.startEvent.resources = {};
 				$(resources).each( function(index, element) {
-					bimp.parser.startEvent.addResource($(element).find(".name").val(), 
+					bimp.parser.startEvent.addResource($(element).attr("data-id"), 
 							$(element).find(".name").val(), $(element).find(".costPerHour").val(), $(element).find(".amount").val());
 				});
 			},
