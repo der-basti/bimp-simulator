@@ -16,4 +16,9 @@ $(document).ready(function () {
 		var tbody = $(this).parents().find(".timetables tbody");
 		$(tbody).append(row);
 	});
+	
+	$("#continue-button").click(function() {
+		$(".upload-area").hide(1000);
+		$(".data-input").show(1000);
+	});
 });

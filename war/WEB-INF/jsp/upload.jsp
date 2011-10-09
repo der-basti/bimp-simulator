@@ -11,14 +11,6 @@
 <script type="text/javascript" src="./js/bimp.parse.js"></script>
 <script type="text/javascript" src="./js/bimp.forms.js"></script>
 <script type="text/javascript" src="./js/javascript.js"></script>
-<script type="text/javascript">
-	$(document).ready(function() {
-		$("#continue-button").click(function() {
-			$(".upload-area").hide(1000);
-			$(".data-input").show(1000);
-		});
-	});
-</script>
 
 <link rel="stylesheet" type="text/css" href="./css/style.css"></link>
 <link rel="stylesheet" type="text/css"
