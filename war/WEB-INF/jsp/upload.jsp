@@ -18,11 +18,11 @@
 <title>BIMP Simulator</title>
 </head>
 <body>
-	<div class="main">
+	<div id="main">
 		<jsp:include page="_header.jsp"></jsp:include>
-		<div class="contents">
+		<div id="contents">
 			${msg} ${file.originalFilename}
-			<div class="upload-area">
+			<div id="upload-area">
 				<form id="upload" modelAttribute="uploadItem" action="/uploadfile"
 					method="POST" enctype="multipart/form-data">
 
@@ -39,6 +39,7 @@
 						</div>
 
 						<div id="submit-button">
+							<button id="startSimulationButton" type="submit">Start Simulation</button>
 						</div>
 
 					</fieldset>
@@ -47,8 +48,7 @@
 				<div id="progress"></div>
 				<button class="button" id="continue-button">Continue</button>				
 			</div>
-			<button id="startSimulationButton" type="submit">Start Simulation</button>
-			<div class="data-input">
+			<div id="data-input">
 				<form action="">
 					<div class="startEvent">
 						<h2>Main start event</h2>

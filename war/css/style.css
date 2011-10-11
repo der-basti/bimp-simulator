@@ -1,71 +1,47 @@
-html {
-	height: 100%;
-	-ms-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-}
-
+/* Base */
 body {
 	margin: 0px;
 	background-image: url(images/background.png);
-	color: white;
 }
 
-.main {
+h2 { font-size: 14px; color: rgb(84, 200, 243); }
+
+h3 { font-size: 12px; color: rgb(147, 137, 90); }
+
+/* Layout */
+
+#main {
 	font-family: 'Open Sans', sans-serif;
 	width: 950px;
 	margin: 0 auto;
 	display: block;
 }
 
-.header,.footer {
+#header, #footer {
 	height: 80px;
 	margin: 0 auto;
 	font-size: 24px;
 	opacity: 0.7;
 	background-color: rgb(26, 17, 7);
-	display: block;
 	-moz-box-shadow: 2px 2px 3px rgb(150, 150, 150);
 	-webkit-box-shadow: 2px 2px 3px rgb(150, 150, 150);
 	box-shadow: 2px 2px 3px rgb(150, 150, 150);
-}
-
-.footer {
-	padding: 10px;
-	margin-top: 30px;
-	margin-bottom: 10px;
-	text-align: right;
-}
-
-.header {
+	color: white;
 	padding: 10px;
 	margin-bottom: 10px;
-	margin-top: 10px;
 }
 
-.contents {
+#footer { margin-top: 30px;	text-align: right; }
+#header { margin-top: 10px; }
+
+#contents {
 	min-height: 380px;
 	padding: 10px;
 	color: rgb(26, 17, 7);
-	display: block;
 }
 
-h2 {
-	font-size: 14px;
-	color: rgb(84, 200, 243);
-}
-
-h3 {
-	font-size: 12px;
-	color: rgb(147, 137, 90);
-}
-
-.file-info {
-	height: 500px;
-}
-
-.upload-area {
+/* File upload box */
+#upload-area {
 	width: 40%;
 	height: 350px;
 	float: left;
@@ -88,35 +64,31 @@ h3 {
 	border: 3px solid green;
 }
 
-.ui-datepicker {
-	width: 200px !important;
-	font-size: 12px !important;
-}
-
 /* = Input form design
 ----------------------------------*/
-.data-input {
+#data-input {
 	display: block;
 	font-size: 14px;
 	font-weight: normal;
 }
 
-.data-input h2 {
-	font-size: 16px;
-}
-
-.data-input th {
+#data-input th {
 	font-weight: normal;
 }
 
-.data-input table TH {
+#data-input table TH {
 	vertical-align: top;
 	text-align: left;
 	font-weight: normal;
 }
 
-.data-input input.small {
+#data-input input.small {
 	width: 50px;
+}
+
+.ui-datepicker {
+	width: 200px !important;
+	font-size: 12px !important;
 }
 
 #arrivalRateDistribution select,#arrivalRateDistribution div,.task div,.task select,.catchEvents div,.catchEvents select
@@ -130,7 +102,6 @@ h3 {
 	font-family: 'Open Sans', sans-serif;
 	background-color: rgb(36, 27, 17);
 	opacity: 0.8;
-	text-weight: cold;
 	font-size: 10px;
 	border: none;
 	display: inline-block;
@@ -144,8 +115,9 @@ h3 {
 	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
-.button,.startsimbutton {
+.button, #startSimulationButton, #uploadpageButton {
 	font-family: 'Open Sans', sans-serif;
+	text-decoration: none;
 	background-color: rgb(36, 27, 17);
 	opacity: 0.8;
 	font-size: 12px;
@@ -161,12 +133,15 @@ h3 {
 	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
-.startsimbutton {
+/* Button on the first page */
+#uploadpageButton {
 	font-size: 36px;
 	padding: 10px 20px 10px;
+	text-decoration: none;
 }
 
-.startbutton {
+/* Box for the uploadpageButton */
+#uploadpageButtonBox {
 	height: 340px;
 	display: -webkit-box;
 	-webkit-box-orient: horizontal;
@@ -182,7 +157,8 @@ h3 {
 	box-align: center;
 }
 
-.button:active,.trigger:active,.startsimbutton:active {
+/* Clicked button appearance */
+.button:active, .trigger:active, #startSimulationButton:active, #uploadpageButton:active {
 	background: -moz-linear-gradient(top, rgb(36, 27, 17) 0%, rgb(100, 100, 100) 100% );
 	background: -webkit-linear-gradient(top, rgb(36, 27, 17) 0%, rgb(100, 100, 100) 100% );
 	position: relative;
@@ -191,13 +167,16 @@ h3 {
 	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), inset 0 1px 5px rgba(0, 0, 0, 0.1);
 }
 
+/* Floating button for starting simulation */
+#startSimulationButton {
+	position: fixed;
+	left: 0px;
+	top: 250px;
+	display: none;
+}
+
 #startSimulationButton:active {
 	position: fixed;
 	top: 251px;
 }
 
-#startSimulationButton {
-	position: fixed;
-	left: 0px;
-	top: 250px;
-}

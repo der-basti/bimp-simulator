@@ -1,4 +1,4 @@
-<div class="header">
+<div id="header">
 		<div class="logo"></div>
 
 		<div class="slogan">Lightning Fast BIMP Simulator</div>
