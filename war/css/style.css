@@ -96,7 +96,7 @@ h3 {
 /* = Input form design
 ----------------------------------*/
 .data-input {
-	display: none;
+	display: block;
 	font-size: 14px;
 	font-weight: normal;
 }
@@ -144,8 +144,7 @@ h3 {
 	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
-.button, .goToUploadButton, #startSimulationButton {
-	text-decoration: none;
+.button,.startsimbutton {
 	font-family: 'Open Sans', sans-serif;
 	background-color: rgb(36, 27, 17);
 	opacity: 0.8;
@@ -162,12 +161,12 @@ h3 {
 	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
-.goToUploadButton {
+.startsimbutton {
 	font-size: 36px;
 	padding: 10px 20px 10px;
 }
 
-.startButton {
+.startbutton {
 	height: 340px;
 	display: -webkit-box;
 	-webkit-box-orient: horizontal;
@@ -183,7 +182,7 @@ h3 {
 	box-align: center;
 }
 
-.button:active, .trigger:active, .goToUploadButton:active, #startSimulationButton:active {
+.button:active,.trigger:active,.startsimbutton:active {
 	background: -moz-linear-gradient(top, rgb(36, 27, 17) 0%, rgb(100, 100, 100) 100% );
 	background: -webkit-linear-gradient(top, rgb(36, 27, 17) 0%, rgb(100, 100, 100) 100% );
 	position: relative;
@@ -191,12 +190,14 @@ h3 {
 	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), inset 0 1px 5px rgba(0, 0, 0, 0.1);
 	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), inset 0 1px 5px rgba(0, 0, 0, 0.1);
 }
+
 #startSimulationButton:active {
 	position: fixed;
 	top: 251px;
 }
+
 #startSimulationButton {
-	position:fixed;
+	position: fixed;
 	left: 0px;
 	top: 250px;
 }

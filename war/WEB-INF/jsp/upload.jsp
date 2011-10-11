@@ -10,14 +10,7 @@
 <script type="text/javascript" src="./js/bimp.file.js"></script>
 <script type="text/javascript" src="./js/bimp.parse.js"></script>
 <script type="text/javascript" src="./js/bimp.forms.js"></script>
-<script type="text/javascript">
-	$(document).ready(function() {
-		$("#continue-button").click(function() {
-			$(".upload-area").hide(1000);
-			$(".data-input").show(1000);
-		});
-	});
-</script>
+<script type="text/javascript" src="./js/javascript.js"></script>
 
 <link rel="stylesheet" type="text/css" href="./css/style.css"></link>
 <link rel="stylesheet" type="text/css" href="./css/jquery-ui-1.8.16.custom.css"></link>
@@ -73,23 +66,12 @@
 											<option value="standard">Standard</option>
 											<option value="exponential">Exponential</option>
 											<option value="uniform">Uniform</option>
-									</select>
-										<div>
-											Value: <input class="small value" name="value" type="text">
-										</div>
-										<div>
-											Mean: <input class="small mean" name="mean" type="text">
-										</div>
-										<div>
-											Standard deviation: <input class="small standardDeviation"
-												name="standardDeviation" type="text">
-										</div>
-										<div>
-											Min: <input class="small min" name="min" type="text">
-										</div>
-										<div>
-											Max: <input class="small max" name="max" type="text">
-										</div>
+										</select>
+										<div> Value: <input class="small value" name="value" type="text"></div>
+										<div> Mean: <input class="small mean" name="mean" type="text"></div>
+										<div> Standard deviation: <input class="small stdev" name="stdev" type="text"></div>
+										<div> Min: <input class="small min" name="min" type="text"></div>
+										<div> Max: <input class="small max" name="max" type="text"></div>
 									</td>
 								</tr>
 								<tr>
@@ -121,21 +103,17 @@
 						<table>
 							<tbody>
 								<tr>
-									<td><a class="trigger" href="#">Add</a></td>
+									<td><a class="trigger add" href="javascript:void(0)">Add</a></td>
 									<th>Name</th>
 									<th>Cost per hour</th>
 									<th>Amount</th>
 								<tr>
 								<tr class="resource">
 									<td></td>
-									<td><input class="normal name" name="name" type="text">
-									</td>
-									<td><input class="small costPerHour" name="costPerHour"
-										type="text"></td>
-									<td><input class="small text amount" name="amount"
-										type="text"></td>
-									<td><a class="trigger remove" href="#"
-										title="Remove field">X</a></td>
+									<td><input class="normal name" name="name" type="text"></td>
+									<td><input class="small costPerHour" name="costPerHour" type="text"></td>
+									<td><input class="small text amount" name="amount" type="text"></td>
+									<td><a class="trigger remove" href="javascript:void(0)" title="Remove field">X</a></td>
 								</tr>
 							</tbody>
 						</table>
@@ -146,8 +124,7 @@
 						<table>
 							<tbody>
 								<tr>
-									<td><a class="trigger add" href="#" title="Add new field">+</a>
-									</td>
+									<td><a class="trigger add" href="javascript:void(0)" title="Add new field">+</a></td>
 									<th>Resource</th>
 									<th>Begin day</th>
 									<th>End day</th>
@@ -156,39 +133,41 @@
 
 								</tr>
 								<tr class="timetable">
-									<td></td>
-									<td><select class="resource" name="resource">
-											<option value="*">*</option>
-									</select>
-									</td>
-									<td><select class="startday" name="startday">
-											<option value="Mon">Monday</option>
-											<option value="Tue">Tuesday</option>
-											<option value="Wed">Wednesday</option>
-											<option value="Thu">Thursday</option>
-											<option value="Fri">Friday</option>
-											<option value="Sat">Saturday</option>
-											<option value="Sun">Sunday</option>
-									</select>
-									</td>
-									<td><select class="endday" name="endday">
-											<option value="Mon">Monday</option>
-											<option value="Tue">Tuesday</option>
-											<option value="Wed">Wednesday</option>
-											<option value="Thu">Thursday</option>
-											<option value="Fri">Friday</option>
-											<option value="Sat">Saturday</option>
-											<option value="Sun">Sunday</option>
-									</select>
-									</td>
-									<td><input class="begintime" name="begintime"
-										class="timepicker">
-									</td>
-									<td><input class="endtime" name="endtime"
-										class="timepicker">
-									</td>
-									<td><a class="trigger remove" href="#"
-										title="Remove field">X</a></td>
+										<td></td>
+										<td>
+											<select class="resource" name="resource">
+													<option value="*">*</option>
+											</select>
+										</td>
+										<td>
+											<select class="startday" name="startday">
+												<option value="Mon">Monday</option>
+												<option value="Tue">Tuesday</option>
+												<option value="Wed">Wednesday</option>
+												<option value="Thu">Thursday</option>
+												<option value="Fri">Friday</option>
+												<option value="Sat">Saturday</option>
+												<option value="Sun">Sunday</option>
+											</select>
+										</td>
+										<td>
+											<select class="endday" name="endday">
+												<option value="Mon">Monday</option>
+												<option value="Tue">Tuesday</option>
+												<option value="Wed">Wednesday</option>
+												<option value="Thu">Thursday</option>
+												<option value="Fri">Friday</option>
+												<option value="Sat">Saturday</option>
+												<option value="Sun">Sunday</option>
+											</select>
+										</td>
+										<td>
+											<input class="begintime" name="begintime" class="timepicker">
+										</td>
+										<td>
+											<input class="endtime" name="endtime" class="timepicker">
+										</td>
+										<td><a class="trigger remove" href="javascript:void(0)" title="Remove field">X</a></td>
 								</tr>
 								<tr>
 
@@ -228,23 +207,12 @@
 												<option value="standard">Standard</option>
 												<option value="exponential">Exponential</option>
 												<option value="uniform">Uniform</option>
-										</select>
-											<div>
-												Value: <input class="small value" name="value" type="text">
-											</div>
-											<div>
-												Mean: <input class="small mean" name="mean" type="text">
-											</div>
-											<div>
-												Standard deviation: <input class="small standardDeviation"
-													name="standardDeviation" type="text">
-											</div>
-											<div>
-												Min: <input class="small min" name="min" type="text">
-											</div>
-											<div>
-												Max: <input class="small max" name="max" type="text">
-											</div>
+											</select>
+											<div> Value: <input class="small value" name="value" type="text"></div>
+											<div> Mean: <input class="small mean" name="mean" type="text"></div>
+											<div> Standard deviation: <input class="small stdev" name="stdev" type="text"></div>
+											<div> Min: <input class="small min" name="min" type="text"></div>
+											<div> Max: <input class="small max" name="max" type="text"></div>
 										</td>
 									</tr>
 								</tbody>
@@ -305,23 +273,13 @@
 												<option value="standard">Standard</option>
 												<option value="exponential">Exponential</option>
 												<option value="uniform">Uniform</option>
-										</select>
-											<div>
-												Value: <input class="small value" name="value" type="text">
-											</div>
-											<div>
-												Mean: <input class="small mean" name="mean" type="text">
-											</div>
-											<div>
-												Standard deviation: <input class="small standardDeviation"
-													name="standardDeviation" type="text">
-											</div>
-											<div>
-												Min: <input class="small min" name="min" type="text">
-											</div>
-											<div>
-												Max: <input class="small max" name="max" type="text">
-											</div>
+
+											</select>
+											<div> Value: <input class="small value" name="value" type="text"></div>
+											<div> Mean: <input class="small mean" name="mean" type="text"></div>
+											<div> Standard deviation: <input class="small stdev" name="stdev" type="text"></div>
+											<div> Min: <input class="small min" name="min" type="text"></div>
+											<div> Max: <input class="small max" name="max" type="text"></div>
 										</td>
 									<tr>
 								</tbody>

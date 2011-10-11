@@ -31,11 +31,11 @@ bimp.file = {
 						var doc = $(bimp.file.xmlFile).find("documentation");
 						if (doc.length > 0) {
 							console.log("File with simulation information provided");
-							$("#startSimulationButton").attr("disabled", false);
-							$(".data-input").show(500);
 						} else {
 							console.log("File with no simulation information provided");
 						}
+						$("#startSimulationButton").attr("disabled", false);
+						$(".data-input").show(500);
 						bimp.parser.init();
 						bimp.parser.start();
 					} catch (e) {
