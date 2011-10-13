@@ -114,7 +114,7 @@ public class SimulationController {
 			elements.add(activityMap);
 		}
 		model.addObject("elements", elements);
-
+		simulations.remove(id);
 		return model;
 
 	}

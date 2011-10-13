@@ -23,7 +23,6 @@
 	<div class="main">
 		<jsp:include page="_header.jsp"></jsp:include>
 		<div class="contents">
-			${msg} ${file.originalFilename}
 			<div class="upload-area">
 				<form id="upload" modelAttribute="uploadItem" action="/uploadfile"
 					method="POST" enctype="multipart/form-data">
@@ -39,14 +38,14 @@
 								type="file" id="file-select" name="fileData" />
 							<div id="file-drag">or drop it here</div>
 						</div>
-
-						<div id="submit-button">
-							<button id="startSimulationButton" type="submit">Start Simulation</button>
-						</div>
-
 					</fieldset>
 
 				</form>
+						<div id="submit-button">
+							<button id="startSimulationButton">Start Simulation</button>
+						</div>
+
+					
 				<div id="progress"></div>
 				<button class="button" id="continue-button">Continue</button>
 			</div>

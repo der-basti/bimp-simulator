@@ -67,41 +67,58 @@ bimp.file = {
 		outputFileInfo : function (msg) {
 			$("#file-info").html(msg);
 		},
-		uploadFile : function (file) {
-			console.log("upload");
-
-			var xhr = new XMLHttpRequest();
-			console.log("fileType:", file.type);
-			
-			//TODO: $.ajax'i peale ehk??
-			if (xhr.upload && bimp.file.getFileExtension(file) == "bpmn" && file.size <= $("#MAX_FILE_SIZE").attr("value")) {
-				// create progress bar
-				var o = $("#progress");
-				var progress = o.append(document.createElement("p"));
-				progress.append(document.createTextNode("upload " + file.name));
-
-				// progress bar
-				xhr.upload.addEventListener("progress", function(e) {
-					var pc = parseInt(100 - (e.loaded / e.total * 100));
-					progress.style.backgroundPosition = pc + "% 0";
-				}, false);
-
-				// file received/failed
-				xhr.onreadystatechange = function(e) {
-					if (xhr.readyState == 4) {
-						progress.className = (xhr.status == 200 ? "success" : "failure");
+		uploadFile : function () {
+			$.post("/uploadjson", {"fileData": new XMLSerializer().serializeToString(bimp.parser.xmlFile)}, function (data) {
+				console.log(data);
+				if (data.status == "Success") {
+					console.log("file upload successful");
+					if (data.redirect) {
+						window.location = data.redirect;
 					}
-				};
-
-				// start upload
-				xhr.open("POST", document.getElementById("upload").action, true);
-				xhr.setRequestHeader("X_FILENAME", file.name);
-				xhr.send(file);
-			} else {
-				alert("Not .bpmn or too large file");
+				}
+			});
+		},
+		updateFile : function () {
+			// currently case when file already has documentation tags
+			// we have inputfile with siminfo
+			if ($(bimp.parser.xmlFile).find("startEvent").find("documentation").size() > 0) {
+				$(bimp.parser.xmlFile).find("startEvent").find("documentation")[0].textContent = JSON.stringify(bimp.parser.startEvent);
+				console.log("Found startEvent and updated it");
 			}
-
-		}
+			var taskNodes = $(bimp.parser.xmlFile).find("task");
+			// tasks
+			$.each(bimp.parser.tasks, function(id, task) {
+				
+				$(taskNodes).each(function(nodeId, taskNode) {
+					if (taskNode.getAttribute("id") === id) {
+						$(taskNode).find("documentation")[0].textContent = JSON.stringify(task);
+						console.log("Found task and updated it:", id);
+					}
+				});
+			});
+			// intermediate catch events
+			var eventNodes = $(bimp.parser.xmlFile).find("intermediateCatchEvent");
+			$.each(bimp.parser.intermediateCatchEvents, function(id, event) {
+				$(eventNodes).each(function(nodeId, eventNode) {
+					if (eventNode.getAttribute("id") === id) {
+						$(eventNode).find("documentation")[0].textContent = JSON.stringify(event);
+						console.log("Found eventnode and updated it:", id);
+					}
+				});
+			});
+			// gateways
+			var sequenceFlows = $(bimp.parser.xmlFile).find("sequenceFlow");
+			$.each(bimp.parser.conditionExpressions, function(id, gateway) {
+				$(sequenceFlows).each(function(nodeId, sequenceNode) {
+					if (sequenceNode.getAttribute("id") === id) {
+						$(sequenceNode).find("conditionExpression")[0].textContent = gateway.probability;
+						console.log("Found gateway and updated it:", id, gateway.probability);
+					}
+				});
+			});
+			
+		},
+		
 };
 
 function FileDragHover(e) {
@@ -128,3 +145,6 @@ $(document).ready(function() {
 	jQuery.event.props.push("dataTransfer");
 	bimp.file.initUpload();
 });
+
+
+

@@ -69,6 +69,12 @@ $(document).ready(function () {
 	$("body").delegate(".type", "change", function () {
 		updateTypeSelection(this);
 	});
+	
+	$("#startSimulationButton").click(function () {
+		bimp.forms.read.start();
+		bimp.file.updateFile();
+		bimp.file.uploadFile();
+	});
 });
 
 var removeLastButton = function () {
