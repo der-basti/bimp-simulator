@@ -4,9 +4,13 @@ body {
 	background-image: url(images/background.png);
 }
 
-h2 { font-size: 14px; color: rgb(84, 200, 243); }
+h2 { font-size: 14px; color: rgb(74, 190, 243); }
 
 h3 { font-size: 12px; color: rgb(147, 137, 90); }
+
+.gill-font {
+	font-family: Gill Sans MT, sans-serif;
+}
 
 /* Layout */
 
@@ -35,6 +39,7 @@ h3 { font-size: 12px; color: rgb(147, 137, 90); }
 #header { margin-top: 10px; }
 
 #contents {
+	display: block;
 	min-height: 380px;
 	padding: 10px;
 	color: rgb(26, 17, 7);
@@ -84,6 +89,21 @@ h3 { font-size: 12px; color: rgb(147, 137, 90); }
 
 #data-input input.small {
 	width: 50px;
+}
+ /* Result table design */
+#result-table {
+	margin-top: 20px;
+}
+
+#result-table table th {
+	color: rgb(147, 137, 90);
+	font-style: italic;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+#result-table table tr {
+	text-align: center;
 }
 
 .ui-datepicker {
@@ -179,4 +199,3 @@ h3 { font-size: 12px; color: rgb(147, 137, 90); }
 	position: fixed;
 	top: 251px;
 }
-

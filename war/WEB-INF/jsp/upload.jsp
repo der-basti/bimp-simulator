@@ -48,7 +48,7 @@
 				<div id="progress"></div>
 				<button class="button" id="continue-button">Continue</button>				
 			</div>
-			<div id="data-input">
+			<div id="data-input" class="gill-font">
 				<form action="">
 					<div class="startEvent">
 						<h2>Main start event</h2>
