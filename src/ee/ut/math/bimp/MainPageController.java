@@ -22,7 +22,7 @@ public class MainPageController {
 	private static Logger log = Logger.getLogger(MainPageController.class);
 
 	/**
-	 * Default. Adds the runner to the session.
+	 * Default. 
 	 * @return
 	 */
 	@RequestMapping(value = "", method = RequestMethod.GET)
