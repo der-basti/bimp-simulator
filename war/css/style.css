@@ -45,6 +45,26 @@ h3 { font-size: 12px; color: rgb(147, 137, 90); }
 	color: rgb(26, 17, 7);
 }
 
+.logo, .slogan {
+	width: 700px;
+	float: left;
+}
+
+/* Navigation menu */
+#nav {
+	width: 165px;
+	float: right;
+	padding-top: 10px;
+}
+
+ul#list-nav {
+	margin: 0px;
+	padding: 0px;
+	list-style:none;
+}
+
+ul#list-nav li { display:inline; }
+
 /* File upload box */
 #upload-area {
 	width: 40%;
@@ -135,7 +155,7 @@ h3 { font-size: 12px; color: rgb(147, 137, 90); }
 	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
-.button, #startSimulationButton, #uploadpageButton {
+.button, #startSimulationButton, #uploadpageButton, .nav-button {
 	font-family: 'Open Sans', sans-serif;
 	text-decoration: none;
 	background-color: rgb(36, 27, 17);
@@ -143,7 +163,7 @@ h3 { font-size: 12px; color: rgb(147, 137, 90); }
 	font-size: 12px;
 	border: none;
 	display: inline-block;
-	padding: 5px 10px 5px;
+	padding: 5px 5px 5px;
 	color: rgb(250, 250, 250);
 	font-weight: normal;
 	-moz-border-radius: 1px;
@@ -151,6 +171,15 @@ h3 { font-size: 12px; color: rgb(147, 137, 90); }
 	cursor: pointer;
 	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Navigation buttons appearance */
+.nav-button {
+	background-color: rgb(74, 190, 243);
+	color: rgb(0,0,0);
+	opacity: 0.9;
+	-moz-box-shadow: 1px 1px 2px rgba(250, 250, 250, 0.5);
+	-webkit-box-shadow: 1px 1px 2px rgba(250, 250, 250, 0.5);
 }
 
 /* Button on the first page */
@@ -177,14 +206,24 @@ h3 { font-size: 12px; color: rgb(147, 137, 90); }
 	box-align: center;
 }
 
-/* Clicked button appearance */
-.button:active, .trigger:active, #startSimulationButton:active, #uploadpageButton:active {
+/* Hover button appearance */
+.button:hover, .trigger:hover, #startSimulationButton:hover, #uploadpageButton:hover {
 	background: -moz-linear-gradient(top, rgb(36, 27, 17) 0%, rgb(100, 100, 100) 100% );
 	background: -webkit-linear-gradient(top, rgb(36, 27, 17) 0%, rgb(100, 100, 100) 100% );
-	position: relative;
-	top: 1px;
 	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), inset 0 1px 5px rgba(0, 0, 0, 0.1);
 	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), inset 0 1px 5px rgba(0, 0, 0, 0.1);
+}
+.nav-button:hover {
+	background: -moz-linear-gradient(top, rgb(250, 250, 250) 0%, rgb(200, 200, 200) 100% );
+	background: -webkit-linear-gradient(top, rgb(250, 250, 250) 0%, rgb(200, 200, 200) 100% );
+	-webkit-box-shadow: 0 1px 2px rgba(250, 250, 250, 0.3), inset 0 1px 5px rgba(250, 250, 250, 0.1);
+	-moz-box-shadow: 0 1px 2px rgba(250, 250, 250, 0.3), inset 0 1px 5px rgba(250, 250, 250, 0.1);
+}
+
+/* Clicked button action */
+.button:active, .trigger:active, #startSimulationButton:active, #uploadpageButton:active, .nav-button:active {
+	position: relative;
+	top: 1px;
 }
 
 /* Floating button for starting simulation */
