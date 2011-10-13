@@ -3,62 +3,65 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF8">
-		<script type="text/javascript" src="./js/jquery-1.6.4.min.js"></script>
-		<script type="text/javascript" src="./js/jquery-ui-1.8.16.custom.min.js"></script>
-		<script type="text/javascript" src="./js/bimp.file.js"></script>
-		<script type="text/javascript" src="./js/bimp.parse.js"></script>
-		<script type="text/javascript" src="./js/bimp.forms.js"></script>
-		
-		<link rel="stylesheet" type="text/css"  href="./css/style.css"></link>
-		<link rel="stylesheet" type="text/css"  href="./css/jquery-ui-1.8.16.custom.css"></link>
-		<title>BIMP Simulator</title>
-	</head>
-		<body>
-		${msg} ${file.originalFilename}
-		<div class="upload-area">
-			<form id="upload" modelAttribute="uploadItem" action="/uploadfile"
-				method="POST" enctype="multipart/form-data">
-	
-				<fieldset>
-					<legend>Upload your .BPMN file</legend>
-	
-					<input type="hidden" id="MAX_FILE_SIZE" name="MAX_FILE_SIZE"
-						value="300000" />
-	
-					<div>
-						<label for="file-select">Select the file:</label> <input
-							type="file" id="file-select" name="fileData" />
-						<div id="file-drag">or drop it here</div>
-					</div>
-	
-					<div id="submit-button">
-						<button id="startSimulationButton" type="submit" disabled="disabled">Start Simulation</button>
-					</div>
-	
-				</fieldset>
-	
-			</form>
-			<div id="progress"></div>
-		</div>
-			<div class="data-input">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF8">
+<script type="text/javascript" src="./js/jquery-1.6.4.min.js"></script>
+<script type="text/javascript" src="./js/jquery-ui-1.8.16.custom.min.js"></script>
+<script type="text/javascript" src="./js/bimp.file.js"></script>
+<script type="text/javascript" src="./js/bimp.parse.js"></script>
+<script type="text/javascript" src="./js/bimp.forms.js"></script>
+<script type="text/javascript" src="./js/javascript.js"></script>
+
+<link rel="stylesheet" type="text/css" href="./css/style.css"></link>
+<link rel="stylesheet" type="text/css" href="./css/jquery-ui-1.8.16.custom.css"></link>
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
+<title>BIMP Simulator</title>
+</head>
+<body>
+	<div id="main">
+		<jsp:include page="_header.jsp"></jsp:include>
+		<div id="contents">
+			${msg} ${file.originalFilename}
+			<div id="upload-area">
+				<form id="upload" modelAttribute="uploadItem" action="/uploadfile"
+					method="POST" enctype="multipart/form-data">
+
+					<fieldset>
+						<legend>Upload your .BPMN file</legend>
+
+						<input type="hidden" id="MAX_FILE_SIZE" name="MAX_FILE_SIZE"
+							value="300000" />
+
+						<div>
+							<label for="file-select">Select the file:</label> <input
+								type="file" id="file-select" name="fileData" />
+							<div id="file-drag">or drop it here</div>
+						</div>
+
+						<div id="submit-button">
+							<button id="startSimulationButton" type="submit">Start Simulation</button>
+						</div>
+
+					</fieldset>
+
+				</form>
+				<div id="progress"></div>
+				<button class="button" id="continue-button">Continue</button>				
+			</div>
+			<div id="data-input" class="gill-font">
 				<form action="">
 					<div class="startEvent">
 						<h2>Main start event</h2>
 						<table class="form">
 							<tbody>
 								<tr>
-									<th>Name: </th>
-									<td>
-										<span class="name" >Event's Name</span>
-											
+									<th>Name:</th>
+									<td><span class="name">Event's Name</span>
 									</td>
 								</tr>
 								<tr id="arrivalRateDistribution">
-									<th>Arrival rate: </th>
-									<td>
-										<select class="type" name="type">
+									<th>Arrival rate:</th>
+									<td><select class="type" name="type">
 											<option value="fixed">Fixed</option>
 											<option value="standard">Standard</option>
 											<option value="exponential">Exponential</option>
@@ -66,15 +69,15 @@
 										</select>
 										<div> Value: <input class="small value" name="value" type="text"></div>
 										<div> Mean: <input class="small mean" name="mean" type="text"></div>
-										<div> Standard deviation: <input class="small standardDeviation" name="standardDeviation" type="text"></div>
+										<div> Standard deviation: <input class="small stdev" name="stdev" type="text"></div>
 										<div> Min: <input class="small min" name="min" type="text"></div>
 										<div> Max: <input class="small max" name="max" type="text"></div>
 									</td>
 								</tr>
 								<tr>
 									<th># of instances</th>
-									<td>
-										<input class="instances" name="instances" class="small" type="text">
+									<td><input class="instances" name="instances"
+										class="small" type="text">
 									</td>
 								</tr>
 								<tr>
@@ -82,20 +85,25 @@
 									<td>
 										<!-- TODO: date and time input, 
 										get rid of script, 
-										normal handler for starttime onFocus -->
-										<input  name="startAt" class="normal datepicker startAt" type="text" onFocus="if(this.value==this.defaultValue){this.value='';}" value="yyyy-mm-dd hh:mm:ss">
-										<script>$(".datepicker").datepicker({ dateFormat: 'yy-mm-dd' });</script>
-									</td>
+										normal handler for starttime onFocus --> <input name="startAt"
+										class="normal datepicker startAt" type="text"
+										onFocus="if(this.value==this.defaultValue){this.value='';}"
+										value="yyyy-mm-dd hh:mm:ss"> <script>
+											$(".datepicker").datepicker({
+												dateFormat : 'yy-mm-dd'
+											});
+										</script></td>
 								</tr>
 							</tbody>
 						</table>
 					</div>
+					<hr />
 					<div class="resources">
 						<h2>Resources</h2>
 						<table>
 							<tbody>
 								<tr>
-									<td><a class="trigger" href="#">Add</a></td>
+									<td><a class="trigger add" href="javascript:void(0)">Add</a></td>
 									<th>Name</th>
 									<th>Cost per hour</th>
 									<th>Amount</th>
@@ -105,17 +113,18 @@
 									<td><input class="normal name" name="name" type="text"></td>
 									<td><input class="small costPerHour" name="costPerHour" type="text"></td>
 									<td><input class="small text amount" name="amount" type="text"></td>
-									<td><a class="trigger remove" href="#" title="Remove field">X</a></td>
+									<td><a class="trigger remove" href="javascript:void(0)" title="Remove field">X</a></td>
 								</tr>
 							</tbody>
 						</table>
 					</div>
+					<hr />
 					<div class="timetables">
 						<h2>Timetable</h2>
 						<table>
 							<tbody>
 								<tr>
-									<td><a class="trigger add" href="#" title="Add new field">+</a></td>
+									<td><a class="trigger add" href="javascript:void(0)" title="Add new field">+</a></td>
 									<th>Resource</th>
 									<th>Begin day</th>
 									<th>End day</th>
@@ -158,15 +167,16 @@
 										<td>
 											<input class="endtime" name="endtime" class="timepicker">
 										</td>
-										<td><a class="trigger remove" href="#" title="Remove field">X</a></td>
+										<td><a class="trigger remove" href="javascript:void(0)" title="Remove field">X</a></td>
 								</tr>
 								<tr>
-									
+
 								</tr>
-								
+
 							</tbody>
 						</table>
 					</div>
+					<hr />
 					<div class="tasks">
 						<h2>Task</h2>
 						<div class="task">
@@ -182,19 +192,17 @@
 									</tr>
 									<tr>
 										<th>Resource:</th>
-										<td> 
-											<select class="resource" name="resource">
-											</select>
+										<td><select class="resource" name="resource">
+										</select>
 										</td>
 									</tr>
 									<tr>
 										<th>Fixed cost:</th>
-										<td><input class="fixedCost" name="fixedCost"/></td>
+										<td><input class="fixedCost" name="fixedCost" /></td>
 									</tr>
 									<tr>
 										<th>Type</th>
-										<td>
-											<select class="type" name="type">
+										<td><select class="type" name="type">
 												<option value="fixed">Fixed</option>
 												<option value="standard">Standard</option>
 												<option value="exponential">Exponential</option>
@@ -202,7 +210,7 @@
 											</select>
 											<div> Value: <input class="small value" name="value" type="text"></div>
 											<div> Mean: <input class="small mean" name="mean" type="text"></div>
-											<div> Standard deviation: <input class="small standardDeviation" name="standardDeviation" type="text"></div>
+											<div> Standard deviation: <input class="small stdev" name="stdev" type="text"></div>
 											<div> Min: <input class="small min" name="min" type="text"></div>
 											<div> Max: <input class="small max" name="max" type="text"></div>
 										</td>
@@ -211,9 +219,10 @@
 							</table>
 						</div>
 					</div>
+					<hr />
 					<div class="gateways">
 						<h2>Gateways</h2>
-						
+
 						<div class="gateway">
 							<table>
 								<tbody>
@@ -239,12 +248,14 @@
 									</tr>
 									<tr>
 										<th>Probability of execution:</th>
-										<td><input class="small probability" name="probability"/><label for="probability"></label></td>
+										<td><input class="small probability" name="probability" /><label
+											for="probability"></label></td>
 									</tr>
 								</tbody>
 							</table>
 						</div>
 					</div>
+					<hr />
 					<div class="catchEvents">
 						<h2>Intermediate events</h2>
 						<div class="catchEvent">
@@ -252,20 +263,21 @@
 								<tbody>
 									<tr>
 										<th>Name:</th>
-										<td><span class="name">Event name</span><td>
+										<td><span class="name">Event name</span>
+										<td>
 									</tr>
 									<tr>
 										<th>Type:</th>
-										<td>
-											<select class="type" name="type">
+										<td><select class="type" name="type">
 												<option value="fixed">Fixed</option>
 												<option value="standard">Standard</option>
 												<option value="exponential">Exponential</option>
 												<option value="uniform">Uniform</option>
+
 											</select>
 											<div> Value: <input class="small value" name="value" type="text"></div>
 											<div> Mean: <input class="small mean" name="mean" type="text"></div>
-											<div> Standard deviation: <input class="small standardDeviation" name="standardDeviation" type="text"></div>
+											<div> Standard deviation: <input class="small stdev" name="stdev" type="text"></div>
 											<div> Min: <input class="small min" name="min" type="text"></div>
 											<div> Max: <input class="small max" name="max" type="text"></div>
 										</td>
@@ -274,11 +286,13 @@
 							</table>
 						</div>
 					</div>
-					
+
 				</form>
 			</div>
 			<br>
-			<div id="file-info">
-			</div>
-	</body>
+			<div id="file-info"></div>
+		</div>
+		<jsp:include page="_footer.jsp"></jsp:include>
+	</div>
+</body>
 </html>

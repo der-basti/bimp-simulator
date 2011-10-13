@@ -1,12 +1,12 @@
 bimp.forms = {
 		generate : {
-			start : function() {
+			start : function () {
 				this.startEvent("test");
 				this.tasks();
 				this.conditionExpressions();
 				this.intermediateCatchEvents();
 			},
-			startEvent : function(name) {
+			startEvent : function (name) {
 				var se = bimp.parser.startEvent;
 				
 				bimp.forms.populateWithData(".startEvent", se);
@@ -17,7 +17,7 @@ bimp.forms = {
 					bimp.forms.generate.timetable(name, timetable);
 				});
 			},
-			resource : function(name, resourceObj) {
+			resource : function (name, resourceObj) {
 				console.log(name, resourceObj);
 				if (!$(".resources .resource:first").attr("data-id")){
 					bimp.forms.populateWithData(".resources", resourceObj);
@@ -28,8 +28,9 @@ bimp.forms = {
 					bimp.forms.populateWithData(".resources tbody", resourceObj, true, resourceHTML);
 					
 				}
+				$(".resources .resource .remove").show();
 			},
-			timetable : function(name, timetableObj) {
+			timetable : function (name, timetableObj) {
 				//TODO: use populateWithData?
 				var days;
 				var times;
@@ -49,7 +50,8 @@ bimp.forms = {
 				
 				if(!$(".timetables .timetable:first").attr("data-name")) {
 					$.each(bimp.parser.startEvent.resources, function(resourceName, resource) {
-						$(".timetables .timetable .resource").append($("<option></option>").attr("value", resourceName).text(resourceName));
+						$(".timetables .timetable .resource").append($("<option></option>").attr("value", 
+								resourceName).text(resource.name));
 					});
 					$(".timetables .timetable .resource").val(name);
 					$(".timetables .timetable .startday").val(startday);
@@ -68,12 +70,12 @@ bimp.forms = {
 					$(".timetables tbody").append(timetableHTML);
 				}
 			},
-			tasks : function() {
+			tasks : function () {
 				$.each(bimp.parser.tasks, function(id, task) {
 					bimp.forms.generate.task(id, task);
 				});
 			},
-			task : function(id, taskObj) {
+			task : function (id, taskObj) {
 				if(!$(".tasks .task:first").attr("data-id")) {
 					$(".tasks .task .id").text(id);
 					bimp.forms.populateWithData(".tasks .task", taskObj);
@@ -85,12 +87,12 @@ bimp.forms = {
 					bimp.forms.populateWithData(".tasks", taskObj, true, taskHTML);
 				}
 			},
-			conditionExpressions : function() {
+			conditionExpressions : function () {
 				$.each(bimp.parser.conditionExpressions, function(id, ce) {
 					bimp.forms.generate.conditionExpression(id, ce);
 				});
 			},
-			conditionExpression : function(id, gatewayObj) {
+			conditionExpression : function (id, gatewayObj) {
 				if(!$(".gateways .gateway:first").attr("data-id")) {
 					bimp.forms.populateWithData(".gateways .gateway", gatewayObj);
 					$(".gateways .gateway:first").attr("data-id", gatewayObj.id);
@@ -105,7 +107,7 @@ bimp.forms = {
 					bimp.forms.generate.intermediateCatchEvent(id, ice);
 				});
 			},
-			intermediateCatchEvent : function(id, eventObj) {
+			intermediateCatchEvent : function (id, eventObj) {
 				if(!$(".catchEvents .catchEvent:first").attr("data-id")) {
 					bimp.forms.populateWithData(".catchEvents .catchEvent", eventObj);
 					$(".catchEvents .catchEvent:first").attr("data-id", id);
@@ -129,7 +131,8 @@ bimp.forms = {
 				} else if (name === "resource") {
 					if (!clone) {
 						$.each(bimp.parser.startEvent.resources, function(resourceName, resource) {
-							$(selector +" ." + name).append($("<option></option>").attr("value", resourceName).text(resourceName));
+							$(selector +" ." + name).append($("<option></option>").attr("value", 
+									resourceName).text(resource.name));
 						});
 					}
 					clone ? $(htmlObj).find("." + name).val(value) : $(selector +" ." + name).val(value); 
@@ -142,21 +145,92 @@ bimp.forms = {
 			});
 			clone ? $(selector).append(htmlObj) : true;
 		},
-		validate : function() {
+		validate : function () {
 			
 		},
 		read : {
-			startEvent : function() {
-				$.each(bimp.parser.startEvent, function(name, value) {
+			start : function () {
+				this.startEvent();
+				this.tasks();
+				this.conditionExpressions();
+				this.intermediateCatchEvents();
+			},
+			startEvent : function () {
+				var selector = ".startEvent";
+				this.readData(selector, bimp.parser.startEvent);
+				this.resources();
+				this.timetable();
+			},
+			resources : function () {
+				var resources = $(".resources .resource");
+				bimp.parser.startEvent.resources = {};
+				$(resources).each( function(index, element) {
+					bimp.parser.startEvent.addResource($(element).attr("data-id"), 
+							$(element).find(".name").val(), $(element).find(".costPerHour").val(), $(element).find(".amount").val());
+				});
+			},
+			timetable : function () {
+				var timetable = $(".timetables .timetable");
+				bimp.parser.startEvent.timetable = {};
+				$(timetable).each(function (index, element){
+					var startDay = $(element).find(".startday").val();
+					var endDay = $(element).find(".endday").val();
+					var beginTime = $(element).find(".begintime").val();
+					var endTime = $(element).find(".endtime").val();
+					
+					var dayString = startDay === endDay ? startDay : startDay + "-" + endDay;
+					var timeString = beginTime + "-" + endTime;
+					var tmp = {};
+					tmp[dayString] = timeString;
+					// if we have this resource already, then add new values to it
+					if (bimp.parser.startEvent.timetable[$(element).find(".resource").val()]) {
+						$.extend(true, bimp.parser.startEvent.timetable[$(element).find(".resource").val()], 
+								tmp);
+					} else {
+						bimp.parser.startEvent.timetable[$(element).find(".resource").val()] = tmp;
+					}
+				});
+			},
+			tasks : function () {
+				var tasks = $(".tasks .task");
+				$(tasks).each(function (index, element) {
+					bimp.forms.read.readData(element, bimp.parser.tasks[$(element).attr("data-id")]);
+				});
+			},
+			conditionExpressions : function () {
+				var gateways = $(".gateways .gateway");
+				$(gateways).each(function (index, element) {
+					bimp.forms.read.readData(element, bimp.parser.conditionExpressions[$(element).attr("data-id")]);
+				});
+			},
+			intermediateCatchEvents : function () {
+				var events = $(".catchEvents .catchEvent");
+				$(events).each(function (index, element) {
+					bimp.forms.read.readData(element, bimp.parser.intermediateCatchEvents[$(element).attr("data-id")]);
+				});
+			},
+			readData : function (selector, obj) {
+				$.each(obj, function(name, value) {
 					console.log(name, value, typeof (value));
 					if (typeof(value) !== "function") {
 						if (typeof(value) == "object") {
-							// lets read resources and timetable
-							// bimp.forms.read[name]();
-							console.log("read {}", name)
+//							if (name !== "resources" && name !== "timetable") {
+//								$.each(value, function (_name, _value) {
+//									console.log("Reading", name, "with value", value);
+//									obj[name][_name] = $(selector + " ." + _name).val();
+//								});
+//							}
+//							bimp.forms.read.readData(selector + " ." + name, value);
+							if (name == "durationDistribution" || name == "arrivalRateDistribution") {
+								$.each(value, function (_name, _value) {
+									obj[name][_name] = $(selector).find("." + _name).val();
+									console.log("Reading ", _name, "with value", $(selector).find("." + _name).val());
+								});
+							}
 						} else {
 							// lets read field values
-							bimp.parser.startEvent[name] = value;
+							obj[name] = $(selector).find("." + name).val();
+							console.log("Reading ", name, "with value", $(selector).find("." + name).val());
 						}
 					}
 				});
