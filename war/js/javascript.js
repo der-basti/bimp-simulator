@@ -79,7 +79,7 @@ $(document).ready(function () {
 });
 
 var removeLastButton = function () {
-	if ($(".resources .resource").size() == 1) {
+	if ($(".resources .resource").size() == 2) {
 		$(".resources .resource .remove").hide();
 	}
 };

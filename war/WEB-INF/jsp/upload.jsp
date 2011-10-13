@@ -39,13 +39,10 @@
 					</fieldset>
 
 				</form>
-						<div id="submit-button">
-							<button id="startSimulationButton">Start Simulation</button>
-						</div>
-
-					
-				<div id="progress"></div>
 				<button class="button" id="continue-button">Continue</button>				
+			</div>
+			<div id="submit-button">
+				<button id="startSimulationButton">Start Simulation</button>
 			</div>
 			<div id="data-input" class="gill-font">
 				<form action="">
