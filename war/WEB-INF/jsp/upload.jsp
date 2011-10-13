@@ -13,17 +13,15 @@
 <script type="text/javascript" src="./js/javascript.js"></script>
 
 <link rel="stylesheet" type="text/css" href="./css/style.css"></link>
-<link rel="stylesheet" type="text/css"
-	href="./css/jquery-ui-1.8.16.custom.css"></link>
-<link href='http://fonts.googleapis.com/css?family=Open+Sans:300'
-	rel='stylesheet' type='text/css'>
+<link rel="stylesheet" type="text/css" href="./css/jquery-ui-1.8.16.custom.css"></link>
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
 <title>BIMP Simulator</title>
 </head>
 <body>
-	<div class="main">
+	<div id="main">
 		<jsp:include page="_header.jsp"></jsp:include>
-		<div class="contents">
-			<div class="upload-area">
+		<div id="contents">
+			<div id="upload-area">
 				<form id="upload" modelAttribute="uploadItem" action="/uploadfile"
 					method="POST" enctype="multipart/form-data">
 
@@ -47,9 +45,9 @@
 
 					
 				<div id="progress"></div>
-				<button class="button" id="continue-button">Continue</button>
+				<button class="button" id="continue-button">Continue</button>				
 			</div>
-			<div class="data-input">
+			<div id="data-input" class="gill-font">
 				<form action="">
 					<div class="startEvent">
 						<h2>Main start event</h2>

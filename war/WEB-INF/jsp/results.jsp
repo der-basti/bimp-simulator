@@ -11,17 +11,29 @@
 	<title>BIMP Simulator results</title>
 </head>
 <body>
-	<div class="main">
+	<div id="main">
 		<jsp:include page="_header.jsp"></jsp:include>
-		<div class="contents">
-			<div class="results">
-				${stats.completedElements } <br />
-				${stats.completedProcesseInstances } <br /> ${stats.maxProcessCost
-				} <br /> ${stats.maxProcessDuration } <br />
-				${stats.minProcessCost } <br /> ${stats.minProcessDuration } <br />
-				${stats.totalCost } <br /> ${stats.totalDuration } <br />
+		<div id="contents" class="gill-font">
+			<div id="results">
+				<h3>Completed elements </h3> ${stats.completedElements }
+				<h3>Completed process instances </h3> ${stats.completedProcesseInstances }
+				<h3>Maximum process cost </h3> ${stats.maxProcessCost }
+				<h3>Maximum process duration </h3> ${stats.maxProcessDuration }
+				<h3>Minimum process cost </h3> ${stats.minProcessCost }
+				<h3>Minimum process duration </h3>${stats.minProcessDuration }
+				<h3>Total cost </h3> ${stats.totalCost }
+				<h3>Total duration </h3>${stats.totalDuration }
+				<br />
 			</div>
-			<table border="1">
+			<div id="result-table">
+			<table border="0">
+				<tr>
+					<th>Description</th>
+					<th>Total Cost</th>
+					<th>Total Duration</th>
+					<th>Total Idle</th>
+					<th>Total Waiting</th>
+				</tr>
 				<c:forEach var="element" items="${elements}">
 					<tr>
 						<td>${element.description }</td>
@@ -32,6 +44,7 @@
 					</tr>
 				</c:forEach>
 			</table>
+			</div>
 		</div>
 		<jsp:include page="_footer.jsp"></jsp:include>
 	</div>

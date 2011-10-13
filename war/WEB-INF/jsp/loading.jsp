@@ -12,9 +12,9 @@
 <title>BIMP Simulator</title>
 </head>
 <body>
-	<div class="main">
+	<div id="main">
 		<jsp:include page="_header.jsp"></jsp:include>
-		<div class="contents">
+		<div id="contents">
 			<h1>LOADING ...</h1>
 			<h2 class="status"></h2>
 			<script type="text/javascript">

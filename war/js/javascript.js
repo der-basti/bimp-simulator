@@ -38,10 +38,11 @@ $(document).ready(function () {
 	});
 	
 	$("#continue-button").click(function() {
-		$(".upload-area").hide(1000);
-		$(".data-input").show(1000);
+		$("#upload-area").hide(1000);
+		$("#data-input").show(1000);
+		$("#startSimulationButton").show(1000);
 	});
-	
+		
 	$("body").delegate(".remove", "click", function () {
 	     var tr = $(this).parent().parent();
 	    

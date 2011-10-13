@@ -10,11 +10,11 @@
 <title>BIMP Simulator</title>
 </head>
 <body>
-	<div class="main">
+	<div id="main">
 		<jsp:include page="_header.jsp"></jsp:include>
-		<div class="contents">
-			<div class="startbutton">
-				<a class="startsimbutton" href="/upload">Continue to upload page</a>
+		<div id="contents">
+			<div id="uploadpageButtonBox">
+				<a id="uploadpageButton" href="/upload">Continue to upload page</a>
 			</div>
 		</div>
 		<jsp:include page="_footer.jsp"></jsp:include>
