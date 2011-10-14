@@ -21,7 +21,6 @@
 	<div id="main">
 		<jsp:include page="_header.jsp"></jsp:include>
 		<div id="contents">
-			${msg} ${file.originalFilename}
 			<div id="upload-area">
 				<form id="upload" modelAttribute="uploadItem" action="/uploadfile"
 					method="POST" enctype="multipart/form-data">
@@ -40,7 +39,6 @@
 					</fieldset>
 
 				</form>
-				<div id="progress"></div>
 				<button class="button" id="continue-button">Continue</button>				
 			</div>
 			<div id="submit-button">

@@ -12,11 +12,11 @@ bimp.parser = {
 	startEvent : {
 		arrivalRateDistribution : {
 			type : "",
-			mean : "",
-			value : "",
-			stdev : "",
-			min : "",
-			max : ""
+			mean : "0",
+			value : "0",
+			stdev : "0",
+			min : "0",
+			max : "0"
 		},
 		instances : "",
 		resources : {},
@@ -37,14 +37,14 @@ bimp.parser = {
 	task : function() {
 		this.durationDistribution = {
 			"type" : "",
-			"mean" : "",
-			"value" : "",
-			"stdev" : "",
-			"min" : "",
-			"max" : ""
+			"mean" : "0",
+			"value" : "0",
+			"stdev" : "0",
+			"min" : "0",
+			"max" : "0"
 		},
 		this.resource = "",
-		this.fixedCost = "",
+		this.fixedCost = "0",
 		this.name = ""
 	},
 	addTask : function (id, taskObj) {
@@ -55,11 +55,11 @@ bimp.parser = {
 	intermediateCatchEvent : function() {
 		this.durationDistribution = {
 			"type" : "",
-			"mean" : "",
-			"value" : "",
-			"stdev" : "",
-			"min" : "",
-			"max" : ""
+			"mean" : "0",
+			"value" : "0",
+			"stdev" : "0",
+			"min" : "0",
+			"max" : "0"
 		}
 	},
 	addIntermediateCatchEvent : function (id, catchEventObj){
