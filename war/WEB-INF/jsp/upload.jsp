@@ -37,16 +37,14 @@
 								type="file" id="file-select" name="fileData" />
 							<div id="file-drag">or drop it here</div>
 						</div>
-
-						<div id="submit-button">
-							<button id="startSimulationButton" type="submit">Start Simulation</button>
-						</div>
-
 					</fieldset>
 
 				</form>
 				<div id="progress"></div>
 				<button class="button" id="continue-button">Continue</button>				
+			</div>
+			<div id="submit-button">
+				<button id="startSimulationButton" type="submit" onclick="document.forms[0].submit()">Start Simulation</button>
 			</div>
 			<div id="data-input" class="gill-font">
 				<form action="">
