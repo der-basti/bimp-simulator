@@ -37,10 +37,15 @@ $(document).ready(function () {
 
 	});
 	
+	$(".toggle-div").hide(); 
+	
 	$("#continue-button").click(function() {
-		$("#upload-area").hide(1000);
-		$("#data-input").show(1000);
-		$("#startSimulationButton").show(1000);
+		$("#upload-area").fadeOut(400, function() {$("#data-input").fadeIn(1000);});
+		$("#startSimulationButton").fadeIn(1000);
+	});
+	
+	$(".toggle-trigger").click(function() {
+		$(this).next(".toggle-div").slideToggle("slow");
 	});
 		
 	$("body").delegate(".remove", "click", function () {

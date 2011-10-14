@@ -46,8 +46,9 @@
 			</div>
 			<div id="data-input" class="gill-font">
 				<form action="">
-					<div class="startEvent">
-						<h2>Main start event</h2>
+					<h2 class="toggle-trigger"><a>Main start event</a></h2>
+					<div class="toggle-div">
+						<div id="startEvent">
 						<table class="form">
 							<tbody>
 								<tr>
@@ -92,10 +93,11 @@
 								</tr>
 							</tbody>
 						</table>
+						</div>
 					</div>
-					<hr />
 					<div class="resources">
-						<h2>Resources</h2>
+						<h2 class="toggle-trigger"><a>Resources</a></h2>
+						<div class="toggle-div">
 						<table>
 							<tbody>
 								<tr>
@@ -113,10 +115,11 @@
 								</tr>
 							</tbody>
 						</table>
+						</div>
 					</div>
-					<hr />
 					<div class="timetables">
-						<h2>Timetable</h2>
+						<h2 class="toggle-trigger"><a>Timetable</a></h2>
+						<div class="toggle-div">
 						<table>
 							<tbody>
 								<tr>
@@ -171,11 +174,12 @@
 
 							</tbody>
 						</table>
+						</div>
 					</div>
-					<hr />
-					<div class="tasks">
-						<h2>Task</h2>
-						<div class="task">
+					<h2 class="toggle-trigger"><a>Task</a></h2>
+					<div class="toggle-div">
+						<div class="tasks">
+							<div class="task">
 							<table>
 								<tbody>
 									<tr>
@@ -213,13 +217,13 @@
 									</tr>
 								</tbody>
 							</table>
+							</div>
 						</div>
 					</div>
-					<hr />
-					<div class="gateways">
-						<h2>Gateways</h2>
-
-						<div class="gateway">
+					<h2 class="toggle-trigger"><a>Gateways</a></h2>
+					<div class="toggle-div">
+						<div class="gateways">
+							<div class="gateway">
 							<table>
 								<tbody>
 									<tr>
@@ -249,12 +253,13 @@
 									</tr>
 								</tbody>
 							</table>
+							</div>
 						</div>
 					</div>
-					<hr />
-					<div class="catchEvents">
-						<h2>Intermediate events</h2>
-						<div class="catchEvent">
+					<h2 class="toggle-trigger"><a>Intermediate events</a></h2>
+					<div class="toggle-div">
+						<div class="catchEvents">
+							<div class="catchEvent">
 							<table>
 								<tbody>
 									<tr>
@@ -277,14 +282,16 @@
 											<div> Min: <input class="small min" name="min" type="text"></div>
 											<div> Max: <input class="small max" name="max" type="text"></div>
 										</td>
-									<tr>
+									</tr>
 								</tbody>
 							</table>
+							</div>
 						</div>
 					</div>
 
 				</form>
 			</div>
+			
 			<br>
 			<div id="file-info"></div>
 		</div>
