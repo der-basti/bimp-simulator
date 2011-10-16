@@ -23,7 +23,7 @@ bimp.forms = {
 				});
 			},
 			resource : function (name, resourceObj) {
-				console.log(name, resourceObj);
+				//console.log(name, resourceObj);
 				if (!$(".resources .resource:first").attr("data-id")){
 					bimp.forms.populateWithData(".resources", resourceObj);
 					$(".resources .resource:first").attr("data-id", name);
@@ -44,7 +44,7 @@ bimp.forms = {
 						days = _days;
 						times = _times;
 					});
-					console.log("days:", days, "times:", times);
+					//console.log("days:", days, "times:", times);
 					startday = days.split("-")[0];
 					endday = days.split("-")[1];
 					begintime = times.split("-")[0];
@@ -131,7 +131,7 @@ bimp.forms = {
 		},
 		populateWithData : function (selector, obj, clone, htmlObj) {
 			$.each(obj, function(name, value){
-				console.log(name, " - ", value);
+				//console.log(name, " - ", value);
 				if (typeof(value) == "object"){
 					$.each(value, function(name, value) {
 						if (typeof(value) !== "object") {
@@ -237,7 +237,7 @@ bimp.forms = {
 						if (typeof(value) == "object") {
 //							if (name !== "resources" && name !== "timetable") {
 //								$.each(value, function (_name, _value) {
-//									console.log("Reading", name, "with value", value);
+//									//console.log("Reading", name, "with value", value);
 //									obj[name][_name] = $(selector + " ." + _name).val();
 //								});
 //							}
@@ -245,7 +245,7 @@ bimp.forms = {
 							if (name == "durationDistribution" || name == "arrivalRateDistribution") {
 								$.each(value, function (_name, _value) {
 									obj[name][_name] = $(selector).find("." + _name).val();
-									console.log("Reading ", _name, "with value", $(selector).find("." + _name).val());
+									//console.log("Reading ", _name, "with value", $(selector).find("." + _name).val());
 								});
 							}
 						} else {
@@ -257,7 +257,7 @@ bimp.forms = {
 							} else {
 								obj[name] = $(selector).find("." + name).val();
 							}
-							console.log("Reading ", name, "with value", $(selector).find("." + name).val());
+							//console.log("Reading ", name, "with value", $(selector).find("." + name).val());
 						}
 					}
 				});
@@ -269,7 +269,7 @@ bimp.forms = {
 				var sourceRef = $(gateway).find(".sourceRef").text();
 				var clone = $(gateway).clone(true);
 				if ($(gateway).find(".type").text() == "XOR") {
-					console.log("xor");
+					//console.log("xor");
 					if ($("#xor_" + sourceRef).size() > 0) {
 						$(clone).find(".type").parents("tr:first").hide();
 						$("#xor_" + sourceRef).append(clone);
