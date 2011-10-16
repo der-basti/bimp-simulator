@@ -11,13 +11,12 @@ import ee.ut.bpsimulator.logger.MxmlLogger;
 public class Simulation {
 	private SimulatorRunner runner;
 	private SimulationChecker checker;
-	private MxmlLogger mxmlLog;
-
+	
 	public Simulation(String filePath) {
 		this.runner = new SimulatorRunner();
 		this.runner.init(filePath);
 		this.checker = new SimulationChecker(filePath, runner.getSim(),
-				runner.getKpiStats(), mxmlLog);
+				runner.getKpiStats(), runner.getMxmlLog());
 	}
 
 	public void start() {
@@ -40,12 +39,5 @@ public class Simulation {
 		this.checker = checker;
 	}
 
-	public MxmlLogger getMxmlLog() {
-		return mxmlLog;
-	}
-
-	public void setMxmlLog(MxmlLogger mxmlLog) {
-		this.mxmlLog = mxmlLog;
-	}
 
 }

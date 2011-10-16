@@ -70,10 +70,16 @@ $(document).ready(function () {
 	$("body").delegate(".type", "change", function () {
 		updateTypeSelection(this);
 	});
+	
+	$("#startSimulationButton").click(function () {
+		bimp.forms.read.start();
+		bimp.file.updateFile();
+		bimp.file.uploadFile();
+	});
 });
 
 var removeLastButton = function () {
-	if ($(".resources .resource").size() == 1) {
+	if ($(".resources .resource").size() == 2) {
 		$(".resources .resource .remove").hide();
 	}
 };

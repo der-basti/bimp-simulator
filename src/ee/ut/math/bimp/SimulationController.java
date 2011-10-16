@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import ee.ut.bpsimulator.logger.ComplexLogger;
 import ee.ut.bpsimulator.logger.KpiCalculator;
+import ee.ut.bpsimulator.logger.MxmlLogger;
 import ee.ut.bpsimulator.model.Activity;
 
 /**
@@ -47,10 +49,6 @@ public class SimulationController {
 		Simulation simulation = simulations.get(id);
 		SimulationChecker checker = simulation.getChecker();
 		
-		if((Boolean) request.getAttribute("logFile") ){
-//			simulation.;C
-		}
-
 		response.setContentType("application/json");
 		JSONObject json = new JSONObject();
 		String status = checker.getStatus();
@@ -82,9 +80,11 @@ public class SimulationController {
 				.getRealPath("/tmp/" + "in_" + id + ".bpmn");
 		
 		Simulation simulation = new Simulation(path);
-		if((Boolean) request.getAttribute("mxmlLog")) {
-			//TODO:
+		
+		if(Boolean.valueOf((String) request.getSession().getAttribute("mxmlLog")) ){
+			simulation.getRunner().setMxmlLog(new MxmlLogger(path));
 		}
+
 		simulation.start();
 		simulations.put(id, simulation);
 		model.addAttribute("id", id);
@@ -146,7 +146,7 @@ public class SimulationController {
 			elements.add(activityMap);
 		}
 		model.addObject("elements", elements);
-
+		simulations.remove(id);
 		return model;
 
 	}
