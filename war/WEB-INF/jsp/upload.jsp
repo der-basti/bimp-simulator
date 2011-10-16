@@ -39,16 +39,19 @@
 					</fieldset>
 
 				</form>
-				<button class="button" id="continue-button">Continue</button>				
+				<button class="button" id="continue-button" disabled="disabled">Continue</button>				
 			</div>
 			<div id="submit-button">
-				<button id="startSimulationButton" type="submit" onclick="document.forms[0].submit()">Start Simulation</button>
+				<button id="startSimulationButton" type="submit">Start Simulation</button>
 			</div>
 			<div id="data-input" class="gill-font">
+				<div class="layout-right">
+					<a class="toggle-all">Collapse all</a>
+				</div>
 				<form action="">
 					<h2 class="toggle-trigger"><a>Main start event</a></h2>
 					<div class="toggle-div">
-						<div id="startEvent">
+						<div class="startEvent">
 						<table class="form">
 							<tbody>
 								<tr>
@@ -95,9 +98,9 @@
 						</table>
 						</div>
 					</div>
-					<div class="resources">
-						<h2 class="toggle-trigger"><a>Resources</a></h2>
-						<div class="toggle-div">
+					<h2 class="toggle-trigger"><a>Resources</a></h2>
+					<div class="toggle-div">
+						<div class="resources">
 						<table>
 							<tbody>
 								<tr>
@@ -117,9 +120,9 @@
 						</table>
 						</div>
 					</div>
-					<div class="timetables">
-						<h2 class="toggle-trigger"><a>Timetable</a></h2>
-						<div class="toggle-div">
+					<h2 class="toggle-trigger"><a>Timetable</a></h2>
+					<div class="toggle-div">
+						<div class="timetables">
 						<table>
 							<tbody>
 								<tr>
@@ -256,8 +259,8 @@
 							</div>
 						</div>
 					</div>
-					<h2 class="toggle-trigger"><a>Intermediate events</a></h2>
-					<div class="toggle-div">
+					<h2 class="toggle-trigger intermediateCatchEvent"><a>Intermediate events</a></h2>
+					<div class="toggle-div intermediateCatchEvent">
 						<div class="catchEvents">
 							<div class="catchEvent">
 							<table>

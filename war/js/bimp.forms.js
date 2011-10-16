@@ -9,6 +9,9 @@ bimp.forms = {
 			startEvent : function (name) {
 				var se = bimp.parser.startEvent;
 				
+				var id = $(bimp.parser.xmlFile).find("startEvent")[0].getAttribute("id");
+				$(".startEvent").attr("data-id", id);
+				
 				bimp.forms.populateWithData(".startEvent", se);
 				$.each(se.resources, function(name, resource) {
 					bimp.forms.generate.resource(name, resource);

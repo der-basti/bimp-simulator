@@ -34,8 +34,8 @@ bimp.file = {
 						} else {
 							console.log("File with no simulation information provided");
 						}
-						$("#startSimulationButton").show(300);
-						$(".data-input").show(500);
+						$("#continue-button").attr("disabled", false);
+					
 						bimp.parser.init();
 						bimp.parser.start();
 					} catch (e) {
@@ -47,7 +47,7 @@ bimp.file = {
 				alert("Error reading file", e);
 				console.log(e);
 			}
-			
+			/*
 			if (bimp.file.getFileExtension(file) == "bpmn") {
 				var reader = new FileReader();
 				reader.onload = function(e) {
@@ -58,11 +58,11 @@ bimp.file = {
 							"</strong> bytes</p>" + "<pre>" +
 						e.target.result.replace(/</g, "&lt;").replace(/>/g, "&gt;") +
 						"</pre>"
-					);*/
+					);
 				};
 				reader.readAsText(file);
 			}
-
+			*/
 		},
 		outputFileInfo : function (msg) {
 			$("#file-info").html(msg);
