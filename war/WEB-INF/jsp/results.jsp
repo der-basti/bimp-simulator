@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF8"
     pageEncoding="UTF8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -30,14 +31,14 @@
 			<input type="submit">
 		</form>
 			<div id="results">
-				<h3>Completed elements </h3> ${stats.completedElements }
-				<h3>Completed process instances </h3> ${stats.completedProcesseInstances }
-				<h3>Maximum process cost </h3> ${stats.maxProcessCost }
-				<h3>Maximum process duration </h3> ${stats.maxProcessDuration }
-				<h3>Minimum process cost </h3> ${stats.minProcessCost }
-				<h3>Minimum process duration </h3>${stats.minProcessDuration }
-				<h3>Total cost </h3> ${stats.totalCost }
-				<h3>Total duration </h3>${stats.totalDuration }
+				<h3>Completed elements </h3> <fmt:formatNumber type="number" pattern="###,###.##" maxFractionDigits="2" value="${stats.completedElements }"/>
+				<h3>Completed process instances </h3><fmt:formatNumber type="number" pattern="###,###.##" maxFractionDigits="2" value="${stats.completedProcesseInstances }"/>
+				<h3>Maximum process cost </h3> <fmt:formatNumber type="number" pattern="###,###.##" maxFractionDigits="2" value="${stats.maxProcessCost }"/>
+				<h3>Maximum process duration </h3> <fmt:formatNumber type="number" pattern="###,###.##" maxFractionDigits="2" value="${stats.maxProcessDuration }"/>
+				<h3>Minimum process cost </h3> <fmt:formatNumber type="number" pattern="###,###.##" maxFractionDigits="2" value="${stats.minProcessCost}"/>
+				<h3>Minimum process duration </h3><fmt:formatNumber type="number" pattern="###,###.##" maxFractionDigits="2" value="${stats.minProcessDuration }"/>
+				<h3>Total cost </h3> <fmt:formatNumber type="number" pattern="###,###.##" maxFractionDigits="2" value="${stats.totalCost }"/>
+				<h3>Total duration </h3><fmt:formatNumber type="number" pattern="###,###.##" maxFractionDigits="2" value="${stats.totalDuration }"/>
 				<br />
 			</div>
 			<div id="result-table">

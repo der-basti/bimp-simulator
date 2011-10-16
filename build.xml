@@ -45,7 +45,6 @@
 			<compilerarg value="-Xlint:unchecked" />
 			<compilerarg value="-Xlint:deprecation" />
 		</javac>
-		<mkdir dir="" />
 		<copy todir="${war.classes.dir}">
 			<fileset dir="${build.classes.dir}">
 			</fileset>
@@ -73,10 +72,6 @@
 				<filter token="PORT" value="${tomcat.connector.port}" />
 			</filterset>
 		</copy>
-
-	</target>
-
-	<target name="deploy" depends="build">
 
 	</target>
 
