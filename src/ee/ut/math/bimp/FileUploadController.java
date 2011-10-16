@@ -73,7 +73,7 @@ public class FileUploadController {
 	
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value="/uploadjson", method = RequestMethod.POST)
-	public void uploadFile(HttpServletRequest request, String fileData, ModelMap model, HttpServletResponse response) {
+	public void uploadFile(HttpServletRequest request, String fileData, String mxmlLog, ModelMap model, HttpServletResponse response) {
 		model.addAttribute("msg", fileData);
 		String result = "Error";
 		if (StringUtils.isNotEmpty(fileData)) {
@@ -96,6 +96,8 @@ public class FileUploadController {
 				String[] al = fileName.split("\\.");
 				String id = al[0].split("_")[1];
 				request.getSession().setAttribute("id", id);
+				request.getSession().setAttribute("fileName", fileName);
+				request.getSession().setAttribute("mxmlLog", mxmlLog);
 				result = "Success";
 				
 			} catch (IOException e) {

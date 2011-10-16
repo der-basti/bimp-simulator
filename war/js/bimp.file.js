@@ -31,8 +31,10 @@ bimp.file = {
 						} else {
 							console.log("File with no simulation information provided");
 						}
-						$("#startSimulationButton").show(300);
-						$("#fileName").text(bimp.file.inputFiles[0].fileName + " is selected.");
+					$("#fileName").text(bimp.file.inputFiles[0].fileName + " is selected.");
+						$("#continue-button").attr("disabled", false);
+						bimp.parser.init();
+						bimp.parser.start();
 					} catch (e) {
 						alert("Error parsing file, please provide valid file.");
 						console.log(e);
@@ -43,8 +45,8 @@ bimp.file = {
 				alert("Error reading filem please provide valid file.", e);
 				console.log(e);
 			}
-			
-			/*if (bimp.file.getFileExtension(file) == "bpmn") {
+			/*
+			if (bimp.file.getFileExtension(file) == "bpmn") {
 				var reader = new FileReader();
 				reader.onload = function(e) {
 					/*bimp.file.outputFileInfo(
@@ -57,14 +59,14 @@ bimp.file = {
 					);
 				};
 				reader.readAsText(file);
-			}*/
-
+			}
+			*/
 		},
 		outputFileInfo : function (msg) {
 			$("#file-info").html(msg);
 		},
 		uploadFile : function () {
-			$.post("/uploadjson", {"fileData": new XMLSerializer().serializeToString(bimp.parser.xmlFile)}, function (data) {
+			$.post("/uploadjson", {"mxmlLog": $("#mxmlLog").is(':checked'),"fileData": new XMLSerializer().serializeToString(bimp.parser.xmlFile)}, function (data) {
 				console.log(data);
 				if (data.status == "Success") {
 					console.log("file upload successful");
@@ -139,7 +141,7 @@ bimp.file = {
 					}
 				});
 			});
-		},
+		}
 		
 };
 

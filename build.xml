@@ -3,22 +3,28 @@
 <project name="plugins" basedir="." default="all">
 	<property name="project.dir" value="." />
 	<property file="build.properties" />
-	
+
 	<path id="compile.classpath">
-        <fileset dir="${lib.dir}">
-            <include name="*.jar"/>
-        </fileset>
-    </path>
-	
+		<fileset dir="${lib.dir}">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+
+	<path id="test.classpath">
+		<pathelement location="${test.classes.dir}" />
+		<pathelement location="${test.dir}" />
+		<path refid="compile.classpath" />
+	</path>
+
 	<path id="tomcat.class.path">
 		<fileset dir="${tomcat.home}/lib">
-			<include name="**/*.jar"/>
-			<include name="**/*.zip"/>
+			<include name="**/*.jar" />
+			<include name="**/*.zip" />
 		</fileset>
-		<pathelement location="${tomcat.home}/bin/bootstrap.jar"/>
-		<pathelement location="${tomcat.home}/bin/tomcat-juli.jar"/>
+		<pathelement location="${tomcat.home}/bin/bootstrap.jar" />
+		<pathelement location="${tomcat.home}/bin/tomcat-juli.jar" />
 	</path>
-	
+
 	<!--<target name="compile" depends="clean" description="compile *.java => *.class">
 		<mkdir dir="${classes.dir}" />
 		<mkdir dir="${junit.classes.dir}" />
@@ -29,38 +35,27 @@
 			<classpath refid="build.class.path" />
 		</javac>
 	</target>-->
-	
+
 	<target name="build" description="Build the system">
-        <mkdir dir="${build.dir}"/>
-        <mkdir dir="${build.classes.dir}"/>
-        <mkdir dir="${war.classes.dir}"/>
-        <javac
-            srcdir="${src.dir}"
-            destdir="${build.classes.dir}"
-            debug="true"
-            debuglevel="lines,vars,source"
-            encoding="utf-8"
-            compiler="modern"
-            target="1.6"
-            source="1.6"
-        >
-            <classpath refid="compile.classpath"/>
-            <compilerarg value="-Xlint:unchecked" />
-            <compilerarg value="-Xlint:deprecation" />
-        </javac>
-		<mkdir dir=""/>
-		<copy todir="${war.classes.dir}" >
-			<fileset dir="${build.classes.dir}"></fileset>
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${build.classes.dir}" />
+		<mkdir dir="${war.classes.dir}" />
+		<javac srcdir="${src.dir}" destdir="${build.classes.dir}" debug="true" debuglevel="lines,vars,source" encoding="utf-8" compiler="modern" target="1.6" source="1.6">
+			<classpath refid="compile.classpath" />
+			<compilerarg value="-Xlint:unchecked" />
+			<compilerarg value="-Xlint:deprecation" />
+		</javac>
+		<mkdir dir="" />
+		<copy todir="${war.classes.dir}">
+			<fileset dir="${build.classes.dir}">
+			</fileset>
 		</copy>
-    </target>
-	
-	<target name="war" depends="build" >
-		<mkdir dir="${dist.dir}"/>
-		<zip destfile="${dist.dir}/${app.name}-${app.version}.war"
-		       basedir="${war.dir}"
-		       update="true"
-		  />
-		
+	</target>
+
+	<target name="war" depends="build">
+		<mkdir dir="${dist.dir}" />
+		<zip destfile="${dist.dir}/${app.name}-${app.version}.war" basedir="${war.dir}" update="true" />
+
 		<!--<war destfile="${app.name}-${app.version}.war">
 		  <fileset dir="${src.dir}"/>
 		  <fileset dir="${jsp.dir}" prefix="jsp"/>
@@ -70,55 +65,74 @@
 					  prefix="gfx"/>
 		</war>-->
 	</target>
-	
+
 	<target name="copy-confs">
 		<copy file="${conf.dir}/server.xml" todir="${app.server.dir}/conf" overwrite="true">
 			<filterset>
-			    <filter token="WARDIR" value="${war.dir}"/>
-			    <filter token="PORT" value="${tomcat.connector.port}"/>
-			  </filterset>
+				<filter token="WARDIR" value="${war.dir}" />
+				<filter token="PORT" value="${tomcat.connector.port}" />
+			</filterset>
 		</copy>
-		
+
 	</target>
 	
 	<target name="all" depends="stop-tomcat,unzip-tomcat,copy-confs,build,start-tomcat">
-	
+
 	</target>
-	
+
 	<target name="clean" description="Clean up build system results">
-        <delete dir="${build.dir}"/>
-		<delete dir="${war.classes.dir}"/>
-    </target>
-	
+		<delete dir="${build.dir}" />
+		<delete dir="${war.classes.dir}" />
+	</target>
+
 	<target name="start-tomcat">
-		<java classname="org.apache.catalina.startup.Bootstrap" fork="true" spawn="true"
-			classpathref="tomcat.class.path">
-			<jvmarg value="-Dcatalina.home=${tomcat.home}"/>
-			<arg line="start"/>
+		<java classname="org.apache.catalina.startup.Bootstrap" fork="true" spawn="true" classpathref="tomcat.class.path">
+			<jvmarg value="-Dcatalina.home=${tomcat.home}" />
+			<arg line="start" />
 		</java>
 	</target>
-	
+
+	<!-- ############### TESTS ###############-->
+
+	<target name="compile-test">
+		<mkdir dir="${test.dir}" />
+		<mkdir dir="${test.classes.dir}" />
+		<javac srcdir="${test.dir}" destdir="${test.classes.dir}" debug="true" debuglevel="lines,vars,source" encoding="utf-8" compiler="modern">
+			<classpath refid="test.classpath" />
+		</javac>
+	</target>
+
+	<target name="test" depends="compile-test">
+		<junit>
+			<classpath refid="test.classpath" />
+			<formatter type="brief" usefile="false" />
+			<batchtest>
+				<fileset dir="${test.classes.dir}" includes="**/*Test.class" />
+			</batchtest>
+		</junit>
+	</target>
+
+	<!-- ############# END TESTS #############-->
+
 	<!-- Not working at the moment -->
 	<target name="start-tomcat-jpda">
-		<java classname="org.apache.catalina.startup.Bootstrap" fork="true" spawn="true"
-			classpathref="tomcat.class.path">
-			<jvmarg value="-Dcatalina.home=${tomcat.home}"/>
-			<arg line="jpda start"/>
+		<java classname="org.apache.catalina.startup.Bootstrap" fork="true" spawn="true" classpathref="tomcat.class.path">
+			<jvmarg value="-Dcatalina.home=${tomcat.home}" />
+			<arg line="jpda start" />
 		</java>
 	</target>
 
 	<target name="stop-tomcat" depends="tomcat-check-status" if="tomcat.started">
-		<java classname="org.apache.catalina.startup.Bootstrap" fork="true"
-			classpathref="tomcat.class.path">
-			<jvmarg value="-Dcatalina.home=${tomcat.home}"/>
-			<arg line="stop"/>
+		<java classname="org.apache.catalina.startup.Bootstrap" fork="true" classpathref="tomcat.class.path">
+			<jvmarg value="-Dcatalina.home=${tomcat.home}" />
+			<arg line="stop" />
 		</java>
-		<sleep seconds="5"/>
+		<sleep seconds="5" />
 	</target>
 
 	<target name="tomcat-check-status">
 		<condition property="tomcat.started">
-			<socket server="localhost" port="${tomcat.connector.port}"/>
+			<socket server="localhost" port="${tomcat.connector.port}" />
 		</condition>
 	</target>
 
@@ -126,9 +140,9 @@
 		<antcall target="stop-tomcat" inheritall="false" />
 		<antcall target="start-tomcat" inheritall="false" />
 	</target>
-	
+
 	<target name="unzip-tomcat">
-		<unzip src="${workspace.bimps.dir}/${tomcat.archive}" dest="${app.server.home.dir}" overwrite="false"/>
+		<unzip src="${workspace.bimps.dir}/${tomcat.archive}" dest="${app.server.home.dir}" overwrite="false" />
 	</target>
 
 </project>

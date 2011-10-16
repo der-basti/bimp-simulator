@@ -39,15 +39,48 @@ $(document).ready(function () {
 			  bimp.forms.read.resources();
 			  updateResourceDropdowns();
 		 });
-
 	});
 	
 	$("#continue-button").click(function() {
 		bimp.parser.init();
 		bimp.parser.start();
-		$("#upload-area").hide(1000);
-		$("#data-input").show(1000);
-		$("#startSimulationButton").show(1000);
+		$("#upload-area").fadeOut(400, function() {$("#data-input").fadeIn(1000);});
+		$("#startSimulationButton").fadeIn(1000);
+	});
+	
+	$(".toggle-trigger").click(function() {
+		$(this).next(".toggle-div").slideToggle("slow", function () {
+			if (areAllExpanded()) {
+				$(".toggle-all").removeClass("expand");
+				$(".toggle-all").text("Collapse all");
+			} else {
+				$(".toggle-all").addClass("expand");
+				$(".toggle-all").text("Expand all");
+			};
+		});
+	});
+	
+	$(".toggle-all").click(function() {
+		
+		if ($(this).hasClass("expand")) {
+			
+			$(".toggle-div").each(function() {
+				if (!($(this).is(":visible"))) {
+					$(this).slideToggle("slow");
+				}
+			});
+			
+			$(".toggle-all").removeClass("expand");;
+			$(".toggle-all").text("Collapse all");
+		} else {
+			$(".toggle-div").each(function() {
+				if ($(this).is(":visible")) {
+					$(this).slideToggle("slow");
+				}
+			});
+			$(".toggle-all").addClass("expand");;
+			$(".toggle-all").text("Expand all");
+		}
 	});
 
 	$("body").delegate(".remove", "click", function () {
@@ -83,8 +116,50 @@ $(document).ready(function () {
 		bimp.file.updateFile();
 		bimp.file.uploadFile();
 	});
+	
+	$("#downloadBpmn").click(function () {
+		$('#download').val('bpmn');
+		$('#hiddenDownloadForm').submit();
+	});
+	
+	$("#downloadLog").click(function () {
+		$('#download').val('log');
+		$('#hiddenDownloadForm').submit();
+	});
+	
+	$(".highlightSources").click(function () {
+		$(".gateway").removeClass("highlight");
+		var id=$(this).parents(".task").attr("data-id");
+		$(".gateway").each(function (i, element) {
+			console.log($(element).find(".sourceRef").text());
+			if ($(element).find(".sourceRef").text() === id) {
+				$(element).addClass("highlight");
+			}
+		});
+	});
+	$(".highlightTargets").click(function () {
+		$(".gateway").removeClass("highlight");
+		var id=$(this).parents(".task, .startEvent").attr("data-id");
+		$(".gateway").each(function (i, element) {
+			console.log($(element).find(".targetRef").text());
+			if ($(element).find(".targetRef").text() === id) {
+				$(element).addClass("highlight");
+			}
+		});
+	});
 });
 var timeTableRow;
+
+var areAllExpanded = function () {
+	var result = true;
+	$(".toggle-div").each(function ( i, element) {
+		if (!($(element).is(":visible"))) {
+			result = false;
+		}
+	});
+	return result;
+};
+
 var removeLastButton = function () {
 	if ($(".resources .resource").size() == 2) {
 		$(".resources .resource .remove").hide();
