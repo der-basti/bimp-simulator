@@ -6,6 +6,7 @@ bimp.forms = {
 				this.conditionExpressions();
 				this.intermediateCatchEvents();
 				bimp.forms.groupGateways();
+				removeLastButton;
 			},
 			startEvent : function (name) {
 				var se = bimp.parser.startEvent;
@@ -107,9 +108,14 @@ bimp.forms = {
 				}
 			},
 			intermediateCatchEvents : function() {
-				$.each(bimp.parser.intermediateCatchEvents, function(id, ice) {
-					bimp.forms.generate.intermediateCatchEvent(id, ice);
-				});
+				// if we have no intermediateEvents, then hide the div and h2
+				if (!bimp.parser.hasIntermediatecatchEvents) {
+					$(".intermediateCatchEvent").hide();
+				} else {
+					$.each(bimp.parser.intermediateCatchEvents, function(id, ice) {
+						bimp.forms.generate.intermediateCatchEvent(id, ice);
+					});
+				}
 			},
 			intermediateCatchEvent : function (id, eventObj) {
 				if(!$(".catchEvents .catchEvent:first").attr("data-id")) {
@@ -143,8 +149,18 @@ bimp.forms = {
 					
 				}
 				 else {
-					clone ? $(htmlObj).find("." + name).text(value) : $(selector +" ." + name).text(value);
-					clone ? $(htmlObj).find("." + name).val(value) : $(selector +" ." + name).val(value);
+					if (name == "probability") {
+						clone ? $(htmlObj).find("." + name).val(value * 100) : $(selector +" ." + name).val(value * 100);
+					} else if (name == "startAt"){
+						var startAt = value;
+						var startAtDate = startAt.split(" ")[0];
+						var startAtTime = startAt.split(" ")[1];
+						$(selector +" ." + name + "Date").val(startAtDate);
+						$(selector +" ." + name + "Time").val(startAtTime);
+					} else {
+						clone ? $(htmlObj).find("." + name).text(value) : $(selector +" ." + name).text(value);
+						clone ? $(htmlObj).find("." + name).val(value) : $(selector +" ." + name).val(value);
+					}
 				}
 			});
 			clone ? $(selector).append(htmlObj) : true;
@@ -209,9 +225,11 @@ bimp.forms = {
 			},
 			intermediateCatchEvents : function () {
 				var events = $(".catchEvents .catchEvent");
-				$(events).each(function (index, element) {
-					bimp.forms.read.readData(element, bimp.parser.intermediateCatchEvents[$(element).attr("data-id")]);
-				});
+				if (bimp.parser.hasIntermediatecatchEvents) {
+					$(events).each(function (index, element) {
+						bimp.forms.read.readData(element, bimp.parser.intermediateCatchEvents[$(element).attr("data-id")]);
+					});
+				}
 			},
 			readData : function (selector, obj) {
 				$.each(obj, function(name, value) {
@@ -232,7 +250,13 @@ bimp.forms = {
 							}
 						} else {
 							// lets read field values
-							obj[name] = $(selector).find("." + name).val();
+							if (name == "probability") {
+								obj[name] = $(selector).find("." + name).val() / 100;
+							} else if (name == "startAt"){
+								obj[name] = $(selector).find("." + name + "Date").val() + " " + $(selector).find("." + name + "Time").val();
+							} else {
+								obj[name] = $(selector).find("." + name).val();
+							}
 							console.log("Reading ", name, "with value", $(selector).find("." + name).val());
 						}
 					}
@@ -255,6 +279,7 @@ bimp.forms = {
 					}
 				} else {
 					if ($("#" + sourceRef).size() > 0) {
+						$(clone).find(".type").parents("tr:first").hide();
 						$("#" + sourceRef).append(clone);
 					} else {
 						var container = $("<div class='gatewayGroup' id='" + sourceRef + "'></div>").append(clone);

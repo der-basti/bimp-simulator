@@ -75,11 +75,7 @@
 		</copy>
 
 	</target>
-
-	<target name="deploy" depends="build">
-
-	</target>
-
+	
 	<target name="all" depends="stop-tomcat,unzip-tomcat,copy-confs,build,start-tomcat">
 
 	</target>
