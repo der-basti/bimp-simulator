@@ -13,28 +13,26 @@ bimp.file = {
 			filedrag.css({display:"block"});
 		},
 		getFileExtension : function (file) {
-			var splittedName = file.fileName.split(".");
+			var splittedName = file.name.split(".");
 			return splittedName[splittedName.length - 1];
 		},
 		parseFile : function (file) {
-			console.log("Parsing file: ", file);
+			//console.log("Parsing file: ", file);
 			try {
 				var reader = new FileReader();
 				reader.readAsText(this.inputFiles[0]);
 				reader.onloadend = function (e) {
 					try {
 						bimp.file.xmlFile = $.parseXML(e.target.result);
-						console.log("Parse success..");
+						//console.log("Parse success..");
 						var doc = $(bimp.file.xmlFile).find("documentation");
 						if (doc.length > 0) {
-							console.log("File with simulation information provided");
+							//console.log("File with simulation information provided");
 						} else {
-							console.log("File with no simulation information provided");
+							//console.log("File with no simulation information provided");
 						}
-					$("#fileName").text(bimp.file.inputFiles[0].fileName + " is selected.");
+						$("#fileName").text(bimp.file.inputFiles[0].name + " is selected.");
 						$("#continue-button").attr("disabled", false);
-						bimp.parser.init();
-						bimp.parser.start();
 					} catch (e) {
 						alert("Error parsing file, please provide valid file.");
 						console.log(e);
@@ -42,34 +40,18 @@ bimp.file = {
 				};
 				
 			} catch (e) {
-				alert("Error reading filem please provide valid file.", e);
+				alert("Error reading file, please provide valid file.", e);
 				console.log(e);
 			}
-			/*
-			if (bimp.file.getFileExtension(file) == "bpmn") {
-				var reader = new FileReader();
-				reader.onload = function(e) {
-					/*bimp.file.outputFileInfo(
-							"<p>File information: <strong>" + file.name +
-							"</strong> type: <strong>" + file.type +
-							"</strong> size: <strong>" + file.size +
-							"</strong> bytes</p>" + "<pre>" +
-						e.target.result.replace(/</g, "&lt;").replace(/>/g, "&gt;") +
-						"</pre>"
-					);
-				};
-				reader.readAsText(file);
-			}
-			*/
 		},
 		outputFileInfo : function (msg) {
 			$("#file-info").html(msg);
 		},
 		uploadFile : function () {
 			$.post("/uploadjson", {"mxmlLog": $("#mxmlLog").is(':checked'),"fileData": new XMLSerializer().serializeToString(bimp.parser.xmlFile)}, function (data) {
-				console.log(data);
+				//console.log(data);
 				if (data.status == "Success") {
-					console.log("file upload successful");
+					//console.log("file upload successful");
 					if (data.redirect) {
 						window.location = data.redirect;
 					}
@@ -108,7 +90,7 @@ bimp.file = {
 			}
 			// update startEvent
 			$(bimp.parser.xmlFile).find("startEvent").find("documentation")[0].textContent = JSON.stringify(bimp.parser.startEvent);
-			console.log("Found startEvent and updated it");
+			//console.log("Found startEvent and updated it");
 		
 			var taskNodes = $(bimp.parser.xmlFile).find("task");
 			// tasks
@@ -117,7 +99,7 @@ bimp.file = {
 				$(taskNodes).each(function(nodeId, taskNode) {
 					if (taskNode.getAttribute("id") === id) {
 						$(taskNode).find("documentation")[0].textContent = JSON.stringify(task);
-						console.log("Found task and updated it:", id);
+						//console.log("Found task and updated it:", id);
 					}
 				});
 			});
@@ -127,7 +109,7 @@ bimp.file = {
 				$(eventNodes).each(function(nodeId, eventNode) {
 					if (eventNode.getAttribute("id") === id) {
 						$(eventNode).find("documentation")[0].textContent = JSON.stringify(event);
-						console.log("Found eventnode and updated it:", id);
+						//console.log("Found eventnode and updated it:", id);
 					}
 				});
 			});
@@ -137,7 +119,7 @@ bimp.file = {
 				$(sequenceFlows).each(function(nodeId, sequenceNode) {
 					if (sequenceNode.getAttribute("id") === id) {
 						$(sequenceNode).find("conditionExpression")[0].textContent = gateway.probability;
-						console.log("Found gateway and updated it:", id, gateway.probability);
+						//console.log("Found gateway and updated it:", id, gateway.probability);
 					}
 				});
 			});
@@ -152,7 +134,7 @@ function FileDragHover(e) {
 }
 function FileSelectHandler(e) {
 	FileDragHover(e);
-	console.log(e.target);
+	//console.log(e.target);
 	bimp.file.inputFiles = e.target.files || e.dataTransfer.files;
 
 	for (var i = 0, f; f = bimp.file.inputFiles[i]; i++) {

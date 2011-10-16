@@ -5,7 +5,7 @@ bimp.parser = {
 		this.readTasks();
 		this.readIntermediateCatchEvents();
 		this.readConditionExpressions();
-		console.log("Finished reading data");
+		//console.log("Finished reading data");
 		bimp.forms.generate.start();
 		updateAllTypeSelections();
 	},
@@ -79,20 +79,20 @@ bimp.parser = {
 		this.xmlFile = bimp.file.xmlFile;
 	},
 	readStartEvent : function() {
-		console.log("xmlFile", this.xmlFile);
+		//console.log("xmlFile", this.xmlFile);
 		var doc = $(this.xmlFile).find("startEvent").find("documentation");
 		if (doc.length > 0) {
-			console.log("Found startEvent and added it");
+			//console.log("Found startEvent and added it");
 			var simInfo = $.parseJSON(doc.text());
 			$.extend(true, this.startEvent, simInfo);
 		} else {
-			console.log("No documentation info found for startEvent");
+			//console.log("No documentation info found for startEvent");
 		}
 		return true;
 	},
 	readTasks : function() {
 		var tasks = $(this.xmlFile).find("task");
-		console.log("Found",tasks.length,"tasks");
+		//console.log("Found",tasks.length,"tasks");
 		$(tasks).each(function(index, task){
 			var data = $(task).find("documentation");
 			var taskObj = {};
@@ -105,13 +105,13 @@ bimp.parser = {
 			};
 			$.extend(true, taskObj, name);
 			bimp.parser.addTask(id, taskObj);
-			console.log("Added task", name," with id =", id);
+			//console.log("Added task", name," with id =", id);
 		});
 		return true;
 	},
 	readIntermediateCatchEvents : function() {
 		var events = $(this.xmlFile).find("intermediateCatchEvent");
-		console.log("Found", events.length, "intermediateCatchEvents");
+		//console.log("Found", events.length, "intermediateCatchEvents");
 		$(events).each(function(index, event){
 			bimp.parser.hasIntermediatecatchEvents = true;
 			var data = $(event).find("documentation");
@@ -126,7 +126,7 @@ bimp.parser = {
 			};
 			$.extend(true, catchEventObj, name);
 			bimp.parser.addIntermediateCatchEvent(id, catchEventObj);
-			console.log("Added catchEvent with id =", id);
+			//console.log("Added catchEvent with id =", id);
 		});
 		return true;
 	},
@@ -146,14 +146,14 @@ bimp.parser = {
 				if (conditionExpression.length > 0) {
 					value = conditionExpression[0].textContent;
 				}
-				console.log("Found conditionExpression and added it");
+				//console.log("Found conditionExpression and added it");
 				var targetRef = sequenceFlow.getAttribute("targetRef");
 				var targetName = $(bimp.parser.xmlFile).find("#" + targetRef)[0].getAttribute("name");
 				
 				var id = sequenceFlow.getAttribute("id");
 				ce = new bimp.parser.conditionExpression(id, targetRef, sourceRef, value,
 						type, targetName ? (targetName.trim != "" ? targetName : "N/A") : "N/A");
-				console.log("conditionExpression", ce);
+				//console.log("conditionExpression", ce);
 				bimp.parser.conditionExpressions[id] = ce;
 			}
 		});

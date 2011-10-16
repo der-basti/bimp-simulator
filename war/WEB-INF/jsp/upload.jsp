@@ -27,7 +27,7 @@
 					<li>Please select a valid BPMN file.</li>
 					<li>Press <b class="blue">“Continue”</b> in order to add/change simulation information.</li>
 					<li>Click <b class="blue">“Start simulation”</b>.</li>
-					<li>Tick the <b class="blue">"Turn logging on"</b> box if You want to be able to download simulation log afterwards.</li>
+					<li>Tick the <b class="blue">"Generate a log"</b> box if You want to be able to download simulation log afterwards.</li>
 					<li>Be amazed and wonder how such magic came to be.</li>
 				</ol> 
 			</div>

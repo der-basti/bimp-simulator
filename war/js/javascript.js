@@ -133,7 +133,7 @@ $(document).ready(function () {
 		$(".gateway").removeClass("highlight");
 		var id=$(this).parents(".task").attr("data-id");
 		$(".gateway").each(function (i, element) {
-			console.log($(element).find(".sourceRef").text());
+			//console.log($(element).find(".sourceRef").text());
 			if ($(element).find(".sourceRef").text() === id) {
 				$(element).addClass("highlight");
 			}
@@ -143,7 +143,6 @@ $(document).ready(function () {
 		$(".gateway").removeClass("highlight");
 		var id=$(this).parents(".task, .startEvent").attr("data-id");
 		$(".gateway").each(function (i, element) {
-			console.log($(element).find(".targetRef").text());
 			if ($(element).find(".targetRef").text() === id) {
 				$(element).addClass("highlight");
 			}
