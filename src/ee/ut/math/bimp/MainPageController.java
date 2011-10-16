@@ -60,9 +60,9 @@ public class MainPageController {
 		response.setContentType("text/xml");
 		response.addHeader("Content-Disposition", "attachment; filename="
 				+ fileName + extension);
-		File file = new File(request.getSession().getServletContext()
-				.getRealPath("/tmp/")
-				+ "\\" + fileName + extension);
+		String path = request.getSession().getServletContext()
+				.getRealPath("/tmp/" + fileName + extension);
+		File file = new File(path);
 		try {
 			stream = response.getOutputStream();
 			response.setContentLength((int) file.length());

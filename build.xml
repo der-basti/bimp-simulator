@@ -45,7 +45,6 @@
 			<compilerarg value="-Xlint:unchecked" />
 			<compilerarg value="-Xlint:deprecation" />
 		</javac>
-		<mkdir dir="" />
 		<copy todir="${war.classes.dir}">
 			<fileset dir="${build.classes.dir}">
 			</fileset>
@@ -75,7 +74,6 @@
 		</copy>
 
 	</target>
-	
 	<target name="all" depends="stop-tomcat,unzip-tomcat,copy-confs,build,start-tomcat">
 
 	</target>
