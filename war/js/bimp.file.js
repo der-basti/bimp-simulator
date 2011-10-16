@@ -31,6 +31,7 @@ bimp.file = {
 						} else {
 							console.log("File with no simulation information provided");
 						}
+						
 						$("#continue-button").attr("disabled", false);
 						bimp.parser.init();
 						bimp.parser.start();

@@ -37,6 +37,7 @@ $(document).ready(function () {
 	});
 	
 	$("#continue-button").click(function() {
+		$("#instructions").hide();
 		$("#upload-area").fadeOut(400, function() {$("#data-input").fadeIn(1000);});
 		$("#startSimulationButton").fadeIn(1000);
 	});

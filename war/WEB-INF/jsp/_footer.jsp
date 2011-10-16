@@ -1,4 +1,4 @@
 <div id = "footer">
-	I am footer.
-	<h3>And some more</h3>
+	BIMP
+	<h3>Copyright &copy;</h3>
 </div>

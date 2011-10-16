@@ -21,6 +21,16 @@
 	<div id="main">
 		<jsp:include page="_header.jsp"></jsp:include>
 		<div id="contents">
+			<div id="instructions">
+				<b>Here are some instructions</b><br>
+				<ol>
+					<li>Please select a valid BPMN file.</li>
+					<li>Press <b class="blue">“Continue”</b> in order to add/change simulation information.</li>
+					<li>Click <b class="blue">“Start simulation”</b>.</li>
+					<li>Tick the <b class="blue">"Turn logging on"</b> box if You want to be able to download simulation log afterwards.</li>
+					<li>Be amazed and wonder how such magic came to be.</li>
+				</ol> 
+			</div>
 			<div id="upload-area">
 				<form id="upload" modelAttribute="uploadItem" action="/uploadfile"
 					method="POST" enctype="multipart/form-data">
@@ -40,12 +50,15 @@
 					</fieldset>
 
 				</form>
+				
 				<button class="button" id="continue-button" disabled="disabled">Continue</button>				
 			</div>
+			
 			<div id="submit-button">
 				<button id="startSimulationButton" type="submit">Start Simulation</button>
-				<input type="checkbox" id="mxmlLog" name="mxmlLog" value="mxmlLog" />I want LOGS<br />
+				<input type="checkbox" id="mxmlLog" name="mxmlLog" value="mxmlLog" />Generate a log<br />
 			</div>
+			
 			<div id="data-input" class="gill-font">
 				<div class="layout-right">
 					<a class="toggle-all">Collapse all</a>
