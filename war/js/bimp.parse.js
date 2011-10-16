@@ -51,6 +51,7 @@ bimp.parser = {
 		this.tasks[id] = $.extend(true, new bimp.parser.task(), taskObj);
 		
 	},
+	hasIntermediatecatchEvents : false,
 	intermediateCatchEvents : {},
 	intermediateCatchEvent : function() {
 		this.durationDistribution = {
@@ -112,6 +113,7 @@ bimp.parser = {
 		var events = $(this.xmlFile).find("intermediateCatchEvent");
 		console.log("Found", events.length, "intermediateCatchEvents");
 		$(events).each(function(index, event){
+			bimp.parser.hasIntermediatecatchEvents = true;
 			var data = $(event).find("documentation");
 			var catchEventObj = {};
 			if (data.length > 0) {

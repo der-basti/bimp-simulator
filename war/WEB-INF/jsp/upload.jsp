@@ -36,8 +36,8 @@
 								type="file" id="file-select" name="fileData" />
 							<div id="file-drag">or drop it here</div>
 						</div>
+					<span id="fileName">No file selected.</span>
 					</fieldset>
-
 				</form>
 				<button class="button" id="continue-button">Continue</button>				
 			</div>
@@ -82,9 +82,15 @@
 										<!-- TODO: date and time input, 
 										get rid of script, 
 										normal handler for starttime onFocus --> <input name="startAt"
-										class="normal datepicker startAt" type="text"
+										class="normal datepicker startAtDate" type="text"
 										onFocus="if(this.value==this.defaultValue){this.value='';}"
-										value="yyyy-mm-dd hh:mm:ss"> <script>
+										value="yyyy-mm-dd"> 
+										
+										<input name="startAt"
+										class="normal timepicker startAtTime" type="text"
+										onFocus="if(this.value==this.defaultValue){this.value='';}"
+										value="HH:MM:SS">
+										<script>
 											$(".datepicker").datepicker({
 												dateFormat : 'yy-mm-dd'
 											});
@@ -182,7 +188,7 @@
 										<th>Name:</th>
 										<td><span class="name">Task name</span></td>
 									</tr>
-									<tr>
+									<tr class="hidden">
 										<th>Task id:</th>
 										<td><span class="id">id</span></td>
 									</tr>
