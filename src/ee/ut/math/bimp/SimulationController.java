@@ -251,7 +251,5 @@ public class SimulationController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-
 	}
 }
