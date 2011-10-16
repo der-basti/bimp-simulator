@@ -120,7 +120,7 @@
 						<table>
 							<tbody>
 								<tr>
-									<td><a class="trigger add" href="javascript:void(0)" title="Add new field">+</a></td>
+									<td><a class="trigger add" href="javascript:void(0)" title="Add new field">Add</a></td>
 									<th>Resource</th>
 									<th>Begin day</th>
 									<th>End day</th>
@@ -223,29 +223,29 @@
 							<table>
 								<tbody>
 									<tr>
-										<th>Name:</th>
-										<td><span class="name">Gateway name/target name?</span></td>
-									</tr>
-									<tr>
 										<th>Type:</th>
 										<td><span class="type">Type</span></td>
 									</tr>
 									<tr>
+										<th>Target name:</th>
+										<td><span class="targetName">N/A</span></td>
+									</tr>
+									<tr class="hidden">
 										<th>Id:</th>
 										<td><span class="id">id</span></td>
 									</tr>
-									<tr>
+									<tr class="hidden">
 										<th>SourceRef</th>
 										<td><span class="sourceRef">SourceRef</span></td>
 									</tr>
-									<tr>
+									<tr class="hidden">
 										<th>TargetRef</th>
 										<td><span class="targetRef">TargetRef</span></td>
 									</tr>
 									<tr>
 										<th>Probability of execution:</th>
 										<td><input class="small probability" name="probability" /><label
-											for="probability"></label></td>
+											for="probability">%</label></td>
 									</tr>
 								</tbody>
 							</table>

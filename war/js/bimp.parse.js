@@ -66,12 +66,13 @@ bimp.parser = {
 		this.intermediateCatchEvents[id] =  $.extend(true, new bimp.parser.intermediateCatchEvent(), catchEventObj);
 	},
 	conditionExpressions : {},
-	conditionExpression : function(id, targetRef, sourceRef, value, type) {
+	conditionExpression : function(id, targetRef, sourceRef, value, type, targetName) {
 		this.id = id;
 		this.targetRef = targetRef;
 		this.sourceRef = sourceRef;
 		this.probability = value;
 		this.type = type;
+		this.targetName = targetName;
 	},
 	init : function () {
 		this.xmlFile = bimp.file.xmlFile;
@@ -145,8 +146,11 @@ bimp.parser = {
 				}
 				console.log("Found conditionExpression and added it");
 				var targetRef = sequenceFlow.getAttribute("targetRef");
+				var targetName = $(bimp.parser.xmlFile).find("#" + targetRef)[0].getAttribute("name");
+				
 				var id = sequenceFlow.getAttribute("id");
-				ce = new bimp.parser.conditionExpression(id, targetRef, sourceRef, value, type);
+				ce = new bimp.parser.conditionExpression(id, targetRef, sourceRef, value,
+						type, targetName ? (targetName.trim != "" ? targetName : "N/A") : "N/A");
 				console.log("conditionExpression", ce);
 				bimp.parser.conditionExpressions[id] = ce;
 			}
@@ -165,7 +169,6 @@ bimp.parser = {
 			}
 		});
 		$(inclusiveGateways).each(function(index, inclusiveGateway) {
-			inclusiveGateway.getAttribute("id")
 			if (inclusiveGateway.getAttribute("id") == id && 
 					(inclusiveGateway.getAttribute("gatewayDirection") == "diverging" ||
 					inclusiveGateway.getAttribute("gatewayDirection") == "mixed")) {
