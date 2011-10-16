@@ -29,18 +29,18 @@
 			<table border="0">
 				<tr>
 					<th>Description</th>
-					<th>Total Cost</th>
-					<th>Total Duration</th>
-					<th>Total Idle</th>
-					<th>Total Waiting</th>
+					<th>Average cost</th>
+					<th>Average duration</th>
+					<th>Average idle time</th>
+					<th>Average waiting time</th>
 				</tr>
 				<c:forEach var="element" items="${elements}">
 					<tr>
 						<td>${element.description }</td>
-						<td>${element.totalCost }</td>
-						<td>${element.totalDuration }</td>
-						<td>${element.totalIdle }</td>
-						<td>${element.totalWaiting }</td>
+						<td>${element.avgCost }</td>
+						<td>${element.avgDuration }</td>
+						<td>${element.avgIdle }</td>
+						<td>${element.avgWaiting }</td>
 					</tr>
 				</c:forEach>
 			</table>

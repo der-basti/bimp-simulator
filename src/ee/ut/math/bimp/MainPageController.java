@@ -31,7 +31,7 @@ public class MainPageController {
 		log.debug("/ requested, sending message");
 		model.addAttribute("msg", "It works!");
 
-		HttpSession session = request.getSession(true);
+//		HttpSession session = request.getSession(true);
 
 		return "index";
 	}

@@ -41,6 +41,7 @@
 						<div id="submit-button">
 							<button id="startSimulationButton" type="submit">Start Simulation</button>
 						</div>
+						<button id="startSim" type="submit">Start Simulation</button>
 
 					</fieldset>
 

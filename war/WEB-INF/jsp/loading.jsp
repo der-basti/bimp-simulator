@@ -16,6 +16,7 @@
 		<jsp:include page="_header.jsp"></jsp:include>
 		<div id="contents">
 			<h1>LOADING ...</h1>
+			<h2 class="progress"></h2>
 			<h2 class="status"></h2>
 			<script type="text/javascript">
 				$(document).ready(function() {
@@ -32,6 +33,7 @@
 							success : function(data) {
 								console.log("Status: ", data.status);
 								$(".status").text(data.status);
+								$(".progress").text(data.progress);
 								if (data.status == "FINISHED") {
 									clearInterval(timerId);
 									console.log("FINISHED");

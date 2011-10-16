@@ -18,6 +18,9 @@ public class SimulationChecker extends Thread {
 	public String getStatus() {
 		return simInstance.getStatus().toString();
 	}
+	public String getProgress() {
+		return kpiStats.getCompletedProcesseInstances() + "/" + simInstance.getTotalProcessInstances();
+	}
 	
 	public SimulationChecker(String sourceFile, BPSimulator simInstance, KpiCalculator kpiStats, MxmlLogger mxmlLogger) {
 		this.simInstance = simInstance;
@@ -42,7 +45,7 @@ public class SimulationChecker extends Thread {
             	// if MXML logger was attached, return mxml file
             	if (mxmlLogger != null) {
             		File mxmlFile = new File(sourceFile + ".mxml.gz");
-            		System.out.println("Download MXML from " + mxmlFile.getAbsolutePath());
+//            		System.out.println("Download MXML from " + mxmlFile.getAbsolutePath());
             	}
             	return;
 	            

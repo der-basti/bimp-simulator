@@ -34,7 +34,7 @@ bimp.file = {
 						} else {
 							console.log("File with no simulation information provided");
 						}
-						$("#startSimulationButton").show(300);
+						$("#startSimulationButton").show();
 						$(".data-input").show(500);
 						bimp.parser.init();
 						bimp.parser.start();
