@@ -26,6 +26,9 @@
 				<button id="downloadLog">Download log</button>
 			</c:if> 
 		</form>
+		<form method="post" action="/getCsv">
+			<input type="submit">
+		</form>
 			<div id="results">
 				<h3>Completed elements </h3> ${stats.completedElements }
 				<h3>Completed process instances </h3> ${stats.completedProcesseInstances }

@@ -31,8 +31,6 @@ public class MainPageController {
 		log.debug("/ requested, sending message");
 		model.addAttribute("msg", "It works!");
 
-//		HttpSession session = request.getSession(true);
-
 		return "index";
 	}
 
@@ -93,6 +91,11 @@ public class MainPageController {
 			}
 		}
 
+	}
+	
+	@RequestMapping(value = "/csv", method = RequestMethod.POST)
+	public void getCSV(HttpServletRequest request, HttpServletResponse response) {
+		
 	}
 
 
