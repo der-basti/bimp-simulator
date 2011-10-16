@@ -13,6 +13,12 @@
 	<div id="main">
 		<jsp:include page="_header.jsp"></jsp:include>
 		<div id="contents">
+			<div id="introduction">
+				<b>Bimp is a business process simulator.</b><br> 
+				It takes a file written in Business Process Modeling Notation – usually generated 
+				from a Business Process Diagram – allows you to add simulation-relevant information 
+				and then outputs resource utilization statistics.
+			</div>
 			<div id="uploadpageButtonBox">
 				<a id="uploadpageButton" href="/upload">Continue to upload page</a>
 			</div>

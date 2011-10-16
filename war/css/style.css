@@ -12,6 +12,12 @@ h2 { font-size: 14px; color: rgb(74, 190, 243); }
 
 h3 { font-size: 12px; color: rgb(147, 137, 90); }
 
+b { color: rgb(147, 137, 90) }
+
+ol { line-height: 175% }
+
+.blue { color: rgb(74, 190, 243) }
+
 .gill-font {
 	font-family: Gill Sans MT, sans-serif;
 }
@@ -72,9 +78,7 @@ ul#list-nav li { display:inline; }
 /* File upload box */
 #upload-area {
 	width: 40%;
-	height: 350px;
 	padding: 10px;
-	margin-bottom: 0px;
 }
 
 #file-drag {
@@ -199,19 +203,8 @@ ul#list-nav li { display:inline; }
 
 /* Box for the uploadpageButton */
 #uploadpageButtonBox {
-	height: 340px;
-	display: -webkit-box;
-	-webkit-box-orient: horizontal;
-	-webkit-box-pack: center;
-	-webkit-box-align: center;
-	display: -moz-box;
-	-moz-box-orient: horizontal;
-	-moz-box-pack: center;
-	-moz-box-align: center;
-	display: box;
-	box-orient: horizontal;
-	box-pack: center;
-	box-align: center;
+	margin: 0 auto;
+	width: 48%;
 }
 
 /* Hover button appearance */
@@ -304,7 +297,7 @@ h2.toggle-trigger a:active {
     -webkit-box-pack: end;          /* WebKit */
 }
 .hidden {
-	display: none;	
+	display: none;
 }
 .xor {
 	border: 2px solid #55aaee;
@@ -312,4 +305,32 @@ h2.toggle-trigger a:active {
 }
 .xor .gateway {
 	margin-bottom: 0;
+}
+.slogan h2{
+	margin: 5px;
+	padding: 0;
+}
+#introduction {
+	text-align: center;
+	width: 500px;
+	margin: 0 auto;
+	margin-top: 50px;
+	margin-bottom: 30px;
+}
+
+#instructions , #download-div {
+	margin: 15px;
+	float: right;
+	width: 55%;
+}
+#download-div {
+	text-align: right;
+	line-height: 200%;
+}
+#logCheckBox {
+	font-size: 12px;
+	position: fixed;
+	left: 0px;
+	top: 225px;
+	display: none;
 }

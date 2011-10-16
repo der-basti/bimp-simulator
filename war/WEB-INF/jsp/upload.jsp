@@ -21,6 +21,16 @@
 	<div id="main">
 		<jsp:include page="_header.jsp"></jsp:include>
 		<div id="contents">
+			<div id="instructions">
+				<b>Here are some instructions</b><br>
+				<ol>
+					<li>Please select a valid BPMN file.</li>
+					<li>Press <b class="blue">“Continue”</b> in order to add/change simulation information.</li>
+					<li>Click <b class="blue">“Start simulation”</b>.</li>
+					<li>Tick the <b class="blue">"Turn logging on"</b> box if You want to be able to download simulation log afterwards.</li>
+					<li>Be amazed and wonder how such magic came to be.</li>
+				</ol> 
+			</div>
 			<div id="upload-area">
 				<form id="upload" modelAttribute="uploadItem" action="/uploadfile"
 					method="POST" enctype="multipart/form-data">
@@ -36,16 +46,22 @@
 								type="file" id="file-select" name="fileData" />
 							<div id="file-drag">or drop it here</div>
 						</div>
-
+					<span id="fileName">No file selected.</span>
 					</fieldset>
-
+					
 				</form>
-				<button class="button" id="continue-button">Continue</button>				
+				
+				<button class="button" id="continue-button" disabled="disabled">Continue</button>				
 			</div>
+			
+			<div id="logCheckBox">
+				<input type="checkbox" id="mxmlLog" name="mxmlLog" value="mxmlLog" />Generate a log<br />
+			</div>
+			
 			<div id="submit-button">
-				<button id="startSimulationButton">Start Simulation</button>
-				<input type="checkbox" id="mxmlLog" name="mxmlLog" value="mxmlLog" />I want LOGS(DO NOT SELECT THIS UNLESS YOU HAVE 5 MINUTES OF SPARE TIME, THANKS)<br />
+				<button id="startSimulationButton" type="submit">Start Simulation</button>
 			</div>
+			
 			<div id="data-input" class="gill-font">
 				<div class="layout-right">
 					<a class="toggle-all">Collapse all</a>
@@ -88,9 +104,15 @@
 										<!-- TODO: date and time input, 
 										get rid of script, 
 										normal handler for starttime onFocus --> <input name="startAt"
-										class="normal datepicker startAt" type="text"
+										class="normal datepicker startAtDate" type="text"
 										onFocus="if(this.value==this.defaultValue){this.value='';}"
-										value="yyyy-mm-dd hh:mm:ss"> <script>
+										value="yyyy-mm-dd"> 
+										
+										<input name="startAt"
+										class="normal timepicker startAtTime" type="text"
+										onFocus="if(this.value==this.defaultValue){this.value='';}"
+										value="HH:MM:SS">
+										<script>
 											$(".datepicker").datepicker({
 												dateFormat : 'yy-mm-dd'
 											});
@@ -191,7 +213,7 @@
 										<th>Name:</th>
 										<td><span class="name">Task name</span></td>
 									</tr>
-									<tr>
+									<tr class="hidden">
 										<th>Task id:</th>
 										<td><span class="id">id</span></td>
 									</tr>

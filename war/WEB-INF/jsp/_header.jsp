@@ -1,7 +1,7 @@
 <div id="header">
-		<div class="logo">Lightning Fast BIMP Simulator</div>
+		<div class="logo">BIMP - Lightning Fast Business Process Simulator</div>
 
-		<div class="slogan"><h2>This is a short description</h2></div>
+		<div class="slogan"><h2>Going one step beyond diagrams.</h2></div>
 		
 		<div id="nav">
 			<ul id="list-nav">

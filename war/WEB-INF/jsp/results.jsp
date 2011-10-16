@@ -20,16 +20,18 @@
 	<div id="main">
 		<jsp:include page="_header.jsp"></jsp:include>
 		<div id="contents" class="gill-font">
-		<form id="hiddenDownloadForm" method="post" action="/file">
-			 <input type="hidden" id="download" name="download" />
-			<button id="downloadBpmn">Download bpmn</button>
-			<c:if test="${enableLogDownload}">
-				<button id="downloadLog">Download log</button>
-			</c:if> 
-		</form>
-		<form method="post" action="/getCsv">
-			<input type="submit">
-		</form>
+			<div id="download-div">
+				<form id="hiddenDownloadForm" method="post" action="/file">
+					<input type="hidden" id="download" name="download" />
+					Download .bpmn file with simulation information: <button id="downloadBpmn" class="button">Download</button><br/>
+					<c:if test="${enableLogDownload}">
+						Download log: <button id="downloadLog" class="button">Download</button>
+					</c:if> 
+				</form>
+			<form method="post" action="/getCsv">
+				Download simulation report: <input type="submit" class="button" value="Download">
+			</form>
+			</div>
 			<div id="results">
 				<h3>Completed elements </h3> <fmt:formatNumber type="number" pattern="###,###.##" maxFractionDigits="2" value="${stats.completedElements }"/>
 				<h3>Completed process instances </h3><fmt:formatNumber type="number" pattern="###,###.##" maxFractionDigits="2" value="${stats.completedProcesseInstances }"/>

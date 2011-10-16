@@ -31,6 +31,7 @@ bimp.file = {
 						} else {
 							console.log("File with no simulation information provided");
 						}
+					$("#fileName").text(bimp.file.inputFiles[0].fileName + " is selected.");
 						$("#continue-button").attr("disabled", false);
 						bimp.parser.init();
 						bimp.parser.start();
@@ -80,22 +81,29 @@ bimp.file = {
 			if ($(bimp.parser.xmlFile).find("startEvent").find("documentation").size() == 0) {
 				// lets add missing nodes to bpmn file
 				var doc = bimp.parser.xmlFile.createElement("documentation");
+				doc.setAttribute("id", generateId());
 				var se = $(bimp.parser.xmlFile).find("startEvent")[0];
 				se.appendChild(doc);
 				$(bimp.parser.xmlFile).find("task").each(function (i, task) {
 					var doc = bimp.parser.xmlFile.createElement("documentation");
+					doc.setAttribute("id", generateId());
 					task.appendChild(doc);
 				});
 				$(bimp.parser.xmlFile).find("intermediateCatchEvent").each(function (i, event) {
 					var doc = bimp.parser.xmlFile.createElement("documentation");
+					doc.setAttribute("id", generateId());
 					event.appendChild(doc);
 				});
 				$.each(bimp.parser.conditionExpressions, function(id, element) {
 					var conditionExpression = bimp.parser.xmlFile.createElement("conditionExpression");
 					conditionExpression.setAttribute("xsi:type", "tFormalExpression");
 					conditionExpression.setAttribute("xmlns:xsi","http://www.w3.org/2001/XMLSchema-instance");
-					
-					element.appendChild(conditionExpression);
+					var sf = $(bimp.parser.xmlFile).find("#" + id)[0];
+					sf.appendChild(conditionExpression);
+				});
+				// remove all xmlns attributes because it causes simulator's crash.
+				$(bimp.parser.xmlFile).find("documentation").each(function () {
+					this.removeAttribute("xmlns");
 				});
 			}
 			// update startEvent
@@ -157,3 +165,10 @@ $(document).ready(function() {
 	jQuery.event.props.push("dataTransfer");
 	bimp.file.initUpload();
 });
+
+function S4() {
+   return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+}
+function generateId() {
+   return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
+}
