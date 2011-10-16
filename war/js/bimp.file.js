@@ -6,14 +6,11 @@ bimp.file = {
 		simulationInfoTag : "documentation",
 		initUpload : function() {
 			$("#file-select").bind("change", FileSelectHandler);
-			var xhr = new XMLHttpRequest();
-			if (xhr.upload) {
-				var filedrag = $("#file-drag");
-				filedrag.bind("dragover", FileDragHover);
-				filedrag.bind("dragleave", FileDragHover);
-				filedrag.bind("drop", FileSelectHandler);
-				filedrag.css({display:"block"});
-			}
+			var filedrag = $("#file-drag");
+			filedrag.bind("dragover", FileDragHover);
+			filedrag.bind("dragleave", FileDragHover);
+			filedrag.bind("drop", FileSelectHandler);
+			filedrag.css({display:"block"});
 		},
 		getFileExtension : function (file) {
 			var splittedName = file.fileName.split(".");
@@ -35,16 +32,16 @@ bimp.file = {
 							console.log("File with no simulation information provided");
 						}
 						$("#continue-button").attr("disabled", false);
-					
 						bimp.parser.init();
 						bimp.parser.start();
 					} catch (e) {
-						alert("Error parsing file, please provide valid file");
+						alert("Error parsing file, please provide valid file.");
+						console.log(e);
 					}
 				};
 				
 			} catch (e) {
-				alert("Error reading file", e);
+				alert("Error reading filem please provide valid file.", e);
 				console.log(e);
 			}
 			/*
@@ -68,7 +65,7 @@ bimp.file = {
 			$("#file-info").html(msg);
 		},
 		uploadFile : function () {
-			$.post("/uploadjson", {"fileData": new XMLSerializer().serializeToString(bimp.parser.xmlFile)}, function (data) {
+			$.post("/uploadjson", {"mxmlLog": $("#mxmlLog").is(':checked'),"fileData": new XMLSerializer().serializeToString(bimp.parser.xmlFile)}, function (data) {
 				console.log(data);
 				if (data.status == "Success") {
 					console.log("file upload successful");
@@ -79,12 +76,32 @@ bimp.file = {
 			});
 		},
 		updateFile : function () {
-			// currently case when file already has documentation tags
-			// we have inputfile with siminfo
-			if ($(bimp.parser.xmlFile).find("startEvent").find("documentation").size() > 0) {
-				$(bimp.parser.xmlFile).find("startEvent").find("documentation")[0].textContent = JSON.stringify(bimp.parser.startEvent);
-				console.log("Found startEvent and updated it");
+			// check, if we have inputfile with siminfo
+			if ($(bimp.parser.xmlFile).find("startEvent").find("documentation").size() == 0) {
+				// lets add missing nodes to bpmn file
+				var doc = bimp.parser.xmlFile.createElement("documentation");
+				var se = $(bimp.parser.xmlFile).find("startEvent")[0];
+				se.appendChild(doc);
+				$(bimp.parser.xmlFile).find("task").each(function (i, task) {
+					var doc = bimp.parser.xmlFile.createElement("documentation");
+					task.appendChild(doc);
+				});
+				$(bimp.parser.xmlFile).find("intermediateCatchEvent").each(function (i, event) {
+					var doc = bimp.parser.xmlFile.createElement("documentation");
+					event.appendChild(doc);
+				});
+				$.each(bimp.parser.conditionExpressions, function(id, element) {
+					var conditionExpression = bimp.parser.xmlFile.createElement("conditionExpression");
+					conditionExpression.setAttribute("xsi:type", "tFormalExpression");
+					conditionExpression.setAttribute("xmlns:xsi","http://www.w3.org/2001/XMLSchema-instance");
+					
+					element.appendChild(conditionExpression);
+				});
 			}
+			// update startEvent
+			$(bimp.parser.xmlFile).find("startEvent").find("documentation")[0].textContent = JSON.stringify(bimp.parser.startEvent);
+			console.log("Found startEvent and updated it");
+		
 			var taskNodes = $(bimp.parser.xmlFile).find("task");
 			// tasks
 			$.each(bimp.parser.tasks, function(id, task) {
@@ -116,8 +133,7 @@ bimp.file = {
 					}
 				});
 			});
-			
-		},
+		}
 		
 };
 
@@ -126,17 +142,13 @@ function FileDragHover(e) {
 	e.preventDefault();
 	e.target.className = (e.type == "dragover" ? "hover" : "");
 }
-
 function FileSelectHandler(e) {
 	FileDragHover(e);
-	console.log(e.target)
+	console.log(e.target);
 	bimp.file.inputFiles = e.target.files || e.dataTransfer.files;
 
 	for (var i = 0, f; f = bimp.file.inputFiles[i]; i++) {
 		bimp.file.parseFile(f);
-		
-		//TODO: Uploading backend
-		//bimp.file.uploadFile(f);
 	}
 
 }
@@ -145,6 +157,3 @@ $(document).ready(function() {
 	jQuery.event.props.push("dataTransfer");
 	bimp.file.initUpload();
 });
-
-
-

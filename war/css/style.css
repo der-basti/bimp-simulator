@@ -303,3 +303,13 @@ h2.toggle-trigger a:active {
     -moz-box-pack: end;             /* Mozilla */  
     -webkit-box-pack: end;          /* WebKit */
 }
+.hidden {
+	display: none;	
+}
+.xor {
+	border: 2px solid #55aaee;
+	margin-bottom: 10px;
+}
+.xor .gateway {
+	margin-bottom: 0;
+}

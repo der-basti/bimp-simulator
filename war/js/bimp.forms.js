@@ -5,6 +5,7 @@ bimp.forms = {
 				this.tasks();
 				this.conditionExpressions();
 				this.intermediateCatchEvents();
+				bimp.forms.groupGateways();
 			},
 			startEvent : function (name) {
 				var se = bimp.parser.startEvent;
@@ -214,7 +215,6 @@ bimp.forms = {
 			},
 			readData : function (selector, obj) {
 				$.each(obj, function(name, value) {
-					console.log(name, value, typeof (value));
 					if (typeof(value) !== "function") {
 						if (typeof(value) == "object") {
 //							if (name !== "resources" && name !== "timetable") {
@@ -239,4 +239,29 @@ bimp.forms = {
 				});
 			}
 		},
+		groupGateways : function () {
+			var gateways = $(".gateways .gateway");
+			$(gateways).each(function (i, gateway) {
+				var sourceRef = $(gateway).find(".sourceRef").text();
+				var clone = $(gateway).clone(true);
+				if ($(gateway).find(".type").text() == "XOR") {
+					console.log("xor");
+					if ($("#xor_" + sourceRef).size() > 0) {
+						$(clone).find(".type").parents("tr:first").hide();
+						$("#xor_" + sourceRef).append(clone);
+					} else {
+						var container = $("<div class='gatewayGroup xor' id='xor_" + sourceRef + "'></div>").append(clone);
+						$(".gateways").append(container);
+					}
+				} else {
+					if ($("#" + sourceRef).size() > 0) {
+						$("#" + sourceRef).append(clone);
+					} else {
+						var container = $("<div class='gatewayGroup' id='" + sourceRef + "'></div>").append(clone);
+						$(".gateways").append(container);
+					}
+				}
+				$(gateway).remove();
+			});
+		}
 };

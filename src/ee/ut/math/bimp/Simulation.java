@@ -1,10 +1,12 @@
 package ee.ut.math.bimp;
 
+import ee.ut.bpsimulator.logger.MxmlLogger;
 
 /**
  * Simulation class for holding all simulation related objects
+ * 
  * @author Viljar
- *
+ * 
  */
 public class Simulation {
 	private SimulatorRunner runner;
@@ -14,9 +16,9 @@ public class Simulation {
 		this.runner = new SimulatorRunner();
 		this.runner.init(filePath);
 		this.checker = new SimulationChecker(filePath, runner.getSim(),
-				runner.getKpiStats(), null);
+				runner.getKpiStats(), runner.getMxmlLog());
 	}
-	
+
 	public void start() {
 		this.runner.start();
 	}
@@ -36,4 +38,6 @@ public class Simulation {
 	public void setChecker(SimulationChecker checker) {
 		this.checker = checker;
 	}
+
+
 }

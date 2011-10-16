@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import ee.ut.bpsimulator.BPSimulator;
 import ee.ut.bpsimulator.logger.ComplexLogger;
 import ee.ut.bpsimulator.logger.KpiCalculator;
+import ee.ut.bpsimulator.logger.MxmlLogger;
 
 /**
  * Simulator runner.
@@ -22,6 +23,8 @@ public class SimulatorRunner {
 	public KpiCalculator kpiStats;
 
 	public String path;
+	
+	public MxmlLogger mxmlLog;
 
 	public BPSimulator getSim() {
 		return sim;
@@ -34,6 +37,15 @@ public class SimulatorRunner {
 	public String getPath() {
 		return path;
 	}
+	
+	public void setMxmlLog(MxmlLogger mxmlLog) {
+		this.mxmlLog = mxmlLog;
+	}
+	
+	public MxmlLogger getMxmlLog() {
+		return mxmlLog;
+	}
+
 
 	/**
 	 * Initializes the simulator and stats calculator.
@@ -57,7 +69,10 @@ public class SimulatorRunner {
 				log.debug("Running simulation");
 
 				ComplexLogger logger = sim.getLogger();
-
+				if(mxmlLog!=null) {
+					log.debug("WILL LOG");
+					logger.addLogger(mxmlLog);
+				}
 				logger.addLogger(kpiStats);
 
 				sim.run();
@@ -67,5 +82,4 @@ public class SimulatorRunner {
 
 		}
 	}
-
 }
