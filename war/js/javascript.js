@@ -76,6 +76,16 @@ $(document).ready(function () {
 		bimp.file.updateFile();
 		bimp.file.uploadFile();
 	});
+	
+	$("#downloadBpmn").click(function () {
+		$('#download').val('bpmn');
+		$('#hiddenDownloadForm').submit();
+	});
+	
+	$("#downloadLog").click(function () {
+		$('#download').val('log');
+		$('#hiddenDownloadForm').submit();
+	});
 });
 
 var removeLastButton = function () {

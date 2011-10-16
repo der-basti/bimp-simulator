@@ -47,20 +47,24 @@ public class MainPageController {
 	 * Handles for the logfile download.
 	 * Writes the file to the response.
 	 */
-	@RequestMapping(value = "/file", method = RequestMethod.GET)
-	public void getFile(HttpServletRequest request, HttpServletResponse response) {
+	@RequestMapping(value = "/file", method = RequestMethod.POST)
+	public void getFile(HttpServletRequest request, String download, HttpServletResponse response) {
 
 		ServletOutputStream stream = null;
 		BufferedInputStream buf = null;
 		HttpSession session = request.getSession();
 		String fileName = (String) session.getAttribute("fileName");
+		String extension = "";
+		if(download.equals("log")) {
+			extension = ".mxml.gz";
+		}
 
 		response.setContentType("text/xml");
 		response.addHeader("Content-Disposition", "attachment; filename="
-				+ fileName + ".bpmn");
+				+ fileName + extension);
 		File file = new File(request.getSession().getServletContext()
 				.getRealPath("/tmp/")
-				+ fileName);
+				+ "\\" + fileName + extension);
 		try {
 			stream = response.getOutputStream();
 			response.setContentLength((int) file.length());

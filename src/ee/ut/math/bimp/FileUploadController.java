@@ -96,6 +96,7 @@ public class FileUploadController {
 				String[] al = fileName.split("\\.");
 				String id = al[0].split("_")[1];
 				request.getSession().setAttribute("id", id);
+				request.getSession().setAttribute("fileName", fileName);
 				request.getSession().setAttribute("mxmlLog", mxmlLog);
 				result = "Success";
 				

@@ -44,7 +44,7 @@
 			</div>
 			<div id="submit-button">
 				<button id="startSimulationButton">Start Simulation</button>
-				<input type="checkbox" id="mxmlLog" name="mxmlLog" value="mxmlLog" />I want LOGS<br />
+				<input type="checkbox" id="mxmlLog" name="mxmlLog" value="mxmlLog" />I want LOGS(DO NOT SELECT THIS UNLESS YOU HAVE 5 MINUTES OF SPARE TIME, THANKS)<br />
 				
 			</div>
 			<div id="data-input" class="gill-font">

@@ -10,6 +10,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
@@ -99,7 +100,7 @@ public class SimulationController {
 	@RequestMapping(value = "/getResults", method = RequestMethod.GET)
 	public ModelAndView getResults(ModelAndView model,
 			HttpServletRequest request) {
-
+		HttpSession session = request.getSession();
 		String id = (String) request.getSession().getAttribute("id");
 		Simulation simulation = simulations.get(id);
 		SimulatorRunner runner = simulation.getRunner();
@@ -146,6 +147,7 @@ public class SimulationController {
 			elements.add(activityMap);
 		}
 		model.addObject("elements", elements);
+		model.addObject("enableLogDownload", Boolean.valueOf((String) session.getAttribute("mxmlLog")));
 		simulations.remove(id);
 		return model;
 
