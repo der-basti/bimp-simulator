@@ -7,13 +7,30 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF8">
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" href="./css/style.css"></link>
-
+	<script type="text/javascript" src="./js/jquery-1.6.4.min.js"></script>
+	<script type="text/javascript" src="./js/jquery-ui-1.8.16.custom.min.js"></script>
+	<script type="text/javascript" src="./js/bimp.file.js"></script>
+	<script type="text/javascript" src="./js/bimp.parse.js"></script>
+	<script type="text/javascript" src="./js/bimp.forms.js"></script>
+	<script type="text/javascript" src="./js/javascript.js"></script>
 	<title>BIMP Simulator results</title>
 </head>
 <body>
 	<div id="main">
 		<jsp:include page="_header.jsp"></jsp:include>
 		<div id="contents" class="gill-font">
+			<div id="download-div">
+				<form id="hiddenDownloadForm" method="post" action="/file">
+					<input type="hidden" id="download" name="download" />
+					Download .bpmn file with simulation information: <button id="downloadBpmn" class="button">Download</button><br/>
+					<c:if test="${enableLogDownload}">
+						Download log: <button id="downloadLog" class="button">Download</button>
+					</c:if> 
+				</form>
+			<form method="post" action="/getCsv">
+				Download simulation report: <input type="submit" class="button" value="Download">
+			</form>
+			</div>
 			<div id="results">
 				<h3>Completed elements </h3> ${stats.completedElements }
 				<h3>Completed process instances </h3> ${stats.completedProcesseInstances }

@@ -318,8 +318,19 @@ h2.toggle-trigger a:active {
 	margin-bottom: 30px;
 }
 
-#instructions {
+#instructions , #download-div {
 	margin: 15px;
 	float: right;
 	width: 55%;
+}
+#download-div {
+	text-align: right;
+	line-height: 200%;
+}
+#logCheckBox {
+	font-size: 12px;
+	position: fixed;
+	left: 0px;
+	top: 225px;
+	display: none;
 }

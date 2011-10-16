@@ -40,6 +40,7 @@ $(document).ready(function () {
 		$("#instructions").hide();
 		$("#upload-area").fadeOut(400, function() {$("#data-input").fadeIn(1000);});
 		$("#startSimulationButton").fadeIn(1000);
+		$("#logCheckBox").fadeIn(1000);
 	});
 	
 	$(".toggle-trigger").click(function() {
@@ -111,6 +112,17 @@ $(document).ready(function () {
 		bimp.file.updateFile();
 		bimp.file.uploadFile();
 	});
+	
+	$("#downloadBpmn").click(function () {
+		$('#download').val('bpmn');
+		$('#hiddenDownloadForm').submit();
+	});
+	
+	$("#downloadLog").click(function () {
+		$('#download').val('log');
+		$('#hiddenDownloadForm').submit();
+	});
+	
 	$(".highlightSources").click(function () {
 		$(".gateway").removeClass("highlight");
 		var id=$(this).parents(".task").attr("data-id");

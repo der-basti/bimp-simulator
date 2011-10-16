@@ -48,15 +48,18 @@
 						</div>
 
 					</fieldset>
-
+					
 				</form>
 				
 				<button class="button" id="continue-button" disabled="disabled">Continue</button>				
 			</div>
 			
+			<div id="logCheckBox">
+				<input type="checkbox" id="mxmlLog" name="mxmlLog" value="mxmlLog" />Generate a log<br />
+			</div>
+			
 			<div id="submit-button">
 				<button id="startSimulationButton" type="submit">Start Simulation</button>
-				<input type="checkbox" id="mxmlLog" name="mxmlLog" value="mxmlLog" />Generate a log<br />
 			</div>
 			
 			<div id="data-input" class="gill-font">
