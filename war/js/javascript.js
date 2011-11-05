@@ -151,7 +151,31 @@ $(document).ready(function () {
 	$("body").delegate(".currency", "change", function () {
 		$(".currencyText").text($(this).val());
 	});
+	
+	$(".help-nav-button").click(function() {
+		var clickedButton = $(this);
+		$(".help-text").each(function () {
+			if ($(this).is(":visible")) {
+				$(this).slideUp(500, function () {
+					if ($(clickedButton).attr("id")=="bimp-help-trigger") {
+						$("#bimp-help").slideDown(500);
+					}
+					if ($(clickedButton).attr("id")=="bimp2-trigger") {
+						$("#bimp2-help").slideDown(500);
+					}
+					if ($(clickedButton).attr("id")=="bimpeditors-trigger") {
+						$("#bimpeditors-help").slideDown(500);
+					}
+					if ($(clickedButton).attr("id")=="ui-help-trigger") {
+						$("#ui-help").slideDown(500);
+					}
+				});
+				return false;
+			}	
+		});
+	});
 });
+
 var timeTableRow;
 
 var areAllExpanded = function () {

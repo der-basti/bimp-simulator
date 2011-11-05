@@ -33,12 +33,19 @@ public class MainPageController {
 
 		return "index";
 	}
-
+	
 	@RequestMapping(value = "/upload", method = RequestMethod.GET)
 	public String upload(ModelMap model) {
 
 		log.debug("/upload requested, sending page");
 		return "upload";
+	}
+	
+	@RequestMapping(value = "/help", method = RequestMethod.GET)
+	public String help(ModelMap model) {
+
+		log.debug("/help requested, sending page");
+		return "help";
 	}
 
 	/**
