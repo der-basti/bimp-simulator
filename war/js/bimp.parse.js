@@ -1,5 +1,7 @@
 bimp.parser = {
 	xmlFile : "",
+	prefixEscaped : "",
+	prefix : "",
 	start : function () {
 		this.readStartEvent();
 		this.readTasks();
@@ -16,12 +18,14 @@ bimp.parser = {
 			value : "0",
 			stdev : "0",
 			min : "0",
-			max : "0"
+			max : "0",
+			timeUnit : ""
 		},
 		instances : "",
 		resources : {},
 		startAt : "",
 		timetable : {},
+		currency : "",
 		addResource : function(id, name, costPerHour, amount) {
 			this.resources[id] = {
 					"name" : name,
@@ -41,11 +45,12 @@ bimp.parser = {
 			"value" : "0",
 			"stdev" : "0",
 			"min" : "0",
-			"max" : "0"
-		},
-		this.resource = "",
-		this.fixedCost = "0",
-		this.name = ""
+			"max" : "0",
+			"timeUnit" : ""
+		};
+		this.resource = "";
+		this.fixedCost = "0";
+		this.name = "";
 	},
 	addTask : function (id, taskObj) {
 		this.tasks[id] = $.extend(true, new bimp.parser.task(), taskObj);
@@ -60,12 +65,14 @@ bimp.parser = {
 			"value" : "0",
 			"stdev" : "0",
 			"min" : "0",
-			"max" : "0"
+			"max" : "0",
+			"timeUnit" : ""
 		}
 	},
 	addIntermediateCatchEvent : function (id, catchEventObj){
 		this.intermediateCatchEvents[id] =  $.extend(true, new bimp.parser.intermediateCatchEvent(), catchEventObj);
 	},
+	hasConditionExpressions: false,
 	conditionExpressions : {},
 	conditionExpression : function(id, targetRef, sourceRef, value, type, targetName) {
 		this.id = id;
@@ -77,10 +84,21 @@ bimp.parser = {
 	},
 	init : function () {
 		this.xmlFile = bimp.file.xmlFile;
+		if ($(bimp.parser.xmlFile)[0].documentElement.prefix) {
+			this.prefix = $(bimp.parser.xmlFile)[0].documentElement.prefix + ":";
+			this.prefixEscaped = $(bimp.parser.xmlFile)[0].documentElement.prefix + "\\:";
+			//TODO: OH MY :O ...? FIX ASAP
+			// this next line should have never been written, NEVER
+			if ($(bimp.parser.xmlFile).find(this.prefixEscaped + "startEvent").size() < $(bimp.parser.xmlFile).find("startEvent").size()) {
+				// if we need to use prefix (we get results) then use it, otherwise don't
+				this.prefixEscaped = "";
+				this.prefix = "";
+			}
+		}
 	},
 	readStartEvent : function() {
 		//console.log("xmlFile", this.xmlFile);
-		var doc = $(this.xmlFile).find("startEvent").find("documentation");
+		var doc = $(this.xmlFile).find(bimp.parser.prefixEscaped + "startEvent").find(bimp.parser.prefixEscaped + "documentation");
 		if (doc.length > 0) {
 			//console.log("Found startEvent and added it");
 			var simInfo = $.parseJSON(doc.text());
@@ -91,10 +109,10 @@ bimp.parser = {
 		return true;
 	},
 	readTasks : function() {
-		var tasks = $(this.xmlFile).find("task");
+		var tasks = $(this.xmlFile).find(bimp.parser.prefixEscaped + "task");
 		//console.log("Found",tasks.length,"tasks");
 		$(tasks).each(function(index, task){
-			var data = $(task).find("documentation");
+			var data = $(task).find(bimp.parser.prefixEscaped + "documentation");
 			var taskObj = {};
 			if (data.length > 0) {
 				taskObj = $.parseJSON($(data).text());
@@ -110,11 +128,11 @@ bimp.parser = {
 		return true;
 	},
 	readIntermediateCatchEvents : function() {
-		var events = $(this.xmlFile).find("intermediateCatchEvent");
+		var events = $(this.xmlFile).find(bimp.parser.prefixEscaped + "intermediateCatchEvent");
 		//console.log("Found", events.length, "intermediateCatchEvents");
 		$(events).each(function(index, event){
 			bimp.parser.hasIntermediatecatchEvents = true;
-			var data = $(event).find("documentation");
+			var data = $(event).find(bimp.parser.prefixEscaped + "documentation");
 			var catchEventObj = {};
 			if (data.length > 0) {
 				catchEventObj = $.parseJSON($(data).text());
@@ -131,17 +149,16 @@ bimp.parser = {
 		return true;
 	},
 	readConditionExpressions : function() {
-		sequenceFlows = $(this.xmlFile).find("sequenceFlow");
+		sequenceFlows = $(this.xmlFile).find(bimp.parser.prefixEscaped + "sequenceFlow");
 		// TODO: find sequenceflows where sourceRef is XOR or OR split gateway 
 		// gatewayDirection="diverging" or gatewayDirection="mixed";
 		// XOR = exclusiveGateway, sum for XORs have to be 100%
 		// OR = inclusiveGateway, are independent
-		
 		$(sequenceFlows).each(function(index, sequenceFlow){
 			var sourceRef = sequenceFlow.getAttribute("sourceRef");
 			var type = bimp.parser.findSplitGateway(sourceRef);
 			if (type !== null) {
-				var conditionExpression = $(sequenceFlow).find("conditionExpression");
+				var conditionExpression = $(sequenceFlow).find(bimp.parser.prefixEscaped + "conditionExpression");
 				var value = "";
 				if (conditionExpression.length > 0) {
 					value = conditionExpression[0].textContent;
@@ -153,7 +170,7 @@ bimp.parser = {
 				var id = sequenceFlow.getAttribute("id");
 				ce = new bimp.parser.conditionExpression(id, targetRef, sourceRef, value,
 						type, targetName ? (targetName.trim != "" ? targetName : "N/A") : "N/A");
-				//console.log("conditionExpression", ce);
+				bimp.parser.hasConditionExpressions = true;
 				bimp.parser.conditionExpressions[id] = ce;
 			}
 		});
@@ -161,22 +178,38 @@ bimp.parser = {
 	},
 	findSplitGateway : function(id) {
 		var result = null;
-		var exclusiveGateways = $(this.xmlFile).find("exclusiveGateway");
-		var inclusiveGateways = $(this.xmlFile).find("inclusiveGateway");
+		var exclusiveGateways = $(this.xmlFile).find(bimp.parser.prefixEscaped + "exclusiveGateway");
+		var inclusiveGateways = $(this.xmlFile).find(bimp.parser.prefixEscaped + "inclusiveGateway");
 		$(exclusiveGateways).each(function(index, exclusiveGateway) {
 			if (exclusiveGateway.getAttribute("id") == id && 
 					(exclusiveGateway.getAttribute("gatewayDirection") == "diverging" ||
-					exclusiveGateway.getAttribute("gatewayDirection") == "mixed")) {
+					exclusiveGateway.getAttribute("gatewayDirection") == "mixed") ||
+					bimp.parser.countSequenceFlowsFromGateway(id) > 1) {
 				result = "XOR";
 			}
 		});
 		$(inclusiveGateways).each(function(index, inclusiveGateway) {
 			if (inclusiveGateway.getAttribute("id") == id && 
 					(inclusiveGateway.getAttribute("gatewayDirection") == "diverging" ||
-					inclusiveGateway.getAttribute("gatewayDirection") == "mixed")) {
+					inclusiveGateway.getAttribute("gatewayDirection") == "mixed") ||
+					bimp.parser.countSequenceFlowsFromGateway(id) > 1) {
 				result = "OR";
 			}
 		});
 		return result;	
+	},
+	countSequenceFlowsFromGateway : function (id) {
+		var count = 0;
+		sequenceFlows = $(this.xmlFile).find(bimp.parser.prefixEscaped + "sequenceFlow");
+		$(sequenceFlows).each(function(index, sequenceFlow) {
+			var sourceRef = sequenceFlow.getAttribute("sourceRef");
+			var sourceRefNodeName = $(this.xmlFile).find("#" + sourceRef).nodeName;
+			if (sourceRefNodeName === "exclusiveGateway" || sourceRefNodeName === "inclusiveGateway") {
+				if (sourceRef === id) {
+					count += 1;
+				}
+			}
+		});
+		return count;
 	}
 };

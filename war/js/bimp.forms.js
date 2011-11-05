@@ -7,11 +7,12 @@ bimp.forms = {
 				this.intermediateCatchEvents();
 				bimp.forms.groupGateways();
 				removeLastButton;
+				$(".currencyText").text($(".currency").val());
 			},
 			startEvent : function (name) {
 				var se = bimp.parser.startEvent;
 				
-				var id = $(bimp.parser.xmlFile).find("startEvent")[0].getAttribute("id");
+				var id = $(bimp.parser.xmlFile).find(bimp.parser.prefixEscaped + "startEvent")[0].getAttribute("id");
 				$(".startEvent").attr("data-id", id);
 				
 				bimp.forms.populateWithData(".startEvent", se);
@@ -93,9 +94,14 @@ bimp.forms = {
 				}
 			},
 			conditionExpressions : function () {
-				$.each(bimp.parser.conditionExpressions, function(id, ce) {
-					bimp.forms.generate.conditionExpression(id, ce);
-				});
+				if (!bimp.parser.hasConditionExpressions) {
+					$(".gateways").parent().hide();
+					$(".gateways").parent().prev().hide();
+				} else {
+					$.each(bimp.parser.conditionExpressions, function(id, ce) {
+						bimp.forms.generate.conditionExpression(id, ce);
+					});
+				}
 			},
 			conditionExpression : function (id, gatewayObj) {
 				if(!$(".gateways .gateway:first").attr("data-id")) {
@@ -132,10 +138,17 @@ bimp.forms = {
 		populateWithData : function (selector, obj, clone, htmlObj) {
 			$.each(obj, function(name, value){
 				//console.log(name, " - ", value);
-				if (typeof(value) == "object"){
-					$.each(value, function(name, value) {
-						if (typeof(value) !== "object") {
-							clone ? $(htmlObj).find("." + name).val(value) : $(selector +" ." + name).val(value);
+				if (name === "name" && value === "") {
+					value = "N/A";
+				}
+				if (typeof(value) == "object") {
+					$.each(value, function(_name, _value) {
+						if (typeof(_value) !== "object") {
+							if (["min", "max", "value", "mean", "stdev"].indexOf(_name) > -1) {
+								var timeUnit = value["timeUnit"];
+								_value = convertSecondsToX(_value, timeUnit);
+							}
+							clone ? $(htmlObj).find("." + _name).val(_value) : $(selector +" ." + _name).val(_value);
 						}
 					});
 				} else if (name === "resource") {
@@ -157,6 +170,8 @@ bimp.forms = {
 						var startAtTime = startAt.split(" ")[1];
 						$(selector +" ." + name + "Date").val(startAtDate);
 						$(selector +" ." + name + "Time").val(startAtTime);
+					} else if (name == "currency"){
+						clone ? $(htmlObj).find("." + name).val(value) : $(selector +" ." + name).val(value);
 					} else {
 						clone ? $(htmlObj).find("." + name).text(value) : $(selector +" ." + name).text(value);
 						clone ? $(htmlObj).find("." + name).val(value) : $(selector +" ." + name).val(value);
@@ -218,10 +233,12 @@ bimp.forms = {
 				});
 			},
 			conditionExpressions : function () {
-				var gateways = $(".gateways .gateway");
-				$(gateways).each(function (index, element) {
-					bimp.forms.read.readData(element, bimp.parser.conditionExpressions[$(element).attr("data-id")]);
-				});
+				if (bimp.parser.hasConditionExpressions) {
+					var gateways = $(".gateways .gateway");
+					$(gateways).each(function (index, element) {
+						bimp.forms.read.readData(element, bimp.parser.conditionExpressions[$(element).attr("data-id")]);
+					});
+				}
 			},
 			intermediateCatchEvents : function () {
 				var events = $(".catchEvents .catchEvent");
@@ -243,8 +260,14 @@ bimp.forms = {
 //							}
 //							bimp.forms.read.readData(selector + " ." + name, value);
 							if (name == "durationDistribution" || name == "arrivalRateDistribution") {
+								var timeUnit = $(selector).find(".timeUnit").val();
 								$.each(value, function (_name, _value) {
-									obj[name][_name] = $(selector).find("." + _name).val();
+									var fieldValue = $(selector).find("." + _name).val();
+									if (timeUnit != "seconds" && ["min", "max", "value", "mean", "stdev"].indexOf(_name) > -1) {
+										// convert the value to seconds according to selected timeunit
+										fieldValue = convertToSeconds(fieldValue, timeUnit);
+									}
+									obj[name][_name] = fieldValue;
 									//console.log("Reading ", _name, "with value", $(selector).find("." + _name).val());
 								});
 							}
@@ -290,3 +313,37 @@ bimp.forms = {
 			});
 		}
 };
+
+function convertToSeconds (value, timeUnit) {
+	switch (timeUnit) {
+		case ("minutes"):
+			return value * 60;
+		break;
+		case ("hours"):
+			return value * 60 * 60;
+		break;
+		case ("days"):
+			return value * 60 * 60 * 24;
+		break;
+		default:
+			return value;
+		break;
+	}
+}
+
+function convertSecondsToX(value, timeUnit) {
+	switch (timeUnit) {
+	case ("minutes"):
+		return value / 60;
+	break;
+	case ("hours"):
+		return value / 60 / 60;
+	break;
+	case ("days"):
+		return value / 60 / 60 / 24;
+	break;
+	default:
+		return value;
+	break;
+}
+}

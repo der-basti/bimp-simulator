@@ -90,6 +90,12 @@
 										<div> Standard deviation: <input class="small stdev" name="stdev" type="text"></div>
 										<div> Min: <input class="small min" name="min" type="text"></div>
 										<div> Max: <input class="small max" name="max" type="text"></div>
+										<select class="timeUnit">
+											<option value="seconds">Seconds</option>
+											<option value="minutes">Minutes</option>
+											<option value="hours">Hours</option>
+											<option value="days">Days</option>
+										</select>
 									</td>
 								</tr>
 								<tr>
@@ -118,6 +124,21 @@
 											});
 										</script></td>
 								</tr>
+								<tr>
+									<th>Currency:</th>
+									<td>
+										<select class="currency">
+											<option value="EUR">EUR</option>
+											<option value="USD">USD</option>
+											<option value="CAD">CAD</option>
+											<option value="GBP">GBP</option>
+											<option value="CHF">CHF</option>
+											<option value="NZD">NZD</option>
+											<option value="AUD">AUD</option>
+											<option value="JPY">JPY</option>
+										</select>
+									</td>
+								</tr>
 							</tbody>
 						</table>
 						</div>
@@ -136,7 +157,7 @@
 								<tr class="resource">
 									<td></td>
 									<td><input class="normal name" name="name" type="text"></td>
-									<td><input class="small costPerHour" name="costPerHour" type="text"></td>
+									<td><input class="small costPerHour" name="costPerHour" type="text"><span class="currencyText">EUR</span></td>
 									<td><input class="small text amount" name="amount" type="text"></td>
 									<td><a class="trigger remove" href="javascript:void(0)" title="Remove field">X</a></td>
 								</tr>
@@ -211,7 +232,7 @@
 								<tbody>
 									<tr>
 										<th>Name:</th>
-										<td><span class="name">Task name</span></td>
+										<td><span class="name">N/A</span></td>
 									</tr>
 									<tr class="hidden">
 										<th>Task id:</th>
@@ -225,7 +246,7 @@
 									</tr>
 									<tr>
 										<th>Fixed cost:</th>
-										<td><input class="fixedCost" name="fixedCost" /></td>
+										<td><input class="fixedCost" name="fixedCost" /><span class="currencyText">EUR</span></td>
 									</tr>
 									<tr>
 										<th>Type</th>
@@ -240,6 +261,12 @@
 											<div> Standard deviation: <input class="small stdev" name="stdev" type="text"></div>
 											<div> Min: <input class="small min" name="min" type="text"></div>
 											<div> Max: <input class="small max" name="max" type="text"></div>
+											<select class="timeUnit">
+												<option value="seconds">Seconds</option>
+												<option value="minutes">Minutes</option>
+												<option value="hours">Hours</option>
+												<option value="days">Days</option>
+											</select>
 										</td>
 									</tr>
 								</tbody>
@@ -308,6 +335,12 @@
 											<div> Standard deviation: <input class="small stdev" name="stdev" type="text"></div>
 											<div> Min: <input class="small min" name="min" type="text"></div>
 											<div> Max: <input class="small max" name="max" type="text"></div>
+											<select class="timeUnit">
+												<option value="seconds">Seconds</option>
+												<option value="minutes">Minutes</option>
+												<option value="hours">Hours</option>
+												<option value="days">Days</option>
+											</select>
 										</td>
 									</tr>
 								</tbody>

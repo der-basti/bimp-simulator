@@ -148,6 +148,9 @@ $(document).ready(function () {
 			}
 		});
 	});
+	$("body").delegate(".currency", "change", function () {
+		$(".currencyText").text($(this).val());
+	});
 });
 var timeTableRow;
 
