@@ -333,17 +333,17 @@ function convertToSeconds (value, timeUnit) {
 
 function convertSecondsToX(value, timeUnit) {
 	switch (timeUnit) {
-	case ("minutes"):
-		return value / 60;
-	break;
-	case ("hours"):
-		return value / 60 / 60;
-	break;
-	case ("days"):
-		return value / 60 / 60 / 24;
-	break;
-	default:
-		return value;
-	break;
-}
+		case ("minutes"):
+			return value / 60;
+		break;
+		case ("hours"):
+			return value / 60 / 60;
+		break;
+		case ("days"):
+			return value / 60 / 60 / 24;
+		break;
+		default:
+			return value;
+		break;
+	}
 }

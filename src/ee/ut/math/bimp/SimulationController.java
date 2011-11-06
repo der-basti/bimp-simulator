@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Controller;
@@ -48,19 +49,23 @@ public class SimulationController {
 	public void getStatus(HttpServletResponse response,
 			HttpServletRequest request) {
 
+		JSONObject json = new JSONObject();
 		String id = (String) request.getSession().getAttribute("id");
 		Simulation simulation = simulations.get(id);
-		SimulationChecker checker = simulation.getChecker();
-
-		response.setContentType("application/json");
-		JSONObject json = new JSONObject();
-		String status = checker.getStatus();
-		if (status.equals(null)) {
-			status = "RUNNING";
+		if (simulation != null) {
+			SimulationChecker checker = simulation.getChecker();
+	
+			response.setContentType("application/json");
+			String status = checker.getStatus();
+			if (status.equals(null)) {
+				status = "RUNNING";
+			}
+			json.put("status", status);
+			json.put("progress", checker.getProgress());
+		} else {
+			json.put("status", "N/A");
+			json.put("progress", "N/A");
 		}
-		json.put("status", status);
-		json.put("progress", checker.getProgress());
-
 		try {
 			PrintWriter writer = response.getWriter();
 			writer.print(json.toString());
@@ -89,9 +94,9 @@ public class SimulationController {
 			simulation.getRunner().setMxmlLog(new MxmlLogger(path));
 		}
 
-		simulation.start();
-		simulations.put(id, simulation);
 		model.addAttribute("id", id);
+		simulations.put(id, simulation);
+		simulation.start();
 		return "loading";
 	}
 

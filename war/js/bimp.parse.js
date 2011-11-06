@@ -196,15 +196,18 @@ bimp.parser = {
 				result = "OR";
 			}
 		});
-		return result;	
+		return result;
 	},
 	countSequenceFlowsFromGateway : function (id) {
 		var count = 0;
 		sequenceFlows = $(this.xmlFile).find(bimp.parser.prefixEscaped + "sequenceFlow");
 		$(sequenceFlows).each(function(index, sequenceFlow) {
 			var sourceRef = sequenceFlow.getAttribute("sourceRef");
-			var sourceRefNodeName = $(this.xmlFile).find("#" + sourceRef).nodeName;
-			if (sourceRefNodeName === "exclusiveGateway" || sourceRefNodeName === "inclusiveGateway") {
+			var sourceRefNodeName = "";
+			if ($(bimp.parser.xmlFile).find("#" + sourceRef)[0]) {
+				sourceRefNodeName = $(bimp.parser.xmlFile).find("#" + sourceRef)[0].nodeName;
+			}
+			if (sourceRefNodeName === bimp.parser.prefix + "exclusiveGateway" || sourceRefNodeName === bimp.parser.prefix + "inclusiveGateway") {
 				if (sourceRef === id) {
 					count += 1;
 				}

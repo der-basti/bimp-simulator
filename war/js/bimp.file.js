@@ -53,7 +53,8 @@ bimp.file = {
 				if (data.status == "Success") {
 					//console.log("file upload successful");
 					if (data.redirect) {
-						window.location = data.redirect;
+//						window.location = data.redirect;
+						openLoadingModal();
 					}
 				}
 			});

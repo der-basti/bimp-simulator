@@ -174,6 +174,14 @@ $(document).ready(function () {
 			}	
 		});
 	});
+	
+	$("body").delegate("#backToEditData", "click", function() {
+		$("#resultsPage").fadeOut("fast", function() {
+			$(this).remove();
+		});
+		$("#uploadPage").fadeIn("fast");
+	});
+//	openLoadingModal();
 });
 
 var timeTableRow;
@@ -233,3 +241,113 @@ var updateTypeSelection = function (element) {
 		$(element).parent().find("." + _element).parent().show();
 	});
 };
+
+var openLoadingModal = function () {
+	$("body").append("<div id='modal-bg'></div>");
+	$("body").append("<div id='loading'>" +
+			"<h2>Running your simulation, please wait</h2>" +
+			"<h2 class='status'>Status</h2>" +
+			"<div class='progressBarContainer'><div class='progressBar'></div></div>" +
+			"<h2 class='progress'>Progress</h2>" +
+			"</div>");
+	var left = (document.width - $("#loading").width()) / 2;
+	$("#loading").css({"left":left});
+	
+	$.ajax({
+		contentType : 'application/json',
+		type : 'get',
+		url : '/simulate',
+		success : function() {
+			console.log("simulation ended");
+		},
+		error : function(e) {
+			console.log(e);
+		}
+
+	});
+	timerId = setInterval("getStatus()", interval);
+	$("#modal-bg").fadeIn();
+	$("#loading").fadeIn();
+};
+
+var closeLoadingModal = function () {
+	$("#loading").fadeOut().remove();
+	$("#modal-bg").fadeOut().remove();
+}
+
+getStatus = function() {
+	timer += interval;
+	if (timer > 500000) {
+		clearInterval(timerId);
+		window.location = "/getResults";
+	}
+	$.ajax({
+		contentType : 'application/json',
+		type : 'post',
+		url : '/getStatus',
+		success : function(data) {
+			switch (data.status) {
+			case ("INITIALIZING"):
+				if (pointCount < 3) {
+					pointCount += 1;
+					$(".status").text(data.status + generateXCharacters(pointCount, "."));
+				} else {
+					pointCount = 0;
+				}
+				break;
+			case ("STARTED"):
+				$(".progressBarContainer").fadeIn();
+				var width = data.progress.split("/")[0] / data.progress.split("/")[1] * 100 + "%";
+				$(".progressBar").css({"width":width});
+				if (pointCount < 3) {
+					pointCount += 1;
+					$(".status").text(data.status + generateXCharacters(pointCount, "."));
+				} else {
+					pointCount = 0;
+				}
+				break;
+			case ("FINALIZING"):
+				$(".progressBarContainer").fadeOut();
+				if (pointCount < 3) {
+					pointCount += 1;
+					$(".status").text(data.status + " and writing logs" + generateXCharacters(pointCount, "."));
+				} else {
+					pointCount = 0;
+				}
+				break;
+			case ("FINISHED"):
+				clearInterval(timerId);
+//				window.location = "/getResults";
+				$.ajax({
+					type : 'get',
+					url : '/getResults',
+					success : function(data) {
+						$("#uploadPage").fadeOut();
+						$("#header").after(data);
+						closeLoadingModal();
+					}
+				});
+				break;
+			}
+			$(".progress").text(data.progress);
+		},
+		error : function(e) {
+			console.log(e);
+			clearInterval(timerId);
+		}
+
+	});
+};
+
+var generateXCharacters = function (x, character) {
+	var result = "";
+	for (var i = 0; i<x; i++) {
+		result = result + character;
+	}
+	return result;
+};
+
+var pointCount = 0;
+var interval = 500;
+var timerId = "";
+var timer = 0;
