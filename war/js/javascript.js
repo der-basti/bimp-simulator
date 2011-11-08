@@ -23,9 +23,10 @@ $(document).ready(function () {
 		if ($(this).parents().find(".timetables").find(".timetable").size() == 0) {
 			row = timeTableRow;
 		}
-		$(row).find("input").each(function () {
-			$(this).val("");
-		});
+		$(row).find(".startday").val("Mon");
+		$(row).find(".endday").val("Fri");
+		$(row).find(".begintime").val("09:00:00");
+		$(row).find(".endtime").val("17:00:00");
 		$(row).find(".remove").show();
 		var tbody = $(this).parents().find(".timetables tbody");
 		$(row).appendTo(tbody)
@@ -217,6 +218,7 @@ var updateResourceDropdowns = function () {
 };
 
 var updateResourceId = function (element) {
+	// generating resource id from resources name, NB: resource names have to be unique
 	var id = $(element).val().replace(/ /g, "");
 	$(element).parent().parent().attr("data-id", id);
 };
@@ -228,6 +230,7 @@ var updateAllTypeSelections = function () {
 };
 
 var updateTypeSelection = function (element) {
+	// update the fields to be show for selected duration option values
 	var show = {
 			fixed : "value",
 			standard : "mean,stdev",
@@ -273,9 +276,10 @@ var openLoadingModal = function () {
 var closeLoadingModal = function () {
 	$("#loading").fadeOut().remove();
 	$("#modal-bg").fadeOut().remove();
-}
+};
 
 getStatus = function() {
+	//getting the status of the simulation
 	timer += interval;
 	if (timer > 500000) {
 		clearInterval(timerId);
@@ -336,6 +340,26 @@ getStatus = function() {
 			clearInterval(timerId);
 		}
 
+	});
+};
+
+var preloadTaskResources = function () {
+	var resources = $(bimp.parser.xmlFile).find(bimp.parser.prefixEscaped + "lane");
+	$(resources).each(function (index, resource) {
+		flowNodeRefs = $(resource).find(bimp.parser.prefixEscaped + "flowNodeRef");
+		var resourceId = $(resource).attr("id");
+		$(flowNodeRefs).each(function (index, flowNode) {
+			var taskId = $(flowNode).text();
+			var target = $(bimp.parser.xmlFile).find("#" + taskId)[0];
+			// since nodeName returns name with prefix, then perform check for prefix (chrome)
+			if (target.nodeName.split(":").length > 1 ? target.nodeName.split(":")[1]:target.nodeName  == bimp.parser.prefix + "task") {
+				$(".task").each(function (index, element) {
+					if ($(element).attr("data-id") == taskId) {
+						$(element).find(".resource").val(resourceId);
+					}
+				});
+			}
+		});
 	});
 };
 

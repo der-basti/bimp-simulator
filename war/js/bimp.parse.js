@@ -10,6 +10,7 @@ bimp.parser = {
 		//console.log("Finished reading data");
 		bimp.forms.generate.start();
 		updateAllTypeSelections();
+		preloadTaskResources();
 	},
 	startEvent : {
 		arrivalRateDistribution : {
@@ -105,6 +106,14 @@ bimp.parser = {
 			$.extend(true, this.startEvent, simInfo);
 		} else {
 			//console.log("No documentation info found for startEvent");
+			// checking for resources defined with pools and lanes
+			var resources = $(bimp.parser.xmlFile).find(bimp.parser.prefixEscaped + "lane");
+			$(resources).each(function (index, resource) {
+				var id = $(resource).attr("id");
+				var name = $(resource).attr("name");
+				$(bimp.parser.xmlFile).find("#" + id);
+				bimp.parser.startEvent.addResource(id, name);
+			});
 		}
 		return true;
 	},
