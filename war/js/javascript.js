@@ -182,6 +182,16 @@ $(document).ready(function () {
 		});
 	});
 	
+	$("#contactForm").click(function() {
+		if ($("#txtCaptcha").val()=="") {
+			DrawCaptcha();
+		}
+	});
+	
+	$("#captchaRefresh").click(function() {
+		DrawCaptcha();
+	});
+	
 	$("body").delegate("#backToEditData", "click", function() {
 		$("#resultsPage").fadeOut("fast", function() {
 			$(this).remove();
@@ -386,12 +396,12 @@ function DrawCaptcha() {
     var f = Math.ceil(Math.random() * 10)+ '';  
     var g = Math.ceil(Math.random() * 10)+ '';  
     var code = a + ' ' + b + ' ' + ' ' + c + ' ' + d + ' ' + e + ' '+ f + ' ' + g;
-    $("#txtCaptcha").HTML(code);
+    $("#txtCaptcha").val(code);
 }
 
 function ValidCaptcha() {
-    var str1 = removeSpaces(document.getElementById('txtCaptcha').value);
-    var str2 = removeSpaces(document.getElementById('txtInput').value);
+    var str1 = removeSpaces($("#txtCaptcha").val());
+    var str2 = removeSpaces($("#txtInput").val());
     if (str1 == str2) return true;        
     return false;
 }

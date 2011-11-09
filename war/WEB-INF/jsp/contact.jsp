@@ -17,36 +17,47 @@
 <body>
 	<div id="main">
 		<jsp:include page="_header.jsp"></jsp:include>
-		<div id="uploadPage" class="contents">
+		<div id="contactPage" class="contents">
 			<h1>Contact</h1>
 			<div id="emailAdress">
 				<h2>You can contact us via e-mail:</h2>
 				E-mail: <a href= "mailto:some.thing@mail.com">some [dot] thing [at] mail [dot] com</a>
 			</div>
-			<table>
-				<tr>
-    				<td>
-        				Welcome To Captcha<br />
-    				</td>
-				</tr>
-				<tr>
-    				<td>
-     					<input type="text" id="txtCaptcha" class="captcha"/>
-  				    	<input type="button" id="btnrefresh" value="Refresh" onclick="DrawCaptcha();" />
-  					</td>
-				</tr>
-				<tr>
-   					<td>
-      					<input type="text" id="txtInput"/>    
-    				</td>
-				</tr>
-				<tr>
-    				<td>
-        				<input id="Button1" type="button" value="Check" onclick="alert(ValidCaptcha());"/>
-   					</td>
-				</tr>
-		</table>
-		
+			<div id="contactForm">
+			<h2>Or contact us via this form:</h2>
+			<fieldset class="gill-font">
+				<legend>Contact Form</legend>
+				<form action="mailto:some.thing@mail.com" method="post" enctype="text/plain">
+				<ul>
+					<li>
+						<label for="name">Name</label>
+						<input type="text" name="name" id="name" size="30" />
+					</li>
+					<li>
+						<label for="email">Email</label>
+						<input type="text" name="email" id="email" size="30" />
+					</li>
+					<li>
+						<label for="feedback">Leave your feedback or questions</label>
+						<textarea cols="40" rows="6" name="feedback"></textarea>
+					<li>
+						<label>Numbers</label>
+						<input type="text" id="txtCaptcha" class="captcha"/>
+  				    	<input type="button" id="captchaRefresh" class="button" value="Refresh" />
+  				    </li>
+					<li>
+						<label for="captcha">Please write the numbers shown above</label>
+						<input type="text" id="txtInput"/> 
+					</li>
+					<li>
+						<label for="submit">Send the form by clicking the button</label>
+						<button type="submit" id="submitContactForm" class="button">Send</button>
+					</li>
+				</ul>
+				<input id="Button1" type="button" value="Check" onclick="alert(ValidCaptcha());"/>
+				</form>
+			</fieldset>
+			</div>
 		</div>
 		<jsp:include page="_footer.jsp"></jsp:include>
 	</div>

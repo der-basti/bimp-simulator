@@ -431,9 +431,30 @@ h2.toggle-trigger a:active {
 }
 
 .captcha {
-	background-image:url(images/captcha-bg.jpg);
+	background-image:url(images/captcha.jpg);
 	text-align:center;
 	border:none;
     font-weight:bold;
-    font-family:Modern
+    font-family:Modern;
+}
+
+#contactPage fieldset ul, #contactPage fieldset li {
+	border:0; margin:0; padding:0; list-style:none;
+}
+
+#contactPage fieldset li {
+	clear: both;
+	list-style: none;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+#contactPage fieldset input {
+	float: left;
+	margin-top: 5px;
+}
+
+#contactPage fieldset label {
+	width: 300px;
+	float: left;
 }
