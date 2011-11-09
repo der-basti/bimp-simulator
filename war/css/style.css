@@ -9,6 +9,8 @@ body {
 }
 
 h1 {
+	margin-top: 10px;
+	margin-bottom: 10px;
 	color: rgb(225,183,135);
 	font-size: 50px;
 }
@@ -28,10 +30,7 @@ i {	color: rgb(225,183,135); font-size: 110%; }
 	font-family: Gill Sans MT, sans-serif;
 }
 
-.justified {
-	text-align: justify;
-	color: red;
-}
+.justified { text-align: justify; }
 
 /* Layout */
 
@@ -59,16 +58,18 @@ i {	color: rgb(225,183,135); font-size: 110%; }
 
 #footer { text-align: right; }
 
-.main {
-	display: block;
-	min-height: 380px;
-	padding: 10px;
-	color: rgb(26, 17, 7);
+.contents {
+	min-height: 375px;
+	padding: 5px;
 }
 
 .logo, .slogan {
 	width: 700px;
 	float: left;
+}
+
+.inline {
+	overflow:hidden;
 }
 
 /* Navigation menu */
@@ -209,8 +210,7 @@ ul#list-nav li { display:inline; }
 	color: black;
 	width: 200px;
 	font-size: 16px;
-	margin-left: 10px;
-	margin-right: 10px;
+	margin-top: 5px;
 	text-align: center;
 }
 #bimp2-help, #bimpeditors-help, #ui-help {
@@ -344,6 +344,19 @@ h2.toggle-trigger a:active {
 	margin-bottom: 30px;
 }
 
+#help-nav {
+	margin-top: 22px;
+	margin-bottom: 50px;
+	width: 25%;
+	float: left;
+}
+
+#help-text-div {
+	width: 75%;
+	float: right;
+	margin-bottom: 30px;
+}
+
 #instructions , #download-div {
 	margin: 15px;
 	float: right;
@@ -415,4 +428,12 @@ h2.toggle-trigger a:active {
 	background: -ms-linear-gradient(top, rgba(183,222,237,1) 0%,rgba(113,206,239,1) 50%,rgba(33,180,226,1) 51%,rgba(183,222,237,1) 100%); /* IE10+ */
 	background: linear-gradient(top, rgba(183,222,237,1) 0%,rgba(113,206,239,1) 50%,rgba(33,180,226,1) 51%,rgba(183,222,237,1) 100%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b7deed', endColorstr='#b7deed',GradientType=0 ); /* IE6-9 */
+}
+
+.captcha {
+	background-image:url(images/captcha-bg.jpg);
+	text-align:center;
+	border:none;
+    font-weight:bold;
+    font-family:Modern
 }

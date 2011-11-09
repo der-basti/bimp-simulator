@@ -5,7 +5,6 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF8">
-	<link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
 	<script type="text/javascript" src="./js/jquery-1.6.4.min.js"></script>
 	<script type="text/javascript" src="./js/jquery-ui-1.8.16.custom.min.js"></script>
 	<script type="text/javascript" src="./js/bimp.file.js"></script>
@@ -21,7 +20,7 @@
 <body>
 	<div id="main">
 		<jsp:include page="_header.jsp"></jsp:include>
-		<div id="uploadPage">
+		<div id="uploadPage" class="contents">
 			<div id="instructions">
 				<b>Here are some instructions</b><br>
 				<ol>

@@ -157,6 +157,12 @@ $(document).ready(function () {
 		var clickedButton = $(this);
 		$(".help-text").each(function () {
 			if ($(this).is(":visible")) {
+				if ($(this).attr("id") == "bimp-help" && $(clickedButton).attr("id")=="bimp-help-trigger"
+					|| $(this).attr("id") == "bimp2-help" && $(clickedButton).attr("id")=="bimp2-trigger"
+					|| $(this).attr("id") == "bimpeditors-help" && $(clickedButton).attr("id")=="bimpeditors-trigger"
+					|| $(this).attr("id") == "ui-help" && $(clickedButton).attr("id")=="ui-help-trigger") {
+					return false;
+				}
 				$(this).slideUp(500, function () {
 					if ($(clickedButton).attr("id")=="bimp-help-trigger") {
 						$("#bimp-help").slideDown(500);
@@ -370,6 +376,29 @@ var generateXCharacters = function (x, character) {
 	}
 	return result;
 };
+
+function DrawCaptcha() {
+    var a = Math.ceil(Math.random() * 10)+ '';
+    var b = Math.ceil(Math.random() * 10)+ '';       
+    var c = Math.ceil(Math.random() * 10)+ '';  
+    var d = Math.ceil(Math.random() * 10)+ '';  
+    var e = Math.ceil(Math.random() * 10)+ '';  
+    var f = Math.ceil(Math.random() * 10)+ '';  
+    var g = Math.ceil(Math.random() * 10)+ '';  
+    var code = a + ' ' + b + ' ' + ' ' + c + ' ' + d + ' ' + e + ' '+ f + ' ' + g;
+    $("#txtCaptcha").HTML(code);
+}
+
+function ValidCaptcha() {
+    var str1 = removeSpaces(document.getElementById('txtCaptcha').value);
+    var str2 = removeSpaces(document.getElementById('txtInput').value);
+    if (str1 == str2) return true;        
+    return false;
+}
+
+function removeSpaces(string) {
+    return string.split(' ').join('');
+}
 
 var pointCount = 0;
 var interval = 500;

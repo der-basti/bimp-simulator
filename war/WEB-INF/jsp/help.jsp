@@ -16,11 +16,14 @@
 <body>
 	<div id="main">
 	<jsp:include page="_header.jsp"></jsp:include>
-	<div class="help-nav-button" id="bimp-help-trigger">BIMP Simulator</div>
-	<div class="help-nav-button" id="bimp2-trigger">BIMP 2.0</div>
-	<div class="help-nav-button" id="bimpeditors-trigger">BIMP 2.0 Editors</div>
-	<div class="help-nav-button" id="ui-help-trigger">User Interface</div>
-		<div id="contents" class="gill-font justified">
+	<div id="helpPage" class="contents gill-font justified inline">
+		<div id="help-nav">
+			<div class="help-nav-button" id="bimp-help-trigger">BIMP Simulator</div>
+			<div class="help-nav-button" id="bimp2-trigger">BIMP 2.0</div>
+			<div class="help-nav-button" id="bimpeditors-trigger">BIMP 2.0 Editors</div>
+			<div class="help-nav-button" id="ui-help-trigger">User Interface</div>
+		</div>
+		<div id="help-text-div">
 			<div class="help-text" id="bimp-help">
 			<H1>BIMP SIMULATOR</H1>
 			<p><b>A business process</b> is a collection of related, structured activities or tasks that produce a specific 
@@ -77,18 +80,15 @@
 			<H1>BPMN 2.0 EDITORS</H1>
 			<p>For using the BPMN Simulator, You need a BPMN 2.0 file. For generating this file, You can use some 
 			of the following editors:</p>
-			</br>
 			<h2>ORYX</h2>
 			<p>Oryx is a web-based process modeling environment. It is not only a great tool to model processes and 
 			share them on the web but it also provides a platform for research prototypes. For more information, 
 			click <a href="http://bpt.hpi.uni-potsdam.de/Oryx/WebHome">HERE</a>.</p>
-			</br>
 			<h2>SIGNAVIO</h2>
 			<p>The Signavio Process Editor provides easy access to professional business process management thanks
 			to new web technology. It allows to incorporate more employees or business partners, suppliers and 
 			customers into the process of process design. For more detailed information, see  
 			<a href="http://www.signavio.com/en/bpmn">HERE</a>.</p>
-			</br>
 			<h2>BIZAGI</h2>
 			<p>Bizagi is a BPM Solution that will enable you and your organization to model, automate, execute and 
 			improve your business processes through a graphic environment and without the need of programming. 
@@ -108,6 +108,7 @@
 			be downloaded to Your computer.</p> 
 			</div>
 		</div>
+	</div>
 	<jsp:include page="_footer.jsp"></jsp:include>	
 	</div>
 </body>

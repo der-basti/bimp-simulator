@@ -47,6 +47,13 @@ public class MainPageController {
 		log.debug("/help requested, sending page");
 		return "help";
 	}
+	
+	@RequestMapping(value = "/contact", method = RequestMethod.GET)
+	public String contact(ModelMap model) {
+
+		log.debug("/contact requested, sending page");
+		return "contact";
+	}
 
 	/**
 	 * Handles for the logfile download.
