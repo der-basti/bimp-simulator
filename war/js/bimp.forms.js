@@ -300,7 +300,7 @@ bimp.forms = {
 								if (value == "") {
 									value = "0";
 								}
-								obj[name] = $(selector).find("." + name).val();
+								obj[name] = value;
 							}
 							//console.log("Reading ", name, "with value", $(selector).find("." + name).val());
 						}
