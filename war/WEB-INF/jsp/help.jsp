@@ -29,7 +29,7 @@
 			<p><b>A business process</b> is a collection of related, structured activities or tasks that produce a specific 
 			service or product. In general it can be said that business processes exist in all companies that serve 
 			a particular goal, but very often those are not written down or defined formally.</p>
-			<p><i>A goal of business</i> analysts is to make such process as efficient as possible in order to 
+			<p>A goal of business analysts is to make such process as efficient as possible in order to 
 			gain higher customer 
 			satisfaction, product or service quality, delivery and time-to-market speed. This kind of goal can be 
 			achieved using a systematic approach called business process management (henceforth BPM for short). 
@@ -43,7 +43,7 @@
 			<div class="help-text" id="bimp2-help">
 			<H1>BIMP 2.0</H1>
 			<p>BPMN 2.0 does not specify how simulation related information has to be serialized, be-cause the 
-			simulation is considered to be outside the scope of BPMN. Although some at-tempts have been made 
+			simulation is considered to be outside the scope of BPMN. Although some attempts have been made 
 			like up to now to overcome this problem, but at the moment there is no standard way of representing 
 			simulation information in BPMN. In order to simulate a business process model additional simulation 
 			information has to be provided for:</p>
@@ -60,20 +60,22 @@
 			the information about the arrival rate which defines the time interval of when the next instance 
 			started after the previous one. The process initialization data must contain information about which 
 			and how many resources (actors or roles for tasks) are available for the process instances defined 
-			in the model. Element execution data has to be associated with all elements which last for some 
-			specified time and it must define how many time units it takes to complete the element in average. 
-			Resource allocation data has to be associated also with each task and it must define which resource 
+			in the model.</p>
+			<p>Element execution data has to be associated with all elements which last for some 
+			specified time and it must define how many time units it takes to complete the element in average.</p>
+			<p>Resource allocation data has to be associated also with each task and it must define which resource 
 			is responsible for and performs the task. Resource management is one of the key elements in the 
 			simulation – a task cannot be started if all resources are in use which results in a queue of waiting 
-			activities. Cost of activity is a monetary value of how much does it cost to perform an activity. 
+			activities.</p>
+			<p>Cost of activity is a monetary value of how much does it cost to perform an activity. 
 			Usually the cost of activity includes the cost related to the duration (e.g. the hourly wage for 
-			human resources) and additional costs (e.g. the shipping cost, road usage fees) that are fixed. 
-			Branching probabilities must be defined for the outgoing flows from the Xor- and Or-split gateways 
+			human resources) and additional costs (e.g. the shipping cost, road usage fees) that are fixed.</p>
+			<p>Branching probabilities must be defined for the outgoing flows from the Xor- and Or-split gateways 
 			in the process model. Using the branching probability information, the simulator determines which 
 			path(s) will be taken in a particular process instance. In the real world task execution times and 
 			process arrival rates in the most cases are not fixed values, but those can be defined by an average 
-			value and some distribution info. Be-sides the fixed amount of time units there are three commonly 
-			used distributions to de-scribe a variety of time values: standard, uniform and exponential 
+			value and some distribution info. Besides the fixed amount of time units there are three commonly 
+			used distributions to describe a variety of time values: standard, uniform and exponential 
 			distribution.</p>
 			</div>
 			<div class="help-text" id="bimpeditors-help">
@@ -98,11 +100,13 @@
 			<H1>USER INTERFACE</H1>
 			<p>For using this Lightning Fast Business Process Simulator You have to go to the file upload page and 
 			upload a BPMN file. For this, You can choose a file from Your computer by clicking on „Choose file“ 
-			button or by dropping it on the dropping area. After choosing a file „Continue“-button appears and 
-			after pressing on it, You can change or delete the simulation information from the file or add 
+			button or by dropping it on the dropping area.</p>
+			<p>After choosing a file „Continue“-button appears and after pressing on it, You can change 
+			or delete the simulation information from the file or add 
 			additional information. For starting the simulation, You have to press on the „Start simulation“ 
 			button. If You want to get the simulation log file, You have to click on the „Generate a log“ 
-			checkbox. This has to be done before starting the simulation. After the simulation process, the system 
+			checkbox. This has to be done before starting the simulation.</p>
+			<p>After the simulation process, the system 
 			displays all the generated information. For downloading the log file, BPMN file or simulation report, 
 			press on the appropriate button displayed on the right side of the page and the selected file will 
 			be downloaded to Your computer.</p> 
