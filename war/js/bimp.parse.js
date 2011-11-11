@@ -75,13 +75,14 @@ bimp.parser = {
 	},
 	hasConditionExpressions: false,
 	conditionExpressions : {},
-	conditionExpression : function(id, targetRef, sourceRef, value, type, targetName) {
+	conditionExpression : function(id, targetRef, sourceRef, value, type, targetName, gatewayName) {
 		this.id = id;
 		this.targetRef = targetRef;
 		this.sourceRef = sourceRef;
 		this.probability = value;
 		this.type = type;
 		this.targetName = targetName;
+		this.gatewayName = gatewayName;
 	},
 	init : function () {
 		this.xmlFile = bimp.file.xmlFile;
@@ -175,10 +176,14 @@ bimp.parser = {
 				//console.log("Found conditionExpression and added it");
 				var targetRef = sequenceFlow.getAttribute("targetRef");
 				var targetName = $(bimp.parser.xmlFile).find("#" + targetRef)[0].getAttribute("name");
-				
+				if (value === "" && type === "Inclusive (OR)") {
+					// defaulting to 100%
+					value = 1;
+				}
 				var id = sequenceFlow.getAttribute("id");
+				var gatewayName = sequenceFlow.getAttribute("name");
 				ce = new bimp.parser.conditionExpression(id, targetRef, sourceRef, value,
-						type, targetName ? (targetName.trim != "" ? targetName : "N/A") : "N/A");
+						type, targetName ? (targetName.trim != "" ? targetName : "N/A") : "N/A", gatewayName);
 				bimp.parser.hasConditionExpressions = true;
 				bimp.parser.conditionExpressions[id] = ce;
 			}
@@ -194,7 +199,7 @@ bimp.parser = {
 					(exclusiveGateway.getAttribute("gatewayDirection") == "diverging" ||
 					exclusiveGateway.getAttribute("gatewayDirection") == "mixed") ||
 					bimp.parser.countSequenceFlowsFromGateway(id) > 1) {
-				result = "XOR";
+				result = "Exclusive (XOR)";
 			}
 		});
 		$(inclusiveGateways).each(function(index, inclusiveGateway) {
@@ -202,7 +207,7 @@ bimp.parser = {
 					(inclusiveGateway.getAttribute("gatewayDirection") == "diverging" ||
 					inclusiveGateway.getAttribute("gatewayDirection") == "mixed") ||
 					bimp.parser.countSequenceFlowsFromGateway(id) > 1) {
-				result = "OR";
+				result = "Inclusive (OR)";
 			}
 		});
 		return result;

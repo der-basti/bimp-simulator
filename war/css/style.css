@@ -283,9 +283,10 @@ ul#list-nav li { display:inline; }
 }
 
 h2.toggle-trigger a {
+	display: block;
+	padding-top: 4px;
 	color: white;
 	text-decoration: none;
-	display: block;
 }
 
 h2.toggle-trigger a:hover { color: #ccc; }
@@ -457,4 +458,8 @@ h2.toggle-trigger a:active {
 #contactPage fieldset label {
 	width: 300px;
 	float: left;
+}
+
+span.type {
+	font-weight: bold;
 }
