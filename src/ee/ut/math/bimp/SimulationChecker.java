@@ -1,11 +1,7 @@
 package ee.ut.math.bimp;
-import java.io.File;
-import java.util.List;
-
 import ee.ut.bpsimulator.BPSimulator;
 import ee.ut.bpsimulator.logger.KpiCalculator;
 import ee.ut.bpsimulator.logger.MxmlLogger;
-import ee.ut.bpsimulator.model.Activity;
 
 
 public class SimulationChecker extends Thread {

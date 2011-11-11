@@ -29,7 +29,7 @@ import ee.ut.bpsimulator.model.Activity;
 /**
  * Simulation controller.
  * 
- * @author Marko
+ * @author Marko, Viljar
  * 
  */
 @Controller
@@ -56,7 +56,13 @@ public class SimulationController {
 			SimulationChecker checker = simulation.getChecker();
 	
 			response.setContentType("application/json");
-			String status = checker.getStatus();
+			String status = "";
+			if (simulation.getException() == null) {
+				status = checker.getStatus();
+			} else {
+				status = "ERROR";
+				json.put("error", simulation.getException().getMessage());
+			}
 			if (status.equals(null)) {
 				status = "RUNNING";
 			}
@@ -96,7 +102,13 @@ public class SimulationController {
 
 		model.addAttribute("id", id);
 		simulations.put(id, simulation);
-		simulation.start();
+		try {
+			simulation.start();
+		} catch (Exception e) {
+			simulation.setException(e);
+			log.debug(e.getStackTrace());
+			e.printStackTrace();
+		}
 		return "loading";
 	}
 

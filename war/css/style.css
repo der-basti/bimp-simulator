@@ -461,3 +461,22 @@ h2.toggle-trigger a:active {
 span.type {
 	font-weight: bold;
 }
+
+/* css for timepicker */
+.ui-timepicker-div .ui-widget-header{ margin-bottom: 8px; }
+.ui-timepicker-div dl{ text-align: left; }
+.ui-timepicker-div dl dt{ height: 25px; }
+.ui-timepicker-div dl dd{ margin: -25px 0 10px 65px; }
+.ui-timepicker-div td { font-size: 90%; }
+
+.error {
+	color: red;
+}
+.error2 {
+	background-color: rgba(255,230,230,0.92)!important;
+}
+.close {
+	right: 0;
+	top: 0;
+	display: none;
+}

@@ -25,8 +25,8 @@ $(document).ready(function () {
 		}
 		$(row).find(".startday").val("Mon");
 		$(row).find(".endday").val("Fri");
-		$(row).find(".begintime").val("09:00:00");
-		$(row).find(".endtime").val("17:00:00");
+		$(row).find(".begintime").val(bimp.forms.defaultBeginTime);
+		$(row).find(".endtime").val(bimp.forms.defaultEndTime);
 		$(row).find(".remove").show();
 		var tbody = $(this).parents().find(".timetables tbody");
 		$(row).appendTo(tbody)
@@ -198,7 +198,10 @@ $(document).ready(function () {
 		});
 		$("#uploadPage").fadeIn("fast");
 	});
-//	openLoadingModal();
+	$(".timepicker").timepicker({timeFormat:"hh:mm:ss"});
+	$("body").delegate(".close", function () {
+		closeLoadingModal();
+	});
 });
 
 var timeTableRow;
@@ -264,7 +267,8 @@ var updateTypeSelection = function (element) {
 var openLoadingModal = function () {
 	$("body").append("<div id='modal-bg'></div>");
 	$("body").append("<div id='loading'>" +
-			"<h2>Running your simulation, please wait</h2>" +
+			"<span class='close'>X<span>" +
+			"<h2 class='title'>Running your simulation, please wait</h2>" +
 			"<h2 class='status'>Status</h2>" +
 			"<div class='progressBarContainer'><div class='progressBar'></div></div>" +
 			"<h2 class='progress'>Progress</h2>" +
@@ -348,8 +352,15 @@ getStatus = function() {
 					}
 				});
 				break;
+			case ("ERROR"):
+				clearInterval(timerId);
+				$(".title").addClass("error");
+				$("#loading").addClass("error2");
+				$(".title").text("Simulation ended with error, please check your data.");
+				$(".status").text(data.error ? data.error:":(");
+				$(".close").show();
+				break;
 			}
-			$(".progress").text(data.progress);
 		},
 		error : function(e) {
 			console.log(e);

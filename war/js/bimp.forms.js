@@ -1,4 +1,6 @@
 bimp.forms = {
+		defaultBeginTime: "09:00:00",
+		defaultEndTime: "17:00:00",
 		generate : {
 			start : function () {
 				this.startEvent("test");

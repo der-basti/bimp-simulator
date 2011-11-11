@@ -11,6 +11,7 @@
 	<script type="text/javascript" src="./js/bimp.parse.js"></script>
 	<script type="text/javascript" src="./js/bimp.forms.js"></script>
 	<script type="text/javascript" src="./js/javascript.js"></script>
+	<script type="text/javascript" src="./js/jquery-ui-timepicker-addon.js"></script>
 	
 	<link rel="stylesheet" type="text/css" href="./css/style.css"></link>
 	<link rel="stylesheet" type="text/css" href="./css/jquery-ui-1.8.16.custom.css"></link>
@@ -209,10 +210,10 @@
 											</select>
 										</td>
 										<td>
-											<input class="begintime" name="begintime" class="timepicker">
+											<input class="begintime timepicker" name="begintime" value="09:00:00">
 										</td>
 										<td>
-											<input class="endtime" name="endtime" class="timepicker">
+											<input class="endtime timepicker" name="endtime" value="17:00:00">
 										</td>
 										<td><a class="trigger remove" href="javascript:void(0)" title="Remove field">X</a></td>
 								</tr>

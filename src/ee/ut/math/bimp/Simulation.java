@@ -1,6 +1,5 @@
 package ee.ut.math.bimp;
 
-import ee.ut.bpsimulator.logger.MxmlLogger;
 
 /**
  * Simulation class for holding all simulation related objects
@@ -11,16 +10,18 @@ import ee.ut.bpsimulator.logger.MxmlLogger;
 public class Simulation {
 	private SimulatorRunner runner;
 	private SimulationChecker checker;
+	private Exception exception;
 	
 	public Simulation(String filePath) {
 		this.runner = new SimulatorRunner();
 		this.runner.init(filePath);
+		this.exception = null;
 		this.checker = new SimulationChecker(filePath, runner.getSim(),
 				runner.getKpiStats(), runner.getMxmlLog());
 	}
 
-	public void start() {
-		this.runner.start();
+	public void start() throws Exception  {
+			this.runner.start();
 	}
 
 	public SimulatorRunner getRunner() {
@@ -37,6 +38,14 @@ public class Simulation {
 
 	public void setChecker(SimulationChecker checker) {
 		this.checker = checker;
+	}
+
+	public Exception getException() {
+		return exception;
+	}
+
+	public void setException(Exception exception) {
+		this.exception = exception;
 	}
 
 
