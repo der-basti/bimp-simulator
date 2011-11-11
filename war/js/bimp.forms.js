@@ -6,7 +6,9 @@ bimp.forms = {
 				this.conditionExpressions();
 				this.intermediateCatchEvents();
 				bimp.forms.groupGateways();
-				removeLastButton;
+				bimp.forms.setDefaultXORValues();
+				removeLastButton();
+				updateResourceDropdowns();
 				$(".currencyText").text($(".currency").val());
 			},
 			startEvent : function (name) {
@@ -141,12 +143,18 @@ bimp.forms = {
 				if (name === "name" && value === "") {
 					value = "N/A";
 				}
+				if (value == "0" || value == 0) {
+					value = "";
+				}
 				if (typeof(value) == "object") {
 					$.each(value, function(_name, _value) {
 						if (typeof(_value) !== "object") {
 							if (["min", "max", "value", "mean", "stdev"].indexOf(_name) > -1) {
 								var timeUnit = value["timeUnit"];
 								_value = convertSecondsToX(_value, timeUnit);
+								if (_value == 0 || _value == "0") {
+									_value = "";
+								}
 							}
 							clone ? $(htmlObj).find("." + _name).val(_value) : $(selector +" ." + _name).val(_value);
 						}
@@ -168,6 +176,13 @@ bimp.forms = {
 						var startAt = value;
 						var startAtDate = startAt.split(" ")[0];
 						var startAtTime = startAt.split(" ")[1];
+						var dateAndTime = new Date();
+						if (startAtDate == "" || !startAtDate) {
+							startAtDate = dateAndTime.getFullYear() + "-" + dateAndTime.getMonth() + "-" + dateAndTime.getDay();
+						}
+						if (startAtTime == "" || !startAtTime) {
+							startAtTime = dateAndTime.toLocaleTimeString();
+						}
 						$(selector +" ." + name + "Date").val(startAtDate);
 						$(selector +" ." + name + "Time").val(startAtTime);
 					} else if (name == "currency"){
@@ -263,6 +278,9 @@ bimp.forms = {
 								var timeUnit = $(selector).find(".timeUnit").val();
 								$.each(value, function (_name, _value) {
 									var fieldValue = $(selector).find("." + _name).val();
+									if (fieldValue == "") {
+										fieldValue = "0";
+									}
 									if (timeUnit != "seconds" && ["min", "max", "value", "mean", "stdev"].indexOf(_name) > -1) {
 										// convert the value to seconds according to selected timeunit
 										fieldValue = convertToSeconds(fieldValue, timeUnit);
@@ -278,7 +296,11 @@ bimp.forms = {
 							} else if (name == "startAt"){
 								obj[name] = $(selector).find("." + name + "Date").val() + " " + $(selector).find("." + name + "Time").val();
 							} else {
-								obj[name] = $(selector).find("." + name).val();
+								var value = $(selector).find("." + name).val();
+								if (value == "") {
+									value = "0";
+								}
+								obj[name] = value;
 							}
 							//console.log("Reading ", name, "with value", $(selector).find("." + name).val());
 						}
@@ -291,10 +313,11 @@ bimp.forms = {
 			$(gateways).each(function (i, gateway) {
 				var sourceRef = $(gateway).find(".sourceRef").text();
 				var clone = $(gateway).clone(true);
-				if ($(gateway).find(".type").text() == "XOR") {
+				if ($(gateway).find(".type").text() == "Exclusive (XOR)") {
 					//console.log("xor");
 					if ($("#xor_" + sourceRef).size() > 0) {
-						$(clone).find(".type").parents("tr:first").hide();
+						$(clone).find("tr:first").hide();
+						$(clone).find("tr th div").slice(0, 2).css({"visibility":"hidden", "overflow-y":"hidden", "height":"0"});
 						$("#xor_" + sourceRef).append(clone);
 					} else {
 						var container = $("<div class='gatewayGroup xor' id='xor_" + sourceRef + "'></div>").append(clone);
@@ -302,7 +325,8 @@ bimp.forms = {
 					}
 				} else {
 					if ($("#" + sourceRef).size() > 0) {
-						$(clone).find(".type").parents("tr:first").hide();
+						$(clone).find("tr:first").hide();
+						$(clone).find("tr th div").slice(0, 2).css({"visibility":"hidden", "overflow-y":"hidden", "height":"0"});
 						$("#" + sourceRef).append(clone);
 					} else {
 						var container = $("<div class='gatewayGroup' id='" + sourceRef + "'></div>").append(clone);
@@ -310,6 +334,14 @@ bimp.forms = {
 					}
 				}
 				$(gateway).remove();
+			});
+		},
+		setDefaultXORValues : function () {
+			$(".gatewayGroup.xor").each(function (index, group) {
+				var probs = $(group).find(".probability");
+				if ($(probs[0]).val() == "") {
+					$(probs).val(Math.round((100 / probs.length)*100) / 100);
+				}
 			});
 		}
 };
