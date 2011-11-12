@@ -101,8 +101,7 @@
 								<tr>
 									<th># of instances</th>
 									<td><input class="instances" name="instances"
-										class="small" type="text">
-										<img src="./css/images/questionmark.png" title="Integer should be used."/>
+										class="small" type="text" title="Integer should be used.">
 									</td>
 								</tr>
 								<tr>
@@ -113,18 +112,17 @@
 										normal handler for starttime onFocus --> <input name="startAt"
 										class="normal datepicker startAtDate" type="text"
 										onFocus="if(this.value==this.defaultValue){this.value='';}"
-										value="yyyy-mm-dd"> 
+										value="yyyy-mm-dd" title="„YYYY-MM-DD“"> 
 										
 										<input name="startAt"
 										class="normal timepicker startAtTime" type="text"
 										onFocus="if(this.value==this.defaultValue){this.value='';}"
-										value="HH:MM:SS">
+										value="HH:MM:SS" title="„HH:MM:SS“">
 										<script>
 											$(".datepicker").datepicker({
 												dateFormat : 'yy-mm-dd'
 											});
 										</script> 
-										<img src="./css/images/questionmark.png" title="„YYYY-MM-DD“ and „HH:MM:SS“"/>
 										</td>
 								</tr>
 								<tr>

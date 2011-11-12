@@ -20,7 +20,7 @@
 	<div id="main">
 		<jsp:include page="_header.jsp"></jsp:include>
 		<div id="contactPage" class="contents">
-			<h1>Contact</h1>
+			<h1>CONTACT</h1>
 			<div id="emailAdress">
 				<h2>You can contact us via e-mail:</h2>
 				E-mail: <a href= "mailto:some.thing@mail.com">some [dot] thing [at] mail [dot] com</a>

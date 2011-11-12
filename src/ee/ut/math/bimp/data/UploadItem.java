@@ -1,4 +1,4 @@
-package ee.ut.math.bimp;
+package ee.ut.math.bimp.data;
 
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
