@@ -23,9 +23,10 @@ $(document).ready(function () {
 		if ($(this).parents().find(".timetables").find(".timetable").size() == 0) {
 			row = timeTableRow;
 		}
-		$(row).find("input").each(function () {
-			$(this).val("");
-		});
+		$(row).find(".startday").val("Mon");
+		$(row).find(".endday").val("Fri");
+		$(row).find(".begintime").val(bimp.forms.defaultBeginTime);
+		$(row).find(".endtime").val(bimp.forms.defaultEndTime);
 		$(row).find(".remove").show();
 		var tbody = $(this).parents().find(".timetables tbody");
 		$(row).appendTo(tbody)
@@ -156,6 +157,12 @@ $(document).ready(function () {
 		var clickedButton = $(this);
 		$(".help-text").each(function () {
 			if ($(this).is(":visible")) {
+				if ($(this).attr("id") == "bimp-help" && $(clickedButton).attr("id")=="bimp-help-trigger"
+					|| $(this).attr("id") == "bimp2-help" && $(clickedButton).attr("id")=="bimp2-trigger"
+					|| $(this).attr("id") == "bimpeditors-help" && $(clickedButton).attr("id")=="bimpeditors-trigger"
+					|| $(this).attr("id") == "ui-help" && $(clickedButton).attr("id")=="ui-help-trigger") {
+					return false;
+				}
 				$(this).slideUp(500, function () {
 					if ($(clickedButton).attr("id")=="bimp-help-trigger") {
 						$("#bimp-help").slideDown(500);
@@ -173,6 +180,27 @@ $(document).ready(function () {
 				return false;
 			}	
 		});
+	});
+	
+	$("#contactForm").click(function() {
+		if ($("#txtCaptcha").val()=="") {
+			DrawCaptcha();
+		}
+	});
+	
+	$("#captchaRefresh").click(function() {
+		DrawCaptcha();
+	});
+	
+	$("body").delegate("#backToEditData", "click", function() {
+		$("#resultsPage").fadeOut("fast", function() {
+			$(this).remove();
+		});
+		$("#uploadPage").fadeIn("fast");
+	});
+	$(".timepicker").timepicker({timeFormat:"hh:mm:ss"});
+	$("body").delegate(".close", "click", function () {
+		closeLoadingModal();
 	});
 });
 
@@ -209,6 +237,7 @@ var updateResourceDropdowns = function () {
 };
 
 var updateResourceId = function (element) {
+	// generating resource id from resources name, NB: resource names have to be unique
 	var id = $(element).val().replace(/ /g, "");
 	$(element).parent().parent().attr("data-id", id);
 };
@@ -220,6 +249,7 @@ var updateAllTypeSelections = function () {
 };
 
 var updateTypeSelection = function (element) {
+	// update the fields to be show for selected duration option values
 	var show = {
 			fixed : "value",
 			standard : "mean,stdev",
@@ -233,3 +263,161 @@ var updateTypeSelection = function (element) {
 		$(element).parent().find("." + _element).parent().show();
 	});
 };
+
+var openLoadingModal = function () {
+	$("body").append("<div id='modal-bg'></div>");
+	$("body").append("<div id='loading'>" +
+			"<div class='close'><span>x</span></div>" +
+			"<h2 class='title'>Running your simulation, please wait</h2>" +
+			"<h2 class='status'>Status</h2>" +
+			"<div class='progressBarContainer'><div class='progressBar'></div></div>" +
+			"<h2 class='progress'>Progress</h2>" +
+			"</div>");
+	var left = ($(document).width() - $("#loading").width()) / 2;
+	$("#loading").css({"left":left});
+	$("#modal-bg").css({"height":$(document).height()});
+	$.ajax({
+		contentType : 'application/json',
+		type : 'get',
+		url : '/simulate',
+		error : function(e) {
+			throw e;
+		}
+
+	});
+	timerId = setInterval("getStatus()", interval);
+	$("#modal-bg").fadeIn();
+	$("#loading").fadeIn();
+};
+
+var closeLoadingModal = function () {
+	$("#loading").fadeOut(function(){$(this).remove();});
+	$("#modal-bg").fadeOut(function(){$(this).remove();});
+};
+
+getStatus = function() {
+	//getting the status of the simulation
+	timer += interval;
+//	if (timer > 500000) {
+//		clearInterval(timerId);
+//		window.location = "/getResults";
+//	}
+	$.ajax({
+		contentType : 'application/json',
+		type : 'post',
+		url : '/getStatus',
+		success : function(data) {
+			switch (data.status) {
+			case ("INITIALIZING"):
+				if (pointCount < 4) {
+					pointCount += 1;
+					$(".status").text(data.status + generateXCharacters(pointCount, "."));
+				} else {
+					pointCount = 0;
+				}
+				break;
+			case ("STARTED"):
+				$(".progressBarContainer").fadeIn();
+				var width = data.progress.split("/")[0] / data.progress.split("/")[1] * 100 + "%";
+				$(".progressBar").css({"width":width});
+				if (pointCount < 4) {
+					$(".status").text(data.status + generateXCharacters(pointCount, "."));
+					pointCount += 1;
+				} else {
+					pointCount = 0;
+				}
+				break;
+			case ("FINALIZING"):
+				$(".progressBarContainer").fadeOut();
+				if (pointCount < 3) {
+					$(".status").text(data.status + " and writing logs" + generateXCharacters(pointCount, "."));
+					pointCount += 1;
+				} else {
+					pointCount = 0;
+				}
+				break;
+			case ("FINISHED"):
+				clearInterval(timerId);
+//				window.location = "/getResults";
+				$.ajax({
+					type : 'get',
+					url : '/getResults',
+					success : function(data) {
+						$("#uploadPage").fadeOut();
+						$("#header").after(data);
+						closeLoadingModal();
+					}
+				});
+				break;
+			case ("ERROR"):
+				clearInterval(timerId);
+				$("#loading").addClass("error");
+				$(".title").text("Simulation ended with an error, please revise your data.");
+				$(".status").text(data.error ? data.error:"Unknown error");
+				$(".close").show();
+				break;
+			}
+		},
+		error : function(e) {
+			clearInterval(timerId);
+			throw e;
+		}
+
+	});
+};
+
+var preloadTaskResources = function () {
+	var resources = $(bimp.parser.xmlFile).find(bimp.parser.prefixEscaped + "lane");
+	$(resources).each(function (index, resource) {
+		flowNodeRefs = $(resource).find(bimp.parser.prefixEscaped + "flowNodeRef");
+		var resourceId = $(resource).attr("id");
+		$(flowNodeRefs).each(function (index, flowNode) {
+			var taskId = $(flowNode).text();
+			var target = $(bimp.parser.xmlFile).find("#" + taskId)[0];
+			// since nodeName returns name with prefix, then perform check for prefix (chrome)
+			if (target.nodeName.split(":").length > 1 ? target.nodeName.split(":")[1]:target.nodeName  == bimp.parser.prefix + "task") {
+				$(".task").each(function (index, element) {
+					if ($(element).attr("data-id") == taskId) {
+						$(element).find(".resource").val(resourceId);
+					}
+				});
+			}
+		});
+	});
+};
+
+var generateXCharacters = function (x, character) {
+	var result = "";
+	for (var i = 0; i<x; i++) {
+		result = result + character;
+	}
+	return result;
+};
+
+function DrawCaptcha() {
+    var a = Math.ceil(Math.random() * 10)+ '';
+    var b = Math.ceil(Math.random() * 10)+ '';       
+    var c = Math.ceil(Math.random() * 10)+ '';  
+    var d = Math.ceil(Math.random() * 10)+ '';  
+    var e = Math.ceil(Math.random() * 10)+ '';  
+    var f = Math.ceil(Math.random() * 10)+ '';  
+    var g = Math.ceil(Math.random() * 10)+ '';  
+    var code = a + ' ' + b + ' ' + ' ' + c + ' ' + d + ' ' + e + ' '+ f + ' ' + g;
+    $("#txtCaptcha").val(code);
+}
+
+function ValidCaptcha() {
+    var str1 = removeSpaces($("#txtCaptcha").val());
+    var str2 = removeSpaces($("#txtInput").val());
+    if (str1 == str2) return true;        
+    return false;
+}
+
+function removeSpaces(string) {
+    return string.split(' ').join('');
+}
+
+var pointCount = 0;
+var interval = 500;
+var timerId = "";
+var timer = 0;
