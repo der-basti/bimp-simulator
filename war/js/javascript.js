@@ -370,7 +370,6 @@ getStatus = function() {
 					success : function(data) {
 						$("#uploadPage").fadeOut();
 						closeLoadingModal();
-						console.log(data)
 						$("#header").after(data);
 					}
 				});
@@ -379,7 +378,7 @@ getStatus = function() {
 				clearInterval(timerId);
 				$("#loading").addClass("error");
 				$(".title").text("Simulation ended with an error, please revise your data.");
-				$(".status").text("<strong>Error:</strong> " + (data.error ?  + data.error : "Unknown error"));
+				$(".status").text(data.error ?  + data.error : "Unknown error");
 				$(".close").show();
 				break;
 			}

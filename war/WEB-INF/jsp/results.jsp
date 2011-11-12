@@ -17,10 +17,12 @@
 				Download simulation report: <input type="submit" class="button" value="Download">
 			</form>
 			</div>
-			<div id="duration-chart-div" class="chart"></div>
-			<div id="waiting-time-chart-div" class="chart"></div>			
-			<div id="cost-chart-div" class="chart"></div>	
-			<div id="resources-chart-div" class="chart"></div>
+			<div class="charts">
+				<div id="duration-chart-div" class="chart"></div>
+				<div id="waiting-time-chart-div" class="chart"></div>			
+				<div id="cost-chart-div" class="chart"></div>	
+				<div id="resources-chart-div" class="chart"></div>
+			</div>
 			<div id="results">
 				<h3>Completed elements </h3> <fmt:formatNumber type="number" pattern="###,###.##" maxFractionDigits="2" value="${stats.completedElements }"/>
 				<h3>Completed process instances </h3><fmt:formatNumber type="number" pattern="###,###.##" maxFractionDigits="2" value="${stats.completedProcesseInstances }"/>

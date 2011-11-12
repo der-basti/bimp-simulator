@@ -172,7 +172,7 @@ bimp.forms = {
 				}
 				 else {
 					if (name == "probability") {
-						clone ? $(htmlObj).find("." + name).val(value * 100) : $(selector +" ." + name).val(value * 100);
+						clone ? $(htmlObj).find("." + name).val(value == "" ? "" : value * 100) : $(selector +" ." + name).val(value == "" ? "" : value * 100);
 					} else if (name == "startAt"){
 						var startAt = value;
 						var startAtDate = startAt.split(" ")[0];
@@ -341,7 +341,9 @@ bimp.forms = {
 			$(".gatewayGroup.xor").each(function (index, group) {
 				var probs = $(group).find(".probability");
 				if ($(probs[0]).val() == "") {
-					$(probs).val(Math.round((100 / probs.length)*100) / 100);
+					var result = Math.round((100 / probs.length)*100) / 100;
+					$(probs).val(result);
+					
 				}
 			});
 		}
