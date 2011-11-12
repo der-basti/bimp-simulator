@@ -4,6 +4,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+
 <meta http-equiv="Content-Type" content="text/html; charset=UTF8">
 <script type="text/javascript" src="./js/jquery-1.6.4.min.js"></script>
 <script type="text/javascript" src="./js/jquery-ui-1.8.16.custom.min.js"></script>
@@ -12,6 +13,7 @@
 <script type="text/javascript" src="./js/bimp.forms.js"></script>
 <script type="text/javascript" src="./js/javascript.js"></script>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript" src="./js/jquery-ui-timepicker-addon.js"></script>
 
 <link rel="stylesheet" type="text/css" href="./css/style.css"></link>
 <link rel="stylesheet" type="text/css" href="./css/jquery-ui-1.8.16.custom.css"></link>
@@ -21,7 +23,7 @@
 <body>
 	<div id="main">
 		<jsp:include page="_header.jsp"></jsp:include>
-		<div id="contents">
+		<div id="uploadPage" class="contents">
 			<div id="instructions">
 				<b>Here are some instructions</b><br>
 				<ol>
@@ -62,13 +64,13 @@
 			<div id="submit-button">
 				<button id="startSimulationButton" type="submit">Start Simulation</button>
 			</div>
-			
 			<div id="data-input" class="gill-font">
+				<div class="currentFile"><span>You are editing: <strong class="currentFileName">N/A</strong></span></div>
 				<div class="layout-right">
 					<a class="toggle-all">Collapse all</a>
 				</div>
 				<form action="">
-					<h2 class="toggle-trigger"><a>Main start event</a></h2>
+					<h2 class="toggle-trigger"><a>Process simulation specification</a></h2>
 					<div class="toggle-div">
 						<div class="startEvent">
 						<table class="form">
@@ -86,11 +88,11 @@
 											<option value="exponential">Exponential</option>
 											<option value="uniform">Uniform</option>
 										</select>
-										<div> Value: <input class="small value" name="value" type="text"></div>
+										<div> to: <input class="small value" name="value" type="text"></div>
 										<div> Mean: <input class="small mean" name="mean" type="text"></div>
 										<div> Standard deviation: <input class="small stdev" name="stdev" type="text"></div>
-										<div> Min: <input class="small min" name="min" type="text"></div>
-										<div> Max: <input class="small max" name="max" type="text"></div>
+										<div> between <input class="small min" name="min" type="text"></div>
+										<div> and <input class="small max" name="max" type="text"></div>
 										<select class="timeUnit">
 											<option value="seconds">Seconds</option>
 											<option value="minutes">Minutes</option>
@@ -150,23 +152,23 @@
 						<table>
 							<tbody>
 								<tr>
-									<td><a class="trigger add" href="javascript:void(0)">Add</a></td>
+									<td><a class="trigger add" href="javascript:void(0)" title="Add new resource">Add</a></td>
 									<th>Name</th>
+									<th># of resources</th>
 									<th>Cost per hour</th>
-									<th>Amount</th>
 								<tr>
 								<tr class="resource">
 									<td></td>
 									<td><input class="normal name" name="name" type="text"></td>
-									<td><input class="small costPerHour" name="costPerHour" type="text"><span class="currencyText">EUR</span></td>
 									<td><input class="small text amount" name="amount" type="text"></td>
-									<td><a class="trigger remove" href="javascript:void(0)" title="Remove field">X</a></td>
+									<td><input class="small costPerHour" name="costPerHour" type="text"><span class="currencyText">EUR</span></td>
+									<td><a class="trigger remove" href="javascript:void(0)" title="Remove resource">X</a></td>
 								</tr>
 							</tbody>
 						</table>
 						</div>
 					</div>
-					<h2 class="toggle-trigger"><a>Timetable</a></h2>
+					<h2 class="toggle-trigger"><a>Timetable / Work schedule</a></h2>
 					<div class="toggle-div">
 						<div class="timetables">
 						<table>
@@ -210,10 +212,10 @@
 											</select>
 										</td>
 										<td>
-											<input class="begintime" name="begintime" class="timepicker">
+											<input class="begintime timepicker" name="begintime" value="09:00:00">
 										</td>
 										<td>
-											<input class="endtime" name="endtime" class="timepicker">
+											<input class="endtime timepicker" name="endtime" value="17:00:00">
 										</td>
 										<td><a class="trigger remove" href="javascript:void(0)" title="Remove field">X</a></td>
 								</tr>
@@ -225,7 +227,7 @@
 						</table>
 						</div>
 					</div>
-					<h2 class="toggle-trigger"><a>Task</a></h2>
+					<h2 class="toggle-trigger"><a>Tasks</a></h2>
 					<div class="toggle-div">
 						<div class="tasks">
 							<div class="task">
@@ -243,25 +245,23 @@
 										<th>Resource:</th>
 										<td><select class="resource" name="resource">
 										</select>
+										Fixed cost:
+										<input class="fixedCost small" name="fixedCost" /><span class="currencyText">EUR</span>
 										</td>
 									</tr>
 									<tr>
-										<th>Fixed cost:</th>
-										<td><input class="fixedCost" name="fixedCost" /><span class="currencyText">EUR</span></td>
-									</tr>
-									<tr>
-										<th>Type</th>
+										<th>Duration</th>
 										<td><select class="type" name="type">
 												<option value="fixed">Fixed</option>
 												<option value="standard">Standard</option>
 												<option value="exponential">Exponential</option>
 												<option value="uniform">Uniform</option>
 											</select>
-											<div> Value: <input class="small value" name="value" type="text"></div>
+											<div> to: <input class="small value" name="value" type="text"></div>
 											<div> Mean: <input class="small mean" name="mean" type="text"></div>
 											<div> Standard deviation: <input class="small stdev" name="stdev" type="text"></div>
-											<div> Min: <input class="small min" name="min" type="text"></div>
-											<div> Max: <input class="small max" name="max" type="text"></div>
+											<div> between <input class="small min" name="min" type="text"></div>
+											<div> and <input class="small max" name="max" type="text"></div>
 											<select class="timeUnit">
 												<option value="seconds">Seconds</option>
 												<option value="minutes">Minutes</option>
@@ -282,12 +282,18 @@
 							<table>
 								<tbody>
 									<tr>
-										<th>Type:</th>
-										<td><span class="type">Type</span></td>
+										<td colspan="2"><span class="type">Type</span><span class="gatewayName"></span></td>
 									</tr>
 									<tr>
-										<th>Target name:</th>
+										
+											<th><div>Target name</div></th>
+											<th><div>Probability of execution</div></th>
+										
+									</tr>
+									<tr>
 										<td><span class="targetName">N/A</span></td>
+										<td><input class="small probability" name="probability" /><label
+											for="probability">%</label></td>
 									</tr>
 									<tr class="hidden">
 										<th>Id:</th>
@@ -300,11 +306,6 @@
 									<tr class="hidden">
 										<th>TargetRef</th>
 										<td><span class="targetRef">TargetRef</span></td>
-									</tr>
-									<tr>
-										<th>Probability of execution:</th>
-										<td><input class="small probability" name="probability" /><label
-											for="probability">%</label></td>
 									</tr>
 								</tbody>
 							</table>
@@ -323,7 +324,7 @@
 										<td>
 									</tr>
 									<tr>
-										<th>Type:</th>
+										<th>Duration:</th>
 										<td><select class="type" name="type">
 												<option value="fixed">Fixed</option>
 												<option value="standard">Standard</option>
@@ -331,11 +332,11 @@
 												<option value="uniform">Uniform</option>
 
 											</select>
-											<div> Value: <input class="small value" name="value" type="text"></div>
+											<div> to: <input class="small value" name="value" type="text"></div>
 											<div> Mean: <input class="small mean" name="mean" type="text"></div>
 											<div> Standard deviation: <input class="small stdev" name="stdev" type="text"></div>
-											<div> Min: <input class="small min" name="min" type="text"></div>
-											<div> Max: <input class="small max" name="max" type="text"></div>
+											<div> between <input class="small min" name="min" type="text"></div>
+											<div> and <input class="small max" name="max" type="text"></div>
 											<select class="timeUnit">
 												<option value="seconds">Seconds</option>
 												<option value="minutes">Minutes</option>

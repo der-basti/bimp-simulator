@@ -1,7 +1,6 @@
 package ee.ut.math.bimp;
 
 import org.apache.log4j.Logger;
-import org.springframework.stereotype.Service;
 
 import ee.ut.bpsimulator.BPSimulator;
 import ee.ut.bpsimulator.logger.ComplexLogger;
@@ -61,11 +60,11 @@ public class SimulatorRunner {
 
 	/**
 	 * Starts the simulation.
+	 * @throws Exception 
 	 */
-	public void start() {
+	public void start() throws Exception {
 		if (sim != null && kpiStats != null) {
 
-			try {
 				log.debug("Running simulation");
 
 				ComplexLogger logger = sim.getLogger();
@@ -76,9 +75,6 @@ public class SimulatorRunner {
 				logger.addLogger(kpiStats);
 
 				sim.run();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
 
 		}
 	}
