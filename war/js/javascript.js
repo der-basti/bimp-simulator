@@ -1,4 +1,5 @@
 $(document).ready(function () {
+	loadLikeButton(document, 'script', 'facebook-jssdk');
 	removeLastButton();
 	$(".resources .add").click(function () {
 		var row = $(this).parents().find(".resources").find(".resource:first").clone(true);
@@ -46,9 +47,20 @@ $(document).ready(function () {
 		bimp.parser.init();
 		bimp.parser.start();
 		$("#instructions").hide();
-		$("#upload-area").fadeOut(400, function() {$("#data-input").fadeIn(1000);});
-		$("#startSimulationButton").fadeIn(1000);
-		$("#logCheckBox").fadeIn(1000);
+		$("#upload-area").fadeOut(400, function() {
+			$("#data-input").fadeIn(400, (function() {
+				$("#startSimulationButton").fadeIn(400);
+				$("#logCheckBox").fadeIn(1000);
+				$(".toggle-div :input[title]").tooltip({
+					position: "top right",
+					effect: "fade"
+				});
+				$(".toggle-div img[title]").tooltip({
+					position: "top right",
+					effect: "fade"
+				});
+			}));
+		});
 	});
 	
 	$(".toggle-trigger").click(function() {
@@ -182,7 +194,7 @@ $(document).ready(function () {
 		});
 	});
 	
-	$("#contactForm").click(function() {
+	$("#contactForm").ready(function() {
 		if ($("#txtCaptcha").val()=="") {
 			DrawCaptcha();
 		}
@@ -198,10 +210,23 @@ $(document).ready(function () {
 		});
 		$("#uploadPage").fadeIn("fast");
 	});
+	
+	$("#submitContactForm").click(function() {
+		if (!ValidCaptcha()) {
+			alert("Please enter the correct numbers");
+			return false;
+		} else {
+
+		}
+	});
+
+//	openLoadingModal();
+
 	$(".timepicker").timepicker({timeFormat:"hh:mm:ss"});
 	$("body").delegate(".close", "click", function () {
 		closeLoadingModal();
 	});
+
 });
 
 var timeTableRow;
@@ -417,6 +442,17 @@ function ValidCaptcha() {
 function removeSpaces(string) {
     return string.split(' ').join('');
 }
+
+function loadLikeButton(d, s, id) {
+	var js, fjs = d.getElementsByTagName(s)[0];
+	if (d.getElementById(id)) {
+		return;
+	}
+	js = d.createElement(s);
+	js.id = id;
+	js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1";
+	fjs.parentNode.insertBefore(js, fjs);
+};
 
 var pointCount = 0;
 var interval = 500;

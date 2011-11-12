@@ -8,6 +8,8 @@
 	<script type="text/javascript" src="./js/jquery-1.6.4.min.js"></script>
 	<script type="text/javascript" src="./js/jquery-ui-1.8.16.custom.min.js"></script>
 	<script type="text/javascript" src="./js/javascript.js"></script>
+	<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
+	
 	
 	<link rel="stylesheet" type="text/css" href="./css/style.css"></link>
 	<link rel="stylesheet" type="text/css" href="./css/jquery-ui-1.8.16.custom.css"></link>
@@ -42,7 +44,7 @@
 						<textarea cols="40" rows="6" name="feedback"></textarea>
 					<li>
 						<label>Numbers</label>
-						<input type="text" id="txtCaptcha" class="captcha"/>
+						<input type="text" id="txtCaptcha" class="captcha" />
   				    	<input type="button" id="captchaRefresh" class="button" value="Refresh" />
   				    </li>
 					<li>
@@ -51,10 +53,9 @@
 					</li>
 					<li>
 						<label for="submit">Send the form by clicking the button</label>
-						<button type="submit" id="submitContactForm" class="button">Send</button>
+						<button id="submitContactForm" class="button">Send</button>
 					</li>
 				</ul>
-				<input id="Button1" type="button" value="Check" onclick="alert(ValidCaptcha());"/>
 				</form>
 			</fieldset>
 			</div>

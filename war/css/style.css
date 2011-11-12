@@ -14,15 +14,17 @@ h1 {
 	color: rgb(225,183,135);
 	font-size: 50px;
 }
-h2 { font-size: 14px; color: rgb(74, 190, 243); }
+h2 { font-size: 14px; color: #4ABEC8; }
 
 h3 { font-size: 12px; color: rgb(147, 137, 90); }
+
+#indexPage b { color: rgb(147, 137, 90) }
 
 ol { line-height: 175% }
 
 i {	color: rgb(225,183,135); font-size: 110%; }
 
-.blue { color: rgb(74, 190, 243) }
+.blue { color: #4ABEC8 }
 
 .gill-font {
 	font-family: Gill Sans MT, sans-serif;
@@ -53,8 +55,6 @@ i {	color: rgb(225,183,135); font-size: 110%; }
 	margin-bottom: 10px;
 	margin-top: 10px;
 }
-
-#footer { text-align: right; }
 
 .contents {
 	min-height: 375px;
@@ -113,6 +113,9 @@ ul#list-nav li { display:inline; }
 	font-size: 14px;
 	font-weight: normal;
 	display: none;
+}
+#data-input input, #data-input span, #data-input select {
+	margin-right: 7px;
 }
 
 #data-input th {
@@ -197,19 +200,21 @@ ul#list-nav li { display:inline; }
 
 /* Navigation buttons appearance */
 .nav-button {
-	background-color: rgb(243,184,80);
+	background-color: #4ABEC8;
 	color: rgb(0,0,0);
-	opacity: 0.9;
-	-moz-box-shadow: 1px 1px 2px rgba(250, 250, 250, 0.5);
-	-webkit-box-shadow: 1px 1px 2px rgba(250, 250, 250, 0.5);
+	opacity: 1;
 }
 .help-nav-button {
-	background-color: rgb(207,255,221);
+	background-color: rgb(248,242,190);
 	color: black;
 	width: 200px;
 	font-size: 16px;
 	margin-top: 5px;
 	text-align: center;
+}
+
+.help-nav-button:hover {
+	color: #bbb;
 }
 #bimp2-help, #bimpeditors-help, #ui-help {
 	display: none;
@@ -239,30 +244,25 @@ ul#list-nav li { display:inline; }
 	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), inset 0 1px 5px rgba(0, 0, 0, 0.1);
 }
 .nav-button:hover {
-	background: -moz-linear-gradient(top, rgb(250, 250, 250) 0%, rgb(200, 200, 200) 100% );
-	background: -webkit-linear-gradient(top, rgb(250, 250, 250) 0%, rgb(200, 200, 200) 100% );
-	-webkit-box-shadow: 0 1px 2px rgba(250, 250, 250, 0.3), inset 0 1px 5px rgba(250, 250, 250, 0.1);
-	-moz-box-shadow: 0 1px 2px rgba(250, 250, 250, 0.3), inset 0 1px 5px rgba(250, 250, 250, 0.1);
+	color: white;
 }
 
 /* Clicked button action */
 .button:active, .trigger:active, #startSimulationButton:active, #uploadpageButton:active, .nav-button:active,
-.help-nav-button:active {
+.help-nav-button:active, #startSimulationButton:active {
 	position: relative;
 	top: 1px;
 }
 
 /* Floating button for starting simulation */
+#sim-button-log-checkbox {
+	width: 200px;
+	margin: auto;
+}	
 #startSimulationButton {
-	position: fixed;
-	left: 0px;
-	top: 250px;
+	font-size: 14px;
 	display: none;
-}
-
-#startSimulationButton:active {
-	position: fixed;
-	top: 251px;
+	width: 200px;
 }
 
 /* Classes for JQuery toggle effect */
@@ -281,10 +281,9 @@ ul#list-nav li { display:inline; }
 }
 
 h2.toggle-trigger a {
-	display: block;
-	padding-top: 4px;
 	color: white;
 	text-decoration: none;
+	display: block;
 }
 
 h2.toggle-trigger a:hover { color: #ccc; }
@@ -366,11 +365,10 @@ h2.toggle-trigger a:active {
 	line-height: 200%;
 }
 #logCheckBox {
-	font-size: 12px;
-	position: fixed;
-	left: 0px;
-	top: 225px;
+	text-align: center;
+	font-size: 13px;
 	display: none;
+	margin-bottom: 5px;
 }
 #modal-bg {
 	position: absolute;
@@ -436,6 +434,11 @@ h2.toggle-trigger a:active {
 	border:none;
     font-weight:bold;
     font-family:Modern;
+    user-select: none; 
+   	-moz-user-select: none; 
+    -khtml-user-select: none; 
+    -webkit-user-select: none; 
+    -o-user-select: none; 
 }
 
 #contactPage fieldset ul, #contactPage fieldset li {
@@ -459,8 +462,38 @@ h2.toggle-trigger a:active {
 	float: left;
 }
 
-span.type {
-	font-weight: bold;
+#fb-google {
+	width: 50px;
+	float: right;
+	position:relative;
+	top: 5px;
+}
+
+#plusone {
+	margin-top: 7px;
+	position: relative;
+	right: 5px;
+}
+
+#footer-text {
+	width: 500px;
+	float: left;
+}
+
+.tooltip {
+	font-family: Gill Sans MT, sans-serif;
+	background-color: rgb(36, 27, 17);
+	border:1px solid #fff;
+	padding:10px 15px;
+	width:180px;
+	display:none;
+	color:#eee;
+	text-align:center;
+	font-size:12px;
+
+	/* outline radius for mozilla/firefox only */
+	-moz-box-shadow:0 0 10px #000;
+	-webkit-box-shadow:0 0 10px #000;
 }
 
 /* css for timepicker */
@@ -491,13 +524,13 @@ span.type {
     right: -9px;
     top: -9px;
     background: rgb(206,220,231); /* Old browsers */
-background: -moz-linear-gradient(top, rgba(206,220,231,1) 0%, rgba(89,106,114,1) 100%); /* FF3.6+ */
-background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(206,220,231,1)), color-stop(100%,rgba(89,106,114,1))); /* Chrome,Safari4+ */
-background: -webkit-linear-gradient(top, rgba(206,220,231,1) 0%,rgba(89,106,114,1) 100%); /* Chrome10+,Safari5.1+ */
-background: -o-linear-gradient(top, rgba(206,220,231,1) 0%,rgba(89,106,114,1) 100%); /* Opera 11.10+ */
-background: -ms-linear-gradient(top, rgba(206,220,231,1) 0%,rgba(89,106,114,1) 100%); /* IE10+ */
-background: linear-gradient(top, rgba(206,220,231,1) 0%,rgba(89,106,114,1) 100%); /* W3C */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cedce7', endColorstr='#596a72',GradientType=0 ); /* IE6-9 */	color: white;
+	background: -moz-linear-gradient(top, rgba(206,220,231,1) 0%, rgba(89,106,114,1) 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(206,220,231,1)), color-stop(100%,rgba(89,106,114,1))); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, rgba(206,220,231,1) 0%,rgba(89,106,114,1) 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, rgba(206,220,231,1) 0%,rgba(89,106,114,1) 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, rgba(206,220,231,1) 0%,rgba(89,106,114,1) 100%); /* IE10+ */
+	background: linear-gradient(top, rgba(206,220,231,1) 0%,rgba(89,106,114,1) 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cedce7', endColorstr='#596a72',GradientType=0 ); /* IE6-9 */	color: white;
     border: 2px solid white;
     border-radius: 15px;
     font-family: tahoma;
