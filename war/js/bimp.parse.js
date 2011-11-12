@@ -194,7 +194,6 @@ bimp.parser = {
 	},
 	findSplitGateway : function(id) {
 		var result = null;
-		console.log(bimp.parser.prefixEscaped + "exclusiveGateway");
 		var exclusiveGateways = $(this.xmlFile).find(bimp.parser.prefixEscaped + "exclusiveGateway");
 		var inclusiveGateways = $(this.xmlFile).find(bimp.parser.prefixEscaped + "inclusiveGateway");
 		$(exclusiveGateways).each(function(index, exclusiveGateway) {
