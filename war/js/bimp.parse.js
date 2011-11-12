@@ -2,6 +2,7 @@ bimp.parser = {
 	xmlFile : "",
 	prefixEscaped : "",
 	prefix : "",
+	prefixForDocumenation : "",
 	start : function () {
 		this.readStartEvent();
 		this.readTasks();
@@ -87,14 +88,15 @@ bimp.parser = {
 	init : function () {
 		this.xmlFile = bimp.file.xmlFile;
 		if ($(bimp.parser.xmlFile)[0].documentElement.prefix) {
-			this.prefix = $(bimp.parser.xmlFile)[0].documentElement.prefix + ":";
-			this.prefixEscaped = $(bimp.parser.xmlFile)[0].documentElement.prefix + "\\:";
+			bimp.parser.prefix = $(bimp.parser.xmlFile)[0].documentElement.prefix + ":";
+			bimp.parser.prefixEscaped = $(bimp.parser.xmlFile)[0].documentElement.prefix + "\\:";
+			bimp.parser.prefixForDocumenation = (bimp.parser.prefixEscaped) ? bimp.parser.prefixEscaped:"";
+			bimp.parser.prefix = bimp.parser.prefix ? bimp.parser.prefix : "";
 			//TODO: OH MY :O ...? FIX ASAP
 			// this next line should have never been written, NEVER
-			if ($(bimp.parser.xmlFile).find(this.prefixEscaped + "startEvent").size() < $(bimp.parser.xmlFile).find("startEvent").size()) {
+			if ($(bimp.parser.xmlFile).find(bimp.parser.prefixEscaped + "startEvent").size() < $(bimp.parser.xmlFile).find("startEvent").size()) {
 				// if we need to use prefix (we get results) then use it, otherwise don't
-				this.prefixEscaped = "";
-				this.prefix = "";
+				bimp.parser.prefixEscaped = "";
 			}
 		}
 	},
@@ -221,7 +223,7 @@ bimp.parser = {
 			if ($(bimp.parser.xmlFile).find("#" + sourceRef)[0]) {
 				sourceRefNodeName = $(bimp.parser.xmlFile).find("#" + sourceRef)[0].nodeName;
 			}
-			if (sourceRefNodeName === bimp.parser.prefix + "exclusiveGateway" || sourceRefNodeName === bimp.parser.prefix + "inclusiveGateway") {
+			if (sourceRefNodeName == bimp.parser.prefix + "exclusiveGateway" || sourceRefNodeName == bimp.parser.prefix + "inclusiveGateway") {
 				if (sourceRef === id) {
 					count += 1;
 				}

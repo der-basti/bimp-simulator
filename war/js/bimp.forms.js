@@ -179,7 +179,7 @@ bimp.forms = {
 						var startAtTime = startAt.split(" ")[1];
 						var dateAndTime = new Date();
 						if (startAtDate == "" || !startAtDate) {
-							startAtDate = dateAndTime.getFullYear() + "-" + dateAndTime.getMonth() + "-" + dateAndTime.getDay();
+							startAtDate = dateAndTime.getFullYear() + "-" + (dateAndTime.getMonth()+1) + "-" + dateAndTime.getDate();
 						}
 						if (startAtTime == "" || !startAtTime) {
 							startAtTime = dateAndTime.toLocaleTimeString();
