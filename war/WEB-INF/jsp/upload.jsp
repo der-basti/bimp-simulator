@@ -248,7 +248,7 @@
 										</td>
 									</tr>
 									<tr>
-										<th>Duration</th>
+										<th>Duration:</th>
 										<td><select class="type" name="type">
 												<option value="fixed">Fixed</option>
 												<option value="standard">Standard</option>

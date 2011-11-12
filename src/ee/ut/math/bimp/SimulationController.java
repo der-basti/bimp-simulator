@@ -106,7 +106,7 @@ public class SimulationController {
 			simulation.start();
 		} catch (Exception e) {
 			simulation.setException(e);
-			log.debug(e.getStackTrace());
+			log.debug("Simulation failed", e);
 			e.printStackTrace();
 		}
 		return "loading";

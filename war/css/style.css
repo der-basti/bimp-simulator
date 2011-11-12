@@ -471,9 +471,11 @@ span.type {
 .ui-timepicker-div td { font-size: 90%; }
 
 .status {
+	margin-left: 15px;
 	font-weight: normal;
 	color: #333;
 	font-size: 12px;
+	font-family: Tahoma;
 }
 .error .title {
 	color: red;

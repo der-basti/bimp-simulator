@@ -269,7 +269,7 @@ var openLoadingModal = function () {
 	$("body").append("<div id='loading'>" +
 			"<div class='close'><span>x</span></div>" +
 			"<h2 class='title'>Running your simulation, please wait</h2>" +
-			"<h2 class='status'>Status</h2>" +
+			"<span class='status'>Status</span>" +
 			"<div class='progressBarContainer'><div class='progressBar'></div></div>" +
 			"<h2 class='progress'>Progress</h2>" +
 			"</div>");
@@ -353,7 +353,7 @@ getStatus = function() {
 				clearInterval(timerId);
 				$("#loading").addClass("error");
 				$(".title").text("Simulation ended with an error, please revise your data.");
-				$(".status").text(data.error ? data.error:"Unknown error");
+				$(".status").text("<strong>Error:</strong> " + (data.error ?  + data.error : "Unknown error"));
 				$(".close").show();
 				break;
 			}
