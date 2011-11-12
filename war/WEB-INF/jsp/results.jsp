@@ -8,23 +8,32 @@
 				<form id="hiddenDownloadForm" method="post" action="/file">
 					<input type="hidden" id="download" name="download" />
 					Download .bpmn file with simulation information: <button id="downloadBpmn" class="button">Download</button><br/>
+					</form>
+					<!-- remove this after final ui-less sim implementation -->
+					<form id="hiddenDownloadForm" method="post" action="/file">
+						<input type="hidden" id="download" name="download" value="resultxml"/>
+							Download .xml file of the results: <button id="downloadBpmn" class="button">Download</button><br/>
+					</form>
+					<!-- remove -->
 					<c:if test="${enableLogDownload}">
-						Download log: <button id="downloadLog" class="button">Download</button>
+						<form id="hiddenDownloadForm" method="post" action="/file">
+						<input type="hidden" id="download" name="download" value="log"/>
+							Download g-zipped .mxml log: <button id="downloadLog" class="button">Download</button>
+						</form>
 					</c:if> 
-				</form>
 			<form method="post" action="/getCsv">
 				Download simulation report: <input type="submit" class="button" value="Download">
 			</form>
 			</div>
 			<div id="results">
-				<h3>Completed elements </h3> <fmt:formatNumber type="number" pattern="###,###.##" maxFractionDigits="2" value="${stats.completedElements }"/>
-				<h3>Completed process instances </h3><fmt:formatNumber type="number" pattern="###,###.##" maxFractionDigits="2" value="${stats.completedProcesseInstances }"/>
-				<h3>Maximum process cost </h3> <fmt:formatNumber type="number" pattern="###,###.##" maxFractionDigits="2" value="${stats.maxProcessCost }"/>
-				<h3>Maximum process duration </h3> <fmt:formatNumber type="number" pattern="###,###.##" maxFractionDigits="2" value="${stats.maxProcessDuration }"/>
-				<h3>Minimum process cost </h3> <fmt:formatNumber type="number" pattern="###,###.##" maxFractionDigits="2" value="${stats.minProcessCost}"/>
-				<h3>Minimum process duration </h3><fmt:formatNumber type="number" pattern="###,###.##" maxFractionDigits="2" value="${stats.minProcessDuration }"/>
-				<h3>Total cost </h3> <fmt:formatNumber type="number" pattern="###,###.##" maxFractionDigits="2" value="${stats.totalCost }"/>
-				<h3>Total duration </h3><fmt:formatNumber type="number" pattern="###,###.##" maxFractionDigits="2" value="${stats.totalDuration }"/>
+				<h3>Completed elements </h3> ${resultItem.completedElements }
+				<h3>Completed process instances </h3> ${resultItem.completedProcessInstances }
+				<h3>Maximum process cost </h3> ${resultItem.maxProcessCost }
+				<h3>Maximum process duration </h3> ${resultItem.maxProcessDuration }
+				<h3>Minimum process cost </h3> ${resultItem.minProcessCost}
+				<h3>Minimum process duration </h3>${resultItem.minProcessDuration }
+				<h3>Total cost </h3> ${resultItem.totalCost }
+				<h3>Total duration </h3>${resultItem.totalDuration }
 				<br />
 			</div>
 			<div id="result-table">
@@ -36,7 +45,7 @@
 					<th>Average idle time</th>
 					<th>Average waiting time</th>
 				</tr>
-				<c:forEach var="element" items="${elements}">
+				<c:forEach var="element" items="${resultItem.activities}">
 					<tr>
 						<td>${element.description }</td>
 						<td>${element.avgCost }</td>

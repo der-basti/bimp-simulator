@@ -1,11 +1,11 @@
 package ee.ut.math.bimp;
 
-import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import javax.servlet.ServletOutputStream;
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -13,13 +13,19 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import ee.ut.math.bimp.data.DataService;
 
 @Controller
 public class MainPageController {
 
 	private static Logger log = Logger.getLogger(MainPageController.class);
+
+	@Resource
+	private DataService dataService;
 
 	/**
 	 * Default.
@@ -48,7 +54,7 @@ public class MainPageController {
 		log.debug("/help requested, sending page");
 		return "help";
 	}
-	
+
 	@RequestMapping(value = "/contact", method = RequestMethod.GET)
 	public String contact(ModelMap model) {
 
@@ -63,47 +69,38 @@ public class MainPageController {
 	public void getFile(HttpServletRequest request, String download,
 			HttpServletResponse response) {
 
-		ServletOutputStream stream = null;
-		BufferedInputStream buf = null;
 		HttpSession session = request.getSession();
 		String fileName = (String) session.getAttribute("fileName");
-		String extension = "";
-		if (download.equals("log")) {
-			extension = ".mxml.gz";
-		}
 
 		response.setContentType("text/xml");
+		
+		String extension = "";
+		if ("log".equals(download)) {
+			extension = ".mxml.gz";
+			response.setContentType("application/x-gzip");
+		} else if ("resultxml".equals(download)) {
+			String id = (String) request.getSession().getAttribute("id");
+			fileName = "results_" + id;
+			extension = ".xml";
+		}
+		
 		response.addHeader("Content-Disposition", "attachment; filename="
 				+ fileName + extension);
 		String path = request.getSession().getServletContext()
-				.getRealPath("/tmp/" + fileName + extension);
+				.getRealPath("/tmp/" + "/" + fileName + extension);
+		
 		File file = new File(path);
+		FileInputStream inputStream = null;
 		try {
-			stream = response.getOutputStream();
-			response.setContentLength((int) file.length());
-			FileInputStream input = new FileInputStream(file);
-			buf = new BufferedInputStream(input);
-			int readBytes = 0;
-			while ((readBytes = buf.read()) != -1) {
-				stream.write(readBytes);
-			}
+			inputStream = new FileInputStream(file);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			FileCopyUtils.copy(inputStream, response.getOutputStream());
 		} catch (IOException e) {
 			e.printStackTrace();
-		} finally {
-			if (stream != null) {
-				try {
-					stream.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-			if (buf != null) {
-				try {
-					buf.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
 		}
 
 	}

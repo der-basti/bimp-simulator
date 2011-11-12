@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 
+import ee.ut.math.bimp.data.UploadItem;
+
 @Controller
 public class FileUploadController {
 

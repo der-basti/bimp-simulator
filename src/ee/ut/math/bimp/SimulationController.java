@@ -2,18 +2,14 @@ package ee.ut.math.bimp;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.xml.bind.JAXBException;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Controller;
@@ -24,7 +20,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import ee.ut.bpsimulator.logger.KpiCalculator;
 import ee.ut.bpsimulator.logger.MxmlLogger;
-import ee.ut.bpsimulator.model.Activity;
+import ee.ut.math.bimp.data.DataService;
+import ee.ut.math.bimp.data.RepresentableActivity;
+import ee.ut.math.bimp.data.ResultItem;
+import ee.ut.math.bimp.data.Simulation;
 
 /**
  * Simulation controller.
@@ -39,22 +38,25 @@ public class SimulationController {
 
 	private HashMap<String, Simulation> simulations = new HashMap<String, Simulation>();
 
-	List<Map<String, Object>> elements;
+	private ResultItem item;
+
+	@Resource
+	private DataService dataService;
 
 	/**
 	 * Shows the status of the simulation, writes it out as JSON into the
 	 * response.
 	 */
 	@RequestMapping(value = "/getStatus", method = RequestMethod.POST)
+	@SuppressWarnings("unchecked")
 	public void getStatus(HttpServletResponse response,
 			HttpServletRequest request) {
-
 		JSONObject json = new JSONObject();
 		String id = (String) request.getSession().getAttribute("id");
 		Simulation simulation = simulations.get(id);
 		if (simulation != null) {
 			SimulationChecker checker = simulation.getChecker();
-	
+
 			response.setContentType("application/json");
 			String status = "";
 			if (simulation.getException() == null) {
@@ -115,7 +117,7 @@ public class SimulationController {
 	/**
 	 * Shows results.
 	 * 
-	 * @return View "results", KpiCalculator object, all activities' data
+	 * @return View "results", all activities' data
 	 */
 	@RequestMapping(value = "/getResults", method = RequestMethod.GET)
 	public ModelAndView getResults(ModelAndView model,
@@ -126,58 +128,26 @@ public class SimulationController {
 		SimulatorRunner runner = simulation.getRunner();
 
 		model.setViewName("results");
-		model.addObject("stats", runner.getKpiStats());
 
-		DecimalFormatSymbols otherSymbols = new DecimalFormatSymbols();
-		otherSymbols.setDecimalSeparator('.');
-		otherSymbols.setGroupingSeparator(' ');
-
-		DecimalFormat dec = new DecimalFormat("###.##", otherSymbols);
 		KpiCalculator kpi = runner.getKpiStats();
-		ResultItem item = new ResultItem();
-		elements = new ArrayList<Map<String, Object>>();
-		for (Activity activity : kpi.getAllElements()) {
-			Map<String, Object> activityMap = new HashMap<String, Object>();
-			int count = kpi.getElementCount(activity);
 
-			String avgDuration = dec.format(kpi
-					.getElementTotalDuration(activity) / count);
-
-			String avgIdle = kpi.getElementTotalIdleTime(activity) != 0 ? dec
-					.format(kpi.getElementTotalIdleTime(activity) / count)
-					: "n/a";
-
-			String avgWaiting = (kpi.getElementTotalWaitingTime(activity)) != null
-					&& (kpi.getElementTotalWaitingTime(activity) > 0) ? dec
-					.format(kpi.getElementTotalWaitingTime(activity) / count)
-					: "n/a";
-
-			String avgCost = (kpi.getElementTotalCost(activity) / count) != 0 ? dec
-					.format(kpi.getElementTotalCost(activity) / count) : "n/a";
-
-			activityMap.put(
-					"description",
-					activity.getDescription() != null ? activity
-							.getDescription() : "n/a");
-
-			activityMap.put("avgCost", avgCost);
-
-			activityMap.put("avgDuration", avgDuration);
-
-			activityMap.put("avgIdle", avgIdle);
-
-			activityMap.put("avgWaiting", avgWaiting);
-			
-			item.setCompletedElements(String.valueOf(kpi.getCompletedElements()));
-
-			elements.add(activityMap);
-		}
-		model.addObject("elements", elements);
+		item = dataService.formatData(kpi);
+		model.addObject("resultItem", item);
 		model.addObject("enableLogDownload",
 				Boolean.valueOf((String) session.getAttribute("mxmlLog")));
 		// simulations.remove(id);
-		
-		String path = request.getSession().getServletContext().getRealPath("/tmp/") + "/tmp.xml";
+
+		String path = request.getSession().getServletContext()
+				.getRealPath("/tmp/")
+				+ "/results_" + id + ".xml";
+
+		try {
+			dataService.createXML(item, path);
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 		return model;
 
@@ -192,15 +162,6 @@ public class SimulationController {
 
 		String fileName = (String) request.getSession()
 				.getAttribute("fileName");
-		String id = (String) request.getSession().getAttribute("id");
-
-		Simulation simulation = simulations.get(id);
-		SimulatorRunner runner = simulation.getRunner();
-		runner.getKpiStats();
-		KpiCalculator kpi = runner.getKpiStats();
-
-		// String path = request.getSession().getServletContext()
-		// .getRealPath("/tmp/" + fileName + ".csv");
 
 		response.setContentType("text/csv");
 		response.addHeader("Content-Disposition", "attachment; filename="
@@ -227,21 +188,21 @@ public class SimulationController {
 			writer.append("Total duration");
 			writer.append('\n');
 
-			writer.append(String.valueOf(kpi.getCompletedElements()));
+			writer.append(String.valueOf(item.getCompletedElements()));
 			writer.append(',');
-			writer.append(String.valueOf(kpi.getCompletedProcesseInstances()));
+			writer.append(String.valueOf(item.getCompletedProcessInstances()));
 			writer.append(',');
-			writer.append(String.valueOf(kpi.getMaxProcessCost()));
+			writer.append(String.valueOf(item.getMaxProcessCost()));
 			writer.append(',');
-			writer.append(String.valueOf(kpi.getMaxProcessDuration()));
+			writer.append(String.valueOf(item.getMaxProcessDuration()));
 			writer.append(',');
-			writer.append(String.valueOf(kpi.getMinProcessCost()));
+			writer.append(String.valueOf(item.getMinProcessCost()));
 			writer.append(',');
-			writer.append(String.valueOf(kpi.getMinProcessDuration()));
+			writer.append(String.valueOf(item.getMinProcessDuration()));
 			writer.append(',');
-			writer.append(String.valueOf(kpi.getTotalCost()));
+			writer.append(String.valueOf(item.getTotalCost()));
 			writer.append(',');
-			writer.append(String.valueOf(kpi.getTotalDuration()));
+			writer.append(String.valueOf(item.getTotalDuration()));
 			writer.append('\n');
 
 			writer.append('\n');
@@ -257,16 +218,16 @@ public class SimulationController {
 			writer.append("Average Waiting Time");
 			writer.append('\n');
 
-			for (Map<String, Object> map : elements) {
-				writer.append(String.valueOf(map.get("description")));
+			for (RepresentableActivity activity : item.getActivities()) {
+				writer.append(activity.getDescription());
 				writer.append(',');
-				writer.append(String.valueOf(map.get("avgCost")));
+				writer.append(activity.getAvgCost());
 				writer.append(',');
-				writer.append(String.valueOf(map.get("avgDuration")));
+				writer.append(activity.getAvgDuration());
 				writer.append(',');
-				writer.append(String.valueOf(map.get("avgIdle")));
+				writer.append(activity.getAvgIdle());
 				writer.append(',');
-				writer.append(String.valueOf(map.get("avgWaiting")));
+				writer.append(activity.getAvgWaiting());
 				writer.append('\n');
 			}
 
