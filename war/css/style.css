@@ -555,3 +555,10 @@ h2.toggle-trigger a:active {
 	left: 6px;
 	top: 0;
 }
+.charts {
+	clear: both;
+}
+.chart {
+	width: 445px;
+	float: left;
+}
