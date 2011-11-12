@@ -175,18 +175,18 @@ $(document).ready(function () {
 					|| $(this).attr("id") == "ui-help" && $(clickedButton).attr("id")=="ui-help-trigger") {
 					return false;
 				}
-				$(this).slideUp(500, function () {
+				$(this).fadeOut(300, function () {
 					if ($(clickedButton).attr("id")=="bimp-help-trigger") {
-						$("#bimp-help").slideDown(500);
+						$("#bimp-help").fadeIn(300);
 					}
 					if ($(clickedButton).attr("id")=="bimp2-trigger") {
-						$("#bimp2-help").slideDown(500);
+						$("#bimp2-help").fadeIn(300);
 					}
 					if ($(clickedButton).attr("id")=="bimpeditors-trigger") {
-						$("#bimpeditors-help").slideDown(500);
+						$("#bimpeditors-help").fadeIn(300);
 					}
 					if ($(clickedButton).attr("id")=="ui-help-trigger") {
-						$("#ui-help").slideDown(500);
+						$("#ui-help").fadeIn(300);
 					}
 				});
 				return false;
