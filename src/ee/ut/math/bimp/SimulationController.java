@@ -113,11 +113,11 @@ public class SimulationController {
 
 		DecimalFormatSymbols otherSymbols = new DecimalFormatSymbols();
 		otherSymbols.setDecimalSeparator('.');
-		otherSymbols.setGroupingSeparator(' '); 
-		
+		otherSymbols.setGroupingSeparator(' ');
+
 		DecimalFormat dec = new DecimalFormat("###.##", otherSymbols);
 		KpiCalculator kpi = runner.getKpiStats();
-
+		ResultItem item = new ResultItem();
 		elements = new ArrayList<Map<String, Object>>();
 		for (Activity activity : kpi.getAllElements()) {
 			Map<String, Object> activityMap = new HashMap<String, Object>();
@@ -138,10 +138,10 @@ public class SimulationController {
 			String avgCost = (kpi.getElementTotalCost(activity) / count) != 0 ? dec
 					.format(kpi.getElementTotalCost(activity) / count) : "n/a";
 
-			// log.debug("Total cost: "
-			// + dec.format(kpi.getElementTotalCost(activity)));
-
-			activityMap.put("description", activity.getDescription());
+			activityMap.put(
+					"description",
+					activity.getDescription() != null ? activity
+							.getDescription() : "n/a");
 
 			activityMap.put("avgCost", avgCost);
 
@@ -150,13 +150,18 @@ public class SimulationController {
 			activityMap.put("avgIdle", avgIdle);
 
 			activityMap.put("avgWaiting", avgWaiting);
+			
+			item.setCompletedElements(String.valueOf(kpi.getCompletedElements()));
 
 			elements.add(activityMap);
 		}
 		model.addObject("elements", elements);
 		model.addObject("enableLogDownload",
 				Boolean.valueOf((String) session.getAttribute("mxmlLog")));
-//		simulations.remove(id);
+		// simulations.remove(id);
+		
+		String path = request.getSession().getServletContext().getRealPath("/tmp/") + "/tmp.xml";
+
 		return model;
 
 	}

@@ -22,7 +22,8 @@ public class MainPageController {
 	private static Logger log = Logger.getLogger(MainPageController.class);
 
 	/**
-	 * Default. 
+	 * Default.
+	 * 
 	 * @return
 	 */
 	@RequestMapping(value = "", method = RequestMethod.GET)
@@ -33,14 +34,14 @@ public class MainPageController {
 
 		return "index";
 	}
-	
+
 	@RequestMapping(value = "/upload", method = RequestMethod.GET)
 	public String upload(ModelMap model) {
 
 		log.debug("/upload requested, sending page");
 		return "upload";
 	}
-	
+
 	@RequestMapping(value = "/help", method = RequestMethod.GET)
 	public String help(ModelMap model) {
 
@@ -49,18 +50,18 @@ public class MainPageController {
 	}
 
 	/**
-	 * Handles for the logfile download.
-	 * Writes the file to the response.
+	 * Handles for the logfile download. Writes the file to the response.
 	 */
 	@RequestMapping(value = "/file", method = RequestMethod.POST)
-	public void getFile(HttpServletRequest request, String download, HttpServletResponse response) {
+	public void getFile(HttpServletRequest request, String download,
+			HttpServletResponse response) {
 
 		ServletOutputStream stream = null;
 		BufferedInputStream buf = null;
 		HttpSession session = request.getSession();
 		String fileName = (String) session.getAttribute("fileName");
 		String extension = "";
-		if(download.equals("log")) {
+		if (download.equals("log")) {
 			extension = ".mxml.gz";
 		}
 
@@ -82,7 +83,7 @@ public class MainPageController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
-			if (stream != null ) {
+			if (stream != null) {
 				try {
 					stream.close();
 				} catch (IOException e) {
@@ -99,11 +100,5 @@ public class MainPageController {
 		}
 
 	}
-	
-	@RequestMapping(value = "/csv", method = RequestMethod.POST)
-	public void getCSV(HttpServletRequest request, HttpServletResponse response) {
-		
-	}
-
 
 }
