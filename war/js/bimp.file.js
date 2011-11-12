@@ -32,6 +32,7 @@ bimp.file = {
 							//console.log("File with no simulation information provided");
 						}
 						$("#fileName").text(bimp.file.inputFiles[0].name + " is selected.");
+						$(".currentFileName").text(bimp.file.inputFiles[0].name);
 						$("#continue-button").attr("disabled", false);
 					} catch (e) {
 						alert("Error parsing file, please provide valid file.");
@@ -89,8 +90,10 @@ bimp.file = {
 					this.removeAttribute("xmlns");
 				});
 			}
+			
+			var documentation = bimp.parser.prefixForDocumenation == "" ? "documentation" : bimp.parser.prefixForDocumenation + "documentation";
 			// update startEvent
-			$(bimp.parser.xmlFile).find(bimp.parser.prefixEscaped + "startEvent").find(bimp.parser.prefixEscaped + "documentation")[0].textContent = JSON.stringify(bimp.parser.startEvent);
+			$(bimp.parser.xmlFile).find(bimp.parser.prefixEscaped + "startEvent").find(bimp.parser.prefixForDocumenation + "documentation")[0].textContent = JSON.stringify(bimp.parser.startEvent);
 			//console.log("Found startEvent and updated it");
 		
 			var taskNodes = $(bimp.parser.xmlFile).find(bimp.parser.prefixEscaped + "task");
@@ -99,7 +102,7 @@ bimp.file = {
 				
 				$(taskNodes).each(function(nodeId, taskNode) {
 					if (taskNode.getAttribute("id") === id) {
-						$(taskNode).find(bimp.parser.prefixEscaped + "documentation")[0].textContent = JSON.stringify(task);
+						$(taskNode).find(bimp.parser.prefixForDocumenation + "documentation")[0].textContent = JSON.stringify(task);
 						//console.log("Found task and updated it:", id);
 					}
 				});
@@ -109,7 +112,7 @@ bimp.file = {
 			$.each(bimp.parser.intermediateCatchEvents, function(id, event) {
 				$(eventNodes).each(function(nodeId, eventNode) {
 					if (eventNode.getAttribute("id") === id) {
-						$(eventNode).find(bimp.parser.prefixEscaped + "documentation")[0].textContent = JSON.stringify(event);
+						$(eventNode).find(bimp.parser.prefixForDocumenation + "documentation")[0].textContent = JSON.stringify(event);
 						//console.log("Found eventnode and updated it:", id);
 					}
 				});
@@ -119,7 +122,7 @@ bimp.file = {
 			$.each(bimp.parser.conditionExpressions, function(id, gateway) {
 				$(sequenceFlows).each(function(nodeId, sequenceNode) {
 					if (sequenceNode.getAttribute("id") === id) {
-						$(sequenceNode).find(bimp.parser.prefixEscaped + "conditionExpression")[0].textContent = gateway.probability;
+						$(sequenceNode).find(bimp.parser.prefixForDocumenation + "conditionExpression")[0].textContent = gateway.probability;
 						//console.log("Found gateway and updated it:", id, gateway.probability);
 					}
 				});

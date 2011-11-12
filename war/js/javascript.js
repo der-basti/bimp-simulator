@@ -26,8 +26,8 @@ $(document).ready(function () {
 		}
 		$(row).find(".startday").val("Mon");
 		$(row).find(".endday").val("Fri");
-		$(row).find(".begintime").val("09:00:00");
-		$(row).find(".endtime").val("17:00:00");
+		$(row).find(".begintime").val(bimp.forms.defaultBeginTime);
+		$(row).find(".endtime").val(bimp.forms.defaultEndTime);
 		$(row).find(".remove").show();
 		var tbody = $(this).parents().find(".timetables tbody");
 		$(row).appendTo(tbody)
@@ -220,8 +220,13 @@ $(document).ready(function () {
 		}
 	});
 
-
 //	openLoadingModal();
+
+	$(".timepicker").timepicker({timeFormat:"hh:mm:ss"});
+	$("body").delegate(".close", "click", function () {
+		closeLoadingModal();
+	});
+
 });
 
 var timeTableRow;
@@ -287,23 +292,21 @@ var updateTypeSelection = function (element) {
 var openLoadingModal = function () {
 	$("body").append("<div id='modal-bg'></div>");
 	$("body").append("<div id='loading'>" +
-			"<h2>Running your simulation, please wait</h2>" +
-			"<h2 class='status'>Status</h2>" +
+			"<div class='close'><span>x</span></div>" +
+			"<h2 class='title'>Running your simulation, please wait</h2>" +
+			"<span class='status'>Status</span>" +
 			"<div class='progressBarContainer'><div class='progressBar'></div></div>" +
 			"<h2 class='progress'>Progress</h2>" +
 			"</div>");
-	var left = (document.width - $("#loading").width()) / 2;
+	var left = ($(document).width() - $("#loading").width()) / 2;
 	$("#loading").css({"left":left});
-	
+	$("#modal-bg").css({"height":$(document).height()});
 	$.ajax({
 		contentType : 'application/json',
 		type : 'get',
 		url : '/simulate',
-		success : function() {
-			console.log("simulation ended");
-		},
 		error : function(e) {
-			console.log(e);
+			throw e;
 		}
 
 	});
@@ -313,17 +316,17 @@ var openLoadingModal = function () {
 };
 
 var closeLoadingModal = function () {
-	$("#loading").fadeOut().remove();
-	$("#modal-bg").fadeOut().remove();
+	$("#loading").fadeOut(function(){$(this).remove();});
+	$("#modal-bg").fadeOut(function(){$(this).remove();});
 };
 
 getStatus = function() {
 	//getting the status of the simulation
 	timer += interval;
-	if (timer > 500000) {
-		clearInterval(timerId);
-		window.location = "/getResults";
-	}
+//	if (timer > 500000) {
+//		clearInterval(timerId);
+//		window.location = "/getResults";
+//	}
 	$.ajax({
 		contentType : 'application/json',
 		type : 'post',
@@ -331,7 +334,7 @@ getStatus = function() {
 		success : function(data) {
 			switch (data.status) {
 			case ("INITIALIZING"):
-				if (pointCount < 3) {
+				if (pointCount < 4) {
 					pointCount += 1;
 					$(".status").text(data.status + generateXCharacters(pointCount, "."));
 				} else {
@@ -342,9 +345,9 @@ getStatus = function() {
 				$(".progressBarContainer").fadeIn();
 				var width = data.progress.split("/")[0] / data.progress.split("/")[1] * 100 + "%";
 				$(".progressBar").css({"width":width});
-				if (pointCount < 3) {
-					pointCount += 1;
+				if (pointCount < 4) {
 					$(".status").text(data.status + generateXCharacters(pointCount, "."));
+					pointCount += 1;
 				} else {
 					pointCount = 0;
 				}
@@ -352,8 +355,8 @@ getStatus = function() {
 			case ("FINALIZING"):
 				$(".progressBarContainer").fadeOut();
 				if (pointCount < 3) {
-					pointCount += 1;
 					$(".status").text(data.status + " and writing logs" + generateXCharacters(pointCount, "."));
+					pointCount += 1;
 				} else {
 					pointCount = 0;
 				}
@@ -371,12 +374,18 @@ getStatus = function() {
 					}
 				});
 				break;
+			case ("ERROR"):
+				clearInterval(timerId);
+				$("#loading").addClass("error");
+				$(".title").text("Simulation ended with an error, please revise your data.");
+				$(".status").text("<strong>Error:</strong> " + (data.error ?  + data.error : "Unknown error"));
+				$(".close").show();
+				break;
 			}
-			$(".progress").text(data.progress);
 		},
 		error : function(e) {
-			console.log(e);
 			clearInterval(timerId);
+			throw e;
 		}
 
 	});

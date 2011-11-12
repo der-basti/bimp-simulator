@@ -4,21 +4,23 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF8">
-	<script type="text/javascript" src="./js/jquery-1.6.4.min.js"></script>
-	<script type="text/javascript" src="./js/jquery.tools.min.js"></script>
-	<script type="text/javascript" src="./js/jquery-ui-1.8.16.custom.min.js"></script>
-	<script type="text/javascript" src="./js/bimp.file.js"></script>
-	<script type="text/javascript" src="./js/bimp.parse.js"></script>
-	<script type="text/javascript" src="./js/bimp.forms.js"></script>
-	<script type="text/javascript" src="./js/javascript.js"></script>
-	<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
-	
-	
-	<link rel="stylesheet" type="text/css" href="./css/style.css"></link>
-	<link rel="stylesheet" type="text/css" href="./css/jquery-ui-1.8.16.custom.css"></link>
-	<link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
-	<title>BIMP Simulator</title>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF8">
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript" src="./js/jquery-1.6.4.min.js"></script>
+<script type="text/javascript" src="./js/jquery-ui-1.8.16.custom.min.js"></script>
+<script type="text/javascript" src="./js/jquery.tools.min.js"></script>
+<script type="text/javascript" src="./js/bimp.file.js"></script>
+<script type="text/javascript" src="./js/bimp.parse.js"></script>
+<script type="text/javascript" src="./js/bimp.forms.js"></script>
+<script type="text/javascript" src="./js/bimp.charts.js"></script>
+<script type="text/javascript" src="./js/javascript.js"></script>
+<script type="text/javascript" src="./js/jquery-ui-timepicker-addon.js"></script>
+
+<link rel="stylesheet" type="text/css" href="./css/style.css"></link>
+<link rel="stylesheet" type="text/css" href="./css/jquery-ui-1.8.16.custom.css"></link>
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
+<title>BIMP Simulator</title>
 </head>
 <body>
 	<div id="main">
@@ -58,6 +60,7 @@
 			</div>
 			
 			<div id="data-input" class="gill-font">
+				<div class="currentFile"><span>You are editing: <strong class="currentFileName">N/A</strong></span></div>
 				<div class="layout-right">
 					<a class="toggle-all">Collapse all</a>
 				</div>
@@ -174,8 +177,8 @@
 									<th>Resource <img src="./css/images/questionmark.png" title="Default is * , which means all the resources."/></th>
 									<th>Begin day</th>
 									<th>End day</th>
-									<th>Begin time</th>
-									<th>End time</th>
+									<th>Begin time <img src="./css/images/questionmark.png" title="HH:MM:SS"/></th>
+									<th>End time <img src="./css/images/questionmark.png" title="HH:MM:SS"/></th>
 
 								</tr>
 								<tr class="timetable">
@@ -208,10 +211,12 @@
 											</select>
 										</td>
 										<td>
-											<input class="begintime" name="begintime" class="timepicker" title="HH:MM:SS">
+
+											<input class="begintime timepicker" name="begintime" value="09:00:00">
 										</td>
 										<td>
-											<input class="endtime" name="endtime" class="timepicker" title="HH:MM:SS">
+
+											<input class="endtime timepicker" name="endtime" value="17:00:00">
 										</td>
 										<td><a class="trigger remove" href="javascript:void(0)" title="Remove field">X</a></td>
 								</tr>

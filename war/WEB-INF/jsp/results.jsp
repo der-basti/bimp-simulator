@@ -2,8 +2,9 @@
     pageEncoding="UTF8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 		<div id="resultsPage" class="contents gill-font">
-			<button id="backToEditData" class="button">Back to edit data</button>
+			<button id="backToEditData" class="button">Back to edit data</button>	
 			<div id="download-div">
 				<form id="hiddenDownloadForm" method="post" action="/file">
 					<input type="hidden" id="download" name="download" />
@@ -16,6 +17,10 @@
 				Download simulation report: <input type="submit" class="button" value="Download">
 			</form>
 			</div>
+			<div id="duration-chart-div" class="chart"></div>
+			<div id="waiting-time-chart-div" class="chart"></div>			
+			<div id="cost-chart-div" class="chart"></div>	
+			<div id="resources-chart-div" class="chart"></div>
 			<div id="results">
 				<h3>Completed elements </h3> <fmt:formatNumber type="number" pattern="###,###.##" maxFractionDigits="2" value="${stats.completedElements }"/>
 				<h3>Completed process instances </h3><fmt:formatNumber type="number" pattern="###,###.##" maxFractionDigits="2" value="${stats.completedProcesseInstances }"/>
@@ -48,3 +53,21 @@
 			</table>
 			</div>
 		</div>
+		<script>
+		var durationIntervals = ${durationIntervals};
+		var durationCounts = ${durationCounts};
+		var waitingTimeIntervals = ${waitingTimeIntervals};
+		var waitingTimeCounts = ${waitingTimeCounts};
+		var costIntervals = ${costIntervals};
+		var costCounts = ${costCounts};
+		var resources = ${resources};
+		var utilization = ${utilization};
+		drawDurationsChart();
+		drawWaitingTimesChart();
+		drawCostsChart();
+		drawResourcesChart();
+
+		</script>
+	</div>
+	
+	

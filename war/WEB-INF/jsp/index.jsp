@@ -9,6 +9,9 @@
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
 <script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
 <title>BIMP Simulator</title>
+<script type="text/javascript" src="./js/jquery-1.6.4.min.js"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript" src="./js/bimp.charts.js"></script>
 </head>
 <body>
 	<div id="main">

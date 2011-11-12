@@ -1,4 +1,6 @@
 bimp.forms = {
+		defaultBeginTime: "09:00:00",
+		defaultEndTime: "17:00:00",
 		generate : {
 			start : function () {
 				this.startEvent("test");
@@ -8,7 +10,6 @@ bimp.forms = {
 				bimp.forms.groupGateways();
 				bimp.forms.setDefaultXORValues();
 				removeLastButton();
-				updateResourceDropdowns();
 				$(".currencyText").text($(".currency").val());
 			},
 			startEvent : function (name) {
@@ -178,7 +179,7 @@ bimp.forms = {
 						var startAtTime = startAt.split(" ")[1];
 						var dateAndTime = new Date();
 						if (startAtDate == "" || !startAtDate) {
-							startAtDate = dateAndTime.getFullYear() + "-" + dateAndTime.getMonth() + "-" + dateAndTime.getDay();
+							startAtDate = dateAndTime.getFullYear() + "-" + (dateAndTime.getMonth()+1) + "-" + dateAndTime.getDate();
 						}
 						if (startAtTime == "" || !startAtTime) {
 							startAtTime = dateAndTime.toLocaleTimeString();
