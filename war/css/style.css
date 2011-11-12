@@ -467,16 +467,14 @@ h2.toggle-trigger a:active {
 }
 
 #fb-google {
-	width: 50px;
+	width: 80px;
 	float: right;
-	position:relative;
 	top: 5px;
 }
 
 #plusone {
 	margin-top: 7px;
-	position: relative;
-	right: 5px;
+	float: right;
 }
 
 #footer-text {
