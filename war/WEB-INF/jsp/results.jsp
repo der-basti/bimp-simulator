@@ -54,20 +54,43 @@
 			</div>
 		</div>
 		<script>
-		var durationIntervals = ${durationIntervals};
-		var durationCounts = ${durationCounts};
-		var waitingTimeIntervals = ${waitingTimeIntervals};
-		var waitingTimeCounts = ${waitingTimeCounts};
-		var costIntervals = ${costIntervals};
-		var costCounts = ${costCounts};
-		var resources = ${resources};
-		var utilization = ${utilization};
-		drawDurationsChart();
-		drawWaitingTimesChart();
-		drawCostsChart();
-		drawResourcesChart();
-
+			var durationIntervals;
+			var durationCounts
+			var waitingTimeIntervals;
+			var waitingTimeCounts;
+			var costIntervals;
+			var costCounts;
+			var resources;
+			var utilization;
+			<c:if test="${not empty durationIntervals}">
+			durationIntervals = ${durationIntervals};
+			</c:if>
+			<c:if test="${not empty durationCounts}">
+			durationCounts = ${durationCounts};
+			</c:if>
+			<c:if test="${not empty waitingTimeIntervals}">
+			waitingTimeIntervals = ${waitingTimeIntervals};
+			</c:if>
+			<c:if test="${not empty waitingTimeCounts}">
+			waitingTimeCounts = ${waitingTimeCounts};
+			</c:if>
+			<c:if test="${not empty costIntervals}">
+			costIntervals = ${costIntervals};
+			</c:if>
+			<c:if test="${not empty costCounts}">
+			costCounts = ${costCounts};
+			</c:if>
+			<c:if test="${not empty resources}">
+			resources = ${resources};
+			</c:if>
+			<c:if test="${not empty utilization}">
+			utilization = ${utilization};
+			</c:if>
+			
+			drawDurationsChart();
+			drawWaitingTimesChart();
+			drawCostsChart();
+			drawResourcesChart();
 		</script>
-	</div>
 	
 	

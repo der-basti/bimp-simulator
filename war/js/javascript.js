@@ -344,8 +344,9 @@ getStatus = function() {
 					url : '/getResults',
 					success : function(data) {
 						$("#uploadPage").fadeOut();
-						$("#header").after(data);
 						closeLoadingModal();
+						console.log(data)
+						$("#header").after(data);
 					}
 				});
 				break;
