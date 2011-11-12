@@ -2,11 +2,9 @@ package ee.ut.math.bimp;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -30,8 +28,6 @@ import ee.ut.math.bimp.data.DataService;
 import ee.ut.math.bimp.data.RepresentableActivity;
 import ee.ut.math.bimp.data.ResultItem;
 import ee.ut.math.bimp.data.Simulation;
-import ee.ut.bpsimulator.model.Activity;
-import ee.ut.bpsimulator.model.Resource;
 
 /**
  * Simulation controller.
@@ -146,7 +142,7 @@ public class SimulationController {
 		double[] utilization = new double[resources.length];
 		String[] resourcesStr = new String[resources.length];
 		for (int i=0; i<resources.length; i++) {
-			utilization[i] = (int) (kpi.getResourceUtilization((Resource) resources[i])*100);
+			utilization[i] = (int) (kpi.getResourceUtilization((ee.ut.bpsimulator.model.Resource) resources[i])*100);
 			resourcesStr[i] = resources[i].toString().split("id")[0].split("Resource ")[1];
 		}
 		
