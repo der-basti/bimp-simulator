@@ -10,7 +10,6 @@ bimp.forms = {
 				bimp.forms.groupGateways();
 				bimp.forms.setDefaultXORValues();
 				removeLastButton();
-				updateResourceDropdowns();
 				$(".currencyText").text($(".currency").val());
 			},
 			startEvent : function (name) {

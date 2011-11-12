@@ -62,8 +62,8 @@
 			<div id="submit-button">
 				<button id="startSimulationButton" type="submit">Start Simulation</button>
 			</div>
-			
 			<div id="data-input" class="gill-font">
+				<div class="currentFile"><span>You are editing: <strong class="currentFileName">N/A</strong></span></div>
 				<div class="layout-right">
 					<a class="toggle-all">Collapse all</a>
 				</div>

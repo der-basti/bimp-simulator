@@ -396,6 +396,7 @@ h2.toggle-trigger a:active {
 	display: none;
 }
 #loading h2 {
+	font-family: tahoma;
 	margin-left: 15px;
 }
 .progress {
@@ -469,14 +470,43 @@ span.type {
 .ui-timepicker-div dl dd{ margin: -25px 0 10px 65px; }
 .ui-timepicker-div td { font-size: 90%; }
 
-.error {
+.status {
+	font-weight: normal;
+	color: #333;
+	font-size: 12px;
+}
+.error .title {
 	color: red;
 }
-.error2 {
+.error {
 	background-color: rgba(255,230,230,0.92)!important;
 }
 .close {
-	right: 0;
+    display: none;
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    right: -9px;
+    top: -9px;
+    background: rgb(206,220,231); /* Old browsers */
+background: -moz-linear-gradient(top, rgba(206,220,231,1) 0%, rgba(89,106,114,1) 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(206,220,231,1)), color-stop(100%,rgba(89,106,114,1))); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top, rgba(206,220,231,1) 0%,rgba(89,106,114,1) 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top, rgba(206,220,231,1) 0%,rgba(89,106,114,1) 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top, rgba(206,220,231,1) 0%,rgba(89,106,114,1) 100%); /* IE10+ */
+background: linear-gradient(top, rgba(206,220,231,1) 0%,rgba(89,106,114,1) 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cedce7', endColorstr='#596a72',GradientType=0 ); /* IE6-9 */	color: white;
+    border: 2px solid white;
+    border-radius: 15px;
+    font-family: tahoma;
+    font-weight: bold;
+    cursor: pointer;
+}
+.close:hover {
+	background: #55aaee;
+}
+.close span {
+	position: absolute;
+	left: 6px;
 	top: 0;
-	display: none;
 }

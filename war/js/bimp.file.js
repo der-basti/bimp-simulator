@@ -32,6 +32,7 @@ bimp.file = {
 							//console.log("File with no simulation information provided");
 						}
 						$("#fileName").text(bimp.file.inputFiles[0].name + " is selected.");
+						$(".currentFileName").text(bimp.file.inputFiles[0].name);
 						$("#continue-button").attr("disabled", false);
 					} catch (e) {
 						alert("Error parsing file, please provide valid file.");
