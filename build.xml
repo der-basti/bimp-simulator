@@ -84,7 +84,7 @@
 	</target>
 
 	<target name="start-tomcat">
-		<java classname="org.apache.catalina.startup.Bootstrap" fork="true" spawn="false" classpathref="tomcat.class.path">
+		<java classname="org.apache.catalina.startup.Bootstrap" fork="true" spawn="true" classpathref="tomcat.class.path">
 			<jvmarg value="-Dcatalina.home=${tomcat.home}" />
 			<arg line="start" />
 		</java>

@@ -265,7 +265,7 @@ public class SimulationController {
 		int powerOfTen = differenceStr.length()-1;
 		int interval;
 		
-		if (first < '5') {
+		if (first < '5') { 
 			powerOfTen -= 1;
 			interval = (int) (5*(Math.pow(10, powerOfTen)));
 		}
