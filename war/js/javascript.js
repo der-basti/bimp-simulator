@@ -378,7 +378,7 @@ getStatus = function() {
 				clearInterval(timerId);
 				$("#loading").addClass("error");
 				$(".title").text("Simulation ended with an error, please revise your data.");
-				$(".status").text(data.error ?  + data.error : "Unknown error");
+				$(".status").text("Error: " + (data.error ?  + data.error : "Unknown error"));
 				$(".close").show();
 				break;
 			}
