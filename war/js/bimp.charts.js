@@ -4,9 +4,9 @@
       // draws it.
       function drawDurationsChart() {
 	
-	if (!durationIntervals || !durationCounts) {
-	  return;
-	}
+	if (!durationIntervals || !durationCounts || durationIntervals == "" || durationCounts == "") {
+	  return false;
+	} else {
 
       
       //var durationIntervals = [1, 2, 3, 4];
@@ -43,12 +43,12 @@
       var chart = new google.visualization.BarChart(document.getElementById('duration-chart-div'));
       chart.draw(data, options);
     }
-
+      }
 function drawWaitingTimesChart() {
 	
-	if (!waitingTimeIntervals || !waitingTimeCounts) {
-	  return;
-	}
+	if (!waitingTimeIntervals || !waitingTimeCounts || waitingTimeIntervals == "" || waitingTimeCounts == "") {
+	  return false;
+	} else {
 
       
       //var durationIntervals = [1, 2, 3, 4];
@@ -85,13 +85,13 @@ function drawWaitingTimesChart() {
       var chart = new google.visualization.BarChart(document.getElementById('waiting-time-chart-div'));
       chart.draw(data, options);
     }
+}
 
 function drawCostsChart() {
 	
-	if (!costIntervals || !costCounts) {
-	  return;
-	}
-      
+	if (!costIntervals || !costCounts || costIntervals == "" || costIntervals == "") {
+	  return false;
+	} else {
       //var durationIntervals = [1, 2, 3, 4];
       //var durationCounts = [1, 2, 3, 4];
 
@@ -126,14 +126,13 @@ function drawCostsChart() {
       var chart = new google.visualization.BarChart(document.getElementById('cost-chart-div'));
       chart.draw(data, options);
     }
-
+}
 function drawResourcesChart() {
 	
-	if (!resources || !utilization) {
-	  return;
-	}
-
-      
+	if (!resources || !utilization || resources == "" || utilization == "") {
+	  return false;
+	} else {
+		
       //var durationIntervals = [1, 2, 3, 4];
       //var durationCounts = [1, 2, 3, 4];
 
@@ -168,3 +167,4 @@ function drawResourcesChart() {
       var chart = new google.visualization.ColumnChart(document.getElementById('resources-chart-div'));
       chart.draw(data, options);
     }
+}
