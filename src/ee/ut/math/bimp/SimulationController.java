@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,9 +22,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
+
 import ee.ut.bpsimulator.logger.KpiCalculator;
 import ee.ut.bpsimulator.logger.MxmlLogger;
 import ee.ut.bpsimulator.model.Activity;
+import ee.ut.bpsimulator.model.Resource;
 
 /**
  * Simulation controller.
@@ -152,13 +156,125 @@ public class SimulationController {
 			activityMap.put("avgWaiting", avgWaiting);
 
 			elements.add(activityMap);
+			
 		}
+
+		Object[] resources = runner.sim.getResourceManager().getDefinedResources().toArray();
+		double[] utilization = new double[resources.length];
+		String[] resourcesStr = new String[resources.length];
+		for (int i=0; i<resources.length; i++) {
+			utilization[i] = (int) (kpi.getResourceUtilization((Resource) resources[i])*100);
+			resourcesStr[i] = resources[i].toString().split("id")[0].split("Resource ")[1];
+		}
+		
+		List<String[]> chartIntervals = new ArrayList<String[]>();
+		List<int[]> chartCounts = new ArrayList<int[]>();
+		
+		getHistogramValues(kpi.getProcessDurations(), chartIntervals, chartCounts, false);
+		getHistogramValues(kpi.getProcessWaitingTimes(), chartIntervals, chartCounts, false);
+		getHistogramValues(kpi.getProcessCosts(), chartIntervals, chartCounts, true);
+		
+		Gson gsonObject = new Gson();
+		
 		model.addObject("elements", elements);
+		
+		model.addObject("durationIntervals", gsonObject.toJson(chartIntervals.get(0)));
+		model.addObject("waitingTimeIntervals", gsonObject.toJson(chartIntervals.get(1)));
+		model.addObject("costIntervals", gsonObject.toJson(chartIntervals.get(2)));
+		
+		model.addObject("durationCounts", gsonObject.toJson(chartCounts.get(0)));
+		model.addObject("waitingTimeCounts", gsonObject.toJson(chartCounts.get(1)));
+		model.addObject("costCounts", gsonObject.toJson(chartCounts.get(2)));
+		
+		model.addObject("resources", gsonObject.toJson(resourcesStr));
+		model.addObject("utilization", gsonObject.toJson(utilization));
+		
 		model.addObject("enableLogDownload",
 				Boolean.valueOf((String) session.getAttribute("mxmlLog")));
 //		simulations.remove(id);
 		return model;
 
+	}
+
+	private void getHistogramValues(double[] array, List<String[]> intervalList, List<int[]> countList, boolean isCostChart) {
+		
+		double max = array[0];
+		double min = array[0];
+		for (int i=0; i<array.length; i++) {
+			if (array[i] < 0) {
+				array[i] = 0; 
+			}
+			if (array[i] > max) {
+				max = array[i];
+			}
+			if (array[i] < min) {
+				min = array[i];
+			}
+		}
+		
+		int divisor;
+		String unit;
+		
+		if (isCostChart) {
+			divisor = 1;
+			unit = "";
+		}
+		
+		else if (max >= 432000) {
+			divisor = 86400;
+			unit = " days";
+		}
+		else if (max >= 18000) {
+			divisor = 3600;
+			unit = " h";
+		}
+		else if (max >= 300) {
+			divisor = 60;
+			unit = " min";
+		}
+		else {
+			divisor = 1;
+			unit = " s";
+		}
+		
+		double difference = (max-min)/divisor;
+		if (difference == 0) {
+			intervalList.add(null);
+			countList.add(null);
+			return;
+		}
+		String differenceStr = Long.toString((long) difference);
+		char first = differenceStr.charAt(0);
+		int powerOfTen = differenceStr.length()-1;
+		int interval;
+		
+		if (first < '5') {
+			powerOfTen -= 1;
+			interval = (int) (5*(Math.pow(10, powerOfTen)));
+		}
+		else {
+			interval = (int) (Math.pow(10, powerOfTen));
+		}
+
+		int intervalAmount = (int) Math.ceil(difference/interval);
+		
+		
+		int[] counts = new int[intervalAmount];
+		String[] intervals = new String[intervalAmount];
+		int lowest = ((int)(min/divisor/interval))*interval;
+		
+		for (int i=0; i<intervalAmount; i++) {
+			intervals[i] = Integer.toString((int)((lowest + i*interval))) + " - " 
+			+ Integer.toString((int)((lowest + (i+1)*interval))) + unit;
+		}
+
+		for (double value : array) {
+			int i = (int) ((value-min)/divisor/interval);
+			counts[i] += 1;
+		}
+		
+		intervalList.add(intervals);
+		countList.add(counts);
 	}
 
 	/**

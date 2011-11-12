@@ -2,24 +2,32 @@
     pageEncoding="UTF8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF8">
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" href="./css/style.css"></link>
+	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 	<script type="text/javascript" src="./js/jquery-1.6.4.min.js"></script>
 	<script type="text/javascript" src="./js/jquery-ui-1.8.16.custom.min.js"></script>
 	<script type="text/javascript" src="./js/bimp.file.js"></script>
 	<script type="text/javascript" src="./js/bimp.parse.js"></script>
 	<script type="text/javascript" src="./js/bimp.forms.js"></script>
+	<script type="text/javascript" src="./js/bimp.charts.js"></script>
 	<script type="text/javascript" src="./js/javascript.js"></script>
+
 	<title>BIMP Simulator results</title>
 </head>
 <body>
 	<div id="main">
 		<jsp:include page="_header.jsp"></jsp:include>
 		<div id="contents" class="gill-font">
+			<div id="duration-chart-div" class="chart"></div>
+			<div id="waiting-time-chart-div" class="chart"></div>			
+			<div id="cost-chart-div" class="chart"></div>	
+			<div id="resources-chart-div" class="chart"></div>	
 			<div id="download-div">
 				<form id="hiddenDownloadForm" method="post" action="/file">
 					<input type="hidden" id="download" name="download" />
@@ -66,5 +74,21 @@
 		</div>
 		<jsp:include page="_footer.jsp"></jsp:include>
 	</div>
+	
+	<script>
+	var durationIntervals = ${durationIntervals};
+	var durationCounts = ${durationCounts};
+	var waitingTimeIntervals = ${waitingTimeIntervals};
+	var waitingTimeCounts = ${waitingTimeCounts};
+	var costIntervals = ${costIntervals};
+	var costCounts = ${costCounts};
+	var resources = ${resources};
+	var utilization = ${utilization};
+	google.setOnLoadCallback(drawDurationsChart);
+	google.setOnLoadCallback(drawWaitingTimesChart);
+	google.setOnLoadCallback(drawCostsChart);
+	google.setOnLoadCallback(drawResourcesChart);
+
+	</script>
 </body>
 </html>

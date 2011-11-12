@@ -11,6 +11,7 @@
 <script type="text/javascript" src="./js/bimp.parse.js"></script>
 <script type="text/javascript" src="./js/bimp.forms.js"></script>
 <script type="text/javascript" src="./js/javascript.js"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 
 <link rel="stylesheet" type="text/css" href="./css/style.css"></link>
 <link rel="stylesheet" type="text/css" href="./css/jquery-ui-1.8.16.custom.css"></link>

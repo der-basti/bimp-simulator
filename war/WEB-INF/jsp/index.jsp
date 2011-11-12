@@ -8,11 +8,16 @@
 <link rel="stylesheet" type="text/css" href="./css/style.css"></link>
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
 <title>BIMP Simulator</title>
+<script type="text/javascript" src="./js/jquery-1.6.4.min.js"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript" src="./js/bimp.charts.js"></script>
 </head>
 <body>
 	<div id="main">
 		<jsp:include page="_header.jsp"></jsp:include>
 		<div id="contents">
+			<div id="chart_div">
+			</div>
 			<div id="introduction">
 				<b>Bimp is a business process simulator.</b><br> 
 				It takes a file written in Business Process Modeling Notation – usually generated 
