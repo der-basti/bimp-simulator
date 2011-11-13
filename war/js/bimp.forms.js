@@ -370,16 +370,16 @@ function convertToSeconds (value, timeUnit) {
 function convertSecondsToX(value, timeUnit) {
 	switch (timeUnit) {
 		case ("minutes"):
-			return value / 60;
+			return Math.round((value / 60)*10)/10;
 		break;
 		case ("hours"):
-			return value / 60 / 60;
+			return Math.round((value / 60 / 60)*10)/10;
 		break;
 		case ("days"):
-			return value / 60 / 60 / 24;
+			return Math.round((value / 60 / 60 / 24)*10)/10;
 		break;
 		default:
-			return value;
+			return Math.round((value)*10)/10;
 		break;
 	}
 }
