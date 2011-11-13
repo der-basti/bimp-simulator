@@ -47,10 +47,10 @@
 			<table border="0">
 				<tr>
 					<th>Description</th>
-					<th>Average cost</th>
-					<th>Average duration</th>
-					<th>Average idle time</th>
-					<th>Average waiting time</th>
+					<th><span class ="cost">Average cost</span></th>
+					<th><span class ="duration">Average duration</span></th>
+					<th><span class ="duration">Average idle time</span></th>
+					<th><span class ="duration">Average waiting time</span></th>
 				</tr>
 				<c:forEach var="element" items="${resultItem.activities}">
 					<tr>
@@ -66,11 +66,11 @@
 		</div>
 		<script>
 			$(".cost").each(function () {
-				$(this).text($(this).text() + " " + bimp.parser.startEvent.currency);
+				$(this).text($(this).text() + " (" + bimp.parser.startEvent.currency + ")");
 			});
 			$(".duration").each(function () {
 				var value = convertSecondsToX($(this).text(), bimp.parser.startEvent.arrivalRateDistribution.timeUnit);
-				$(this).text(value + " " + bimp.parser.startEvent.arrivalRateDistribution.timeUnit[0]);
+				$(this).text(value + " (" + bimp.parser.startEvent.arrivalRateDistribution.timeUnit[0] + ")");
 			});
 			var durationIntervals;
 			var durationCounts
