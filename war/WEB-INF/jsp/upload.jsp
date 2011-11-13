@@ -90,13 +90,13 @@
 											<option value="hours">Hours</option>
 											<option value="days">Days</option>
 										</select>
-										<img src="./css/images/questionmark.png" title="Arrival rate of main start event."/>
+										<img src="./css/images/questionmark.png" title="Arrival rate specifies the interval between two new process instances."/>
 									</td>
 								</tr>
 								<tr>
 									<th># of instances:</th>
 									<td><input class="instances" name="instances"
-										class="small" type="text" title="Integer should be used.">
+										class="small" type="text" title="Specifies the number of how many process instances will be created during the simulation. Positive integer should be used.">
 									</td>
 								</tr>
 								<tr>
