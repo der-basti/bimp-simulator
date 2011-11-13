@@ -478,40 +478,24 @@ h2.toggle-trigger a:active {
 	background: linear-gradient(top, rgba(183,222,237,1) 0%,rgba(113,206,239,1) 50%,rgba(33,180,226,1) 51%,rgba(183,222,237,1) 100%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b7deed', endColorstr='#b7deed',GradientType=0 ); /* IE6-9 */
 }
-
-.captcha {
-	background-image:url(images/captcha.jpg);
-	text-align:center;
-	border:none;
-    font-weight:bold;
-    font-family:Modern;
-}
-
-#contactPage fieldset ul, #contactPage fieldset li {
-	border:0; margin:0; padding:0; list-style:none;
-}
-
-#contactPage fieldset li {
-	clear: both;
-	list-style: none;
-	padding-top: 5px;
-	padding-bottom: 5px;
-}
-
-#contactPage fieldset input {
-	float: left;
-	margin-top: 5px;
-}
-
-#contactPage fieldset label {
-	width: 300px;
-	float: left;
+#contactPage {
+	height: 540px;
 }
 
 #fb-google {
 	width: 80px;
 	float: right;
 	top: 5px;
+}
+#facebook-box {
+	margin-top: 20px;
+	width: 500px;
+	float: right;	
+}
+
+#contact-info {
+	width: 350px;
+	float: left;
 }
 
 #plusone {
@@ -592,7 +576,7 @@ h2.toggle-trigger a:active {
 	left: 6px;
 	top: 0;
 }
-#results {
+#results, #contactPage {
 	clear: both;
 }
 .chart {
