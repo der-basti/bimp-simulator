@@ -1,4 +1,7 @@
 $(document).ready(function () {
+	
+	browserValidation();
+	
 	loadLikeButton(document, 'script', 'facebook-jssdk');
 	removeLastButton();
 	$(".resources .add").click(function () {
@@ -596,6 +599,22 @@ function loadLikeButton(d, s, id) {
 	js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1";
 	fjs.parentNode.insertBefore(js, fjs);
 };
+
+function browserValidation() {
+	var is_chrome = /chrome/.test( navigator.userAgent.toLowerCase() );
+	var browser = $.browser;
+	if (is_chrome) {
+
+	} else if (browser.msie || browser.safari || (browser.mozilla && browser.version < 4) || (browser.opera && browser.version < 11 )) {
+		$("body").prepend(
+				'<div id="browser" class="gill-font">' +
+				'<div id="browserWarning">It seems that your browser is not supported by our application</br>' +
+				'We strongly recommend You to download the latest version of Mozilla Firefox or Google Chrome browsers</div>' +
+				'<div id="browserIcons"><a href="http://www.mozilla.org/en-US/firefox/new/"><img src="./css/images/firefox.png" border="0"></a>' +
+				'<a href="http://www.google.com/chrome"><img src="./css/images/chrome.png" border="0"></a></div>' +
+				'</div>');
+	}
+}
 
 var pointCount = 0;
 var interval = 500;
