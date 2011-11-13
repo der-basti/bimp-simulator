@@ -34,12 +34,12 @@
 			</div>
 			<div id="results">
 				<h3>Completed elements </h3> ${resultItem.completedElements } 
-				<h3>Completed process instances </h3> ${resultItem.completedProcessInstances } 
-				<h3>Maximum process cost </h3> <span class ="cost">${resultItem.maxProcessCost }</span>
-				<h3>Maximum process duration </h3> <span class ="duration">${resultItem.maxProcessDuration }</span>
+				<h3>Completed process instances </h3> ${resultItem.completedProcessInstances }
 				<h3>Minimum process cost </h3> <span class ="cost">${resultItem.minProcessCost}</span>
-				<h3>Minimum process duration </h3> <span class ="duration">${resultItem.minProcessDuration }</span>
+				<h3>Maximum process cost </h3> <span class ="cost">${resultItem.maxProcessCost }</span>
 				<h3>Total cost </h3>  <span class ="cost">${resultItem.totalCost }</span>
+				<h3>Minimum process duration </h3> <span class ="duration">${resultItem.minProcessDuration }</span>
+				<h3>Maximum process duration </h3> <span class ="duration">${resultItem.maxProcessDuration }</span>
 				<h3>Total duration </h3>  <span class ="duration">${resultItem.totalDuration }</span>
 				<br />
 			</div>
@@ -47,17 +47,15 @@
 			<table border="0">
 				<tr>
 					<th>Description</th>
-					<th><span class ="cost">Average cost</span></th>
-					<th><span class ="duration">Average duration</span></th>
-					<th><span class ="duration">Average idle time</span></th>
-					<th><span class ="duration">Average waiting time</span></th>
+					<th><span class ="costTitle">Average cost</span></th>
+					<th><span class ="durationTitle">Average duration</span></th>
+					<th><span class ="durationTitle">Average idle time</span></th>
+					<th><span class ="durationTitle">Average waiting time</span></th>
 				</tr>
 				<c:forEach var="element" items="${resultItem.activities}">
 					<tr>
 						<td>${element.description }</td>
 						<td>${element.avgCost }</td>
-						<td>${element.avgDuration }</td>
-						<td>${element.avgIdle }</td>
 						<td>${element.avgWaiting }</td>
 					</tr>
 				</c:forEach>
@@ -65,13 +63,7 @@
 			</div>
 		</div>
 		<script>
-			$(".cost").each(function () {
-				$(this).text($(this).text() + " (" + bimp.parser.startEvent.currency + ")");
-			});
-			$(".duration").each(function () {
-				var value = convertSecondsToX($(this).text(), bimp.parser.startEvent.arrivalRateDistribution.timeUnit);
-				$(this).text(value + " (" + bimp.parser.startEvent.arrivalRateDistribution.timeUnit[0] + ")");
-			});
+			var currency = bimp.parser.startEvent.currency;
 			var durationIntervals;
 			var durationCounts
 			var waitingTimeIntervals;
@@ -80,6 +72,35 @@
 			var costCounts;
 			var resources;
 			var utilization;
+
+			$(".costTitle").each(function () {
+				$(this).text($(this).text() + " (" + currency + ")");
+			});
+			$(".durationTitle").each(function () {
+				$(this).text($(this).text() + " (" + bimp.parser.startEvent.arrivalRateDistribution.timeUnit[0] + ")");
+			});
+			$(".cost").each(function () {
+				$(this).text($(this).text() + " " + currency);
+			});
+			$(".duration").each(function () {
+				if ($(this).text() >= 432000) {
+				    var value = convertSecondsToX($(this).text(), "days");
+				    $(this).text(value + " days");
+				}
+				else if ($(this).text() >= 18000) {
+				    var value = convertSecondsToX($(this).text(), "hours");
+				    $(this).text(value + " h");
+				}
+				else if ($(this).text() >= 300) {
+				    var value = convertSecondsToX($(this).text(), "minutes");
+				    $(this).text(value + " min");
+				}
+				else {
+				    var value = $(this).text();
+				    $(this).text(value + " s");
+				}
+			});
+
 			<c:if test="${not empty durationIntervals}">
 			durationIntervals = ${durationIntervals};
 			</c:if>
