@@ -65,7 +65,7 @@
 		<script>
 			var currency = bimp.parser.startEvent.currency;
 			var durationIntervals;
-			var durationCounts
+			var durationCounts;
 			var waitingTimeIntervals;
 			var waitingTimeCounts;
 			var costIntervals;
