@@ -20,10 +20,12 @@ $(document).ready(function () {
 	});
 	
 	$(".timetables .add").click(function () {
-		var row = $(this).parents().find(".timetables").find(".timetable:first").clone(true);
+		var row = $(this).parents().find(".timetables").find(".timetable:first").clone(false);
 		if ($(this).parents().find(".timetables").find(".timetable").size() == 0) {
 			row = timeTableRow;
 		}
+		$(row).find(".timepicker").removeClass("hasDatepicker");
+		$(row).find(".timepicker").attr("id", "");
 		$(row).find(".startday").val("Mon");
 		$(row).find(".endday").val("Fri");
 		$(row).find(".begintime").val(bimp.forms.defaultBeginTime);
@@ -39,7 +41,7 @@ $(document).ready(function () {
 			  var $set = $(this);
 			  $set.replaceWith($set.contents());
 			  bimp.forms.read.resources();
-			  updateResourceDropdowns();
+			  $(".timepicker").timepicker({timeFormat:"hh:mm:ss"});
 		 });
 	});
 	
@@ -222,9 +224,46 @@ $(document).ready(function () {
 
 //	openLoadingModal();
 
-	$(".timepicker").timepicker({timeFormat:"hh:mm:ss"});
+	
 	$("body").delegate(".close", "click", function () {
 		closeLoadingModal();
+	});
+	
+	$("body").delegate(".gatewayGroup", "focus", function() {
+		$(this).addClass("focus");
+		$(this).find(".gateway").each(function(index, element){
+			var sourceId = $(element).parent().attr("id");
+			var id = $(bimp.parser.xmlFile).find(
+					$(bimp.parser.xmlFile).find(
+							"#" + $($(bimp.parser.xmlFile).find(
+									'[targetRef=' + sourceId + ']')[0]).attr('sourceRef'))[0]).attr("id");
+			var target = $(element).find(".targetRef").text();
+			$("[data-id='" + id + "']").addClass("source");
+			$("[data-id='" + target + "']").addClass("target");
+			if ($("[data-id='" + target + "']").size() > 0) {
+				addTargetIndicators($("[data-id='" + target + "']").position().top, $(element).parent().position().top);
+			}
+			if ($("[data-id='" + id + "']").size() > 0) {
+				addSourceIndicators($("[data-id='" + id + "']").position().top, $(element).parent().position().top);
+			}
+		});
+	});
+	
+	$("body").delegate(".gatewayGroup", "focusout", function() {
+		$(this).removeClass("focus");
+		$(this).find(".gateway").each(function(index, element){
+			var sourceId = $(element).parent().attr("id");
+			var id = $(bimp.parser.xmlFile).find(
+					$(bimp.parser.xmlFile).find(
+							"#" + $($(bimp.parser.xmlFile).find(
+									'[targetRef=' + sourceId + ']')[0]).attr('sourceRef'))[0]).attr("id");
+			
+			var target = $(element).find(".targetRef").text();
+			$("div[data-id='" + id + "']").removeClass("source");
+			$("div[data-id='" + target + "']").removeClass("target");
+			$(".targetIndicator").remove();
+			$(".sourceIndicator").remove();
+		});
 	});
 
 });
@@ -409,6 +448,43 @@ var preloadTaskResources = function () {
 			}
 		});
 	});
+};
+
+var addTargetIndicators = function (targetTop, gatewayTop) {
+	var div = jQuery('<div/>', {  
+	    css: {
+	        position: "absolute",
+	        top: targetTop-3 + "px",
+	        height: gatewayTop-3 - targetTop + "px",
+	        "border": "3px solid #666",
+	        "border-right": "none",
+	        "border-top-left-radius" : "30px",
+	        "border-bottom-left-radius" : "30px",
+	        width: "30px",
+	        "margin-left": "-33px"
+	        
+	    }
+	});
+	$(div).addClass("targetIndicator");
+	$("#uploadPage").append(div);
+};
+var addSourceIndicators = function (sourceTop, gatewayTop) {
+	var div = jQuery('<div/>', {  
+		css: {
+			position: "absolute",
+			top: sourceTop-3 + "px",
+			height: gatewayTop-3 - sourceTop + "px",
+			"border": "3px solid #666",
+			"border-left": "none",
+			"border-top-right-radius" : "30px",
+			"border-bottom-right-radius" : "30px",
+			width: "30px",
+			"margin-left": $("#uploadPage").width() + "px"
+				
+		}
+	});
+	$(div).addClass("sourceIndicator");
+	$("#uploadPage").append(div);
 };
 
 var generateXCharacters = function (x, character) {

@@ -11,6 +11,7 @@ bimp.forms = {
 				bimp.forms.setDefaultXORValues();
 				removeLastButton();
 				$(".currencyText").text($(".currency").val());
+				$(".timepicker").timepicker({timeFormat:"hh:mm:ss"});
 			},
 			startEvent : function (name) {
 				var se = bimp.parser.startEvent;
@@ -316,12 +317,12 @@ bimp.forms = {
 				var clone = $(gateway).clone(true);
 				if ($(gateway).find(".type").text() == "Exclusive (XOR)") {
 					//console.log("xor");
-					if ($("#xor_" + sourceRef).size() > 0) {
+					if ($("#" + sourceRef).size() > 0) {
 						$(clone).find("tr:first").hide();
 						$(clone).find("tr th div").slice(0, 2).css({"visibility":"hidden", "overflow-y":"hidden", "height":"0"});
-						$("#xor_" + sourceRef).append(clone);
+						$("#" + sourceRef).append(clone);
 					} else {
-						var container = $("<div class='gatewayGroup xor' id='xor_" + sourceRef + "'></div>").append(clone);
+						var container = $("<div class='gatewayGroup xor' id='" + sourceRef + "'></div>").append(clone);
 						$(".gateways").append(container);
 					}
 				} else {
