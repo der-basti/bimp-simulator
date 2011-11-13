@@ -65,13 +65,7 @@
 			</div>
 		</div>
 		<script>
-			$(".cost").each(function () {
-				$(this).text($(this).text() + " (" + bimp.parser.startEvent.currency + ")");
-			});
-			$(".duration").each(function () {
-				var value = convertSecondsToX($(this).text(), bimp.parser.startEvent.arrivalRateDistribution.timeUnit);
-				$(this).text(value + " (" + bimp.parser.startEvent.arrivalRateDistribution.timeUnit[0] + ")");
-			});
+			var currency = bimp.parser.startEvent.currency;
 			var durationIntervals;
 			var durationCounts
 			var waitingTimeIntervals;
@@ -80,6 +74,15 @@
 			var costCounts;
 			var resources;
 			var utilization;
+
+			$(".cost").each(function () {
+				$(this).text($(this).text() + " (" + currency + ")");
+			});
+			$(".duration").each(function () {
+				var value = convertSecondsToX($(this).text(), bimp.parser.startEvent.arrivalRateDistribution.timeUnit);
+				$(this).text(value + " (" + bimp.parser.startEvent.arrivalRateDistribution.timeUnit[0] + ")");
+			});
+
 			<c:if test="${not empty durationIntervals}">
 			durationIntervals = ${durationIntervals};
 			</c:if>
