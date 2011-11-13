@@ -7,34 +7,40 @@ $(document).ready(function () {
 	
 	validate = {
 			  fixedCost: {
+				  "class": ".fixedCost",
 				  regexp: "^([0-9]+|[0-9]+(\\.[0-9]+))$",
 				  msg: "For decimal place, use a point!"
 			  },
 			  instances: {
+				  "class": ".instances",
 				  required: true,
 				  regexp: "^[0-9]+$",
 				  msg: "This field has to be an integer!"
 			  },
 			  name: {
+				  "class": ".resources .name",
 				  required: true
 			  },
 			  amount: {
+				  "class": ".amount",
 				  required: true,
 				  regexp: "^[0-9]+$",
 				  msg: "This field has to be an integer!"
 			  },
 			  costPerHour: {
+				  "class": ".costPerHour",
 				  regexp: "^([0-9]+|[0-9]+(\\.[0-9]+))$",
 				  msg: "For decimal place, use a point!"
 			  },
 			  probability: {
+				  "class": ".probability",
 				  regexp: "^((100)|([0-9]{0,2}))$",
 				  msg: "Invalid percentage!"
 			  }  
 			};
 	
 	$.each(validate, function(name, content) {
-		$("body").delegate("." + name, "change", function() {
+		$("body").delegate(validate[name]["class"], "change", function() {
 			if(validate[name].regexp && !(new XRegExp(validate[name].regexp)).test($(this).val())) {
 				if(!$(this).next().hasClass("error")){
 					$(this).after("<div class='error' >" + validate[name].msg +" </div>");					
@@ -46,7 +52,7 @@ $(document).ready(function () {
 			}
 		});
 		
-		$("body").delegate("." + name, "keyup", function() {
+		$("body").delegate(validate[name]["class"], "keyup", function() {
 			if(validate[name].regexp && !(new XRegExp(validate[name].regexp)).test($(this).val())) {
 				if(!$(this).next().hasClass("error")){
 					$(this).after("<div class='error'>" + validate[name].msg +" </div>");					
@@ -707,7 +713,7 @@ function validateXOR(xor) {
 function validateRequiredFields() {
 	$.each(validate, function(name, content) {
 		if(validate[name].required == true) {
-			$("." + name).each(function() {
+			$(validate[name]["class"]).each(function() {
 				if($(this).val()== "" && !$(this).next().hasClass("error")) {
 					$(this).after("<div class='error'> This field is required! </div>");
 				} else {
