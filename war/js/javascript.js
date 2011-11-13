@@ -508,7 +508,7 @@ var addTargetIndicators = function (targetTop, elementTop) {
 	        "border-right": "none",
 	        "border-top-left-radius" : "30px",
 	        "border-bottom-left-radius" : "30px",
-	        width: "30px",
+	        width: "70px",
 	        "margin-left": "-33px"
 	        
 	    }
@@ -546,8 +546,8 @@ var addSourceIndicators = function (sourceTop, elementTop) {
 			"border-left": "none",
 			"border-top-right-radius" : "30px",
 			"border-bottom-right-radius" : "30px",
-			width: "30px",
-			"margin-left": $("#uploadPage").width() + "px"
+			width: "60px",
+			"margin-left": $("#uploadPage").width() - 40 + "px"
 				
 		}
 	});

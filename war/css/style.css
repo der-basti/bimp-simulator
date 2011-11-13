@@ -294,6 +294,7 @@ ul#list-nav li { display:inline; }
 	opacity: 0.6;
 	text-align: center;
 	cursor: pointer;
+	box-shadow: 0 2px 2px #666;
 }
 .toggle-trigger:first-child {
 	margin-top: 0;
@@ -324,17 +325,18 @@ h2.toggle-trigger a:active {
 }
 
 .toggle-div {
-	margin: 0 40px 10px 40px;
-	box-shadow: 0 0 15px #CCC;
+	margin: 6px 40px 10px 40px;
 }
 
-.startEvent:first-child, .resources:first-child, .task:first-child, .timetables:first-child, .gatewayGroup:first-child, .catchEvent:first-child {
-	margin-top: 0;
+.startEvent:last-child, .resources:last-child, .task:last-child, .timetables:last-child, .gatewayGroup:last-child, .catchEvent:last-child {
+	margin-bottom: 0px;
 }	
 
 .startEvent, .resources, .task, .timetables, .gatewayGroup, .catchEvent {
 	background-color: rgb(245, 245, 245);
-	margin-top: 10px;
+	margin-top: 0px;
+	margin-bottom: 10px;
+	box-shadow: 0 0 5px #CCC;
 }
 
 .layout-right {
