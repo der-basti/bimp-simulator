@@ -198,6 +198,12 @@ ul#list-nav li { display:inline; }
 	display: none;
 }
 
+.smallButton {
+	margin-left: 10px;
+	padding: 1px 1px 1px 1px;
+	font-size: 10px;	
+}
+
 /* Navigation buttons appearance */
 .nav-button {
 	background-color: #4ABEC8;
@@ -444,11 +450,6 @@ h2.toggle-trigger a:active {
 	border:none;
     font-weight:bold;
     font-family:Modern;
-    user-select: none; 
-   	-moz-user-select: none; 
-    -khtml-user-select: none; 
-    -webkit-user-select: none; 
-    -o-user-select: none; 
 }
 
 #contactPage fieldset ul, #contactPage fieldset li {

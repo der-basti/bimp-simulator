@@ -43,7 +43,7 @@
 			BPMN 2.0 standard.</p>
 			</div>
 			<div class="help-text" id="bimp2-help">
-			<H1>BIMP 2.0</H1>
+			<H1>BPMN 2.0</H1>
 			<p>BPMN 2.0 does not specify how simulation related information has to be serialized, be-cause the 
 			simulation is considered to be outside the scope of BPMN. Although some attempts have been made 
 			like up to now to overcome this problem, but at the moment there is no standard way of representing 
