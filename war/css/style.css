@@ -549,10 +549,24 @@ h2.toggle-trigger a:active {
 	left: 6px;
 	top: 0;
 }
-.charts {
+#results {
 	clear: both;
 }
 .chart {
 	width: 445px;
 	float: left;
+}
+.source {
+	box-shadow: 0 0 15px #FfBEC8;	
+	border-top: 3px solid #666;
+	margin-top: -3px;
+}
+.target {
+	box-shadow: 0 0 10px #4ABEC8;
+	border-top: 3px solid #666;
+	margin-top: -3px;
+}
+.focus {
+	border-top: 3px solid #666;
+	margin-top: -3px;
 }
