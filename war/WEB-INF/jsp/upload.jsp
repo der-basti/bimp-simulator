@@ -53,7 +53,7 @@
 								type="file" id="file-select" name="fileData" />
 							<div id="file-drag">or drop it here</div>
 						</div>
-					<span id="fileName">No file selected.</span>
+					<span id="fileName" class="smallFont">No file selected.</span>
 					</fieldset>
 					
 				</form>

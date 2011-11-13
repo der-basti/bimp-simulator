@@ -48,7 +48,7 @@
 				<tr>
 					<th>Description</th>
 					<th><span class ="costTitle">Average cost</span></th>
-					<th><span class ="durationTitle">Average duration</span></th>
+					<th><span class ="durationTitle">Average waiting time</span></th>
 				</tr>
 				<c:forEach var="element" items="${resultItem.activities}">
 					<tr>
