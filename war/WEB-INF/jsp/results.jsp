@@ -49,8 +49,6 @@
 					<th>Description</th>
 					<th><span class ="costTitle">Average cost</span></th>
 					<th><span class ="durationTitle">Average duration</span></th>
-					<th><span class ="durationTitle">Average idle time</span></th>
-					<th><span class ="durationTitle">Average waiting time</span></th>
 				</tr>
 				<c:forEach var="element" items="${resultItem.activities}">
 					<tr>
@@ -65,7 +63,7 @@
 		<script>
 			var currency = bimp.parser.startEvent.currency;
 			var durationIntervals;
-			var durationCounts
+			var durationCounts;
 			var waitingTimeIntervals;
 			var waitingTimeCounts;
 			var costIntervals;
