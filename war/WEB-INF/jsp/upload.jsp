@@ -16,6 +16,7 @@
 <script type="text/javascript" src="./js/bimp.charts.js"></script>
 <script type="text/javascript" src="./js/javascript.js"></script>
 <script type="text/javascript" src="./js/jquery-ui-timepicker-addon.js"></script>
+<script type="text/javascript" src="./js/xregexp-min.js"></script>
 <script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
 
 <link rel="stylesheet" type="text/css" href="./css/style.css"></link>

@@ -1,6 +1,66 @@
 $(document).ready(function () {
 	loadLikeButton(document, 'script', 'facebook-jssdk');
 	removeLastButton();
+	
+	validate = {
+			  fixedCost: {
+				  regexp: "^([0-9]+|[0-9]+(\\.[0-9]+))$",
+				  msg: "For decimal place, use a point!"
+			  },
+			  instances: {
+				  required: true,
+				  regexp: "^[0-9]+$",
+				  msg: "This field has to be an integer!"
+			  },
+			  name: {
+				  required: true
+			  },
+			  amount: {
+				  required: true,
+				  regexp: "^[0-9]+$",
+				  msg: "This field has to be an integer!"
+			  },
+			  costPerHour: {
+				  regexp: "^([0-9]+|[0-9]+(\\.[0-9]+))$",
+				  msg: "For decimal place, use a point!"
+			  },
+			  probability: {
+				  regexp: "^((100)|([0-9]{0,2}))$",
+				  msg: "Invalid percentage!"
+			  }  
+			};
+	
+	$.each(validate, function(name, content) {
+		$("body").delegate("." + name, "change", function() {
+			if(validate[name].regexp && !(new XRegExp(validate[name].regexp)).test($(this).val())) {
+				if(!$(this).next().hasClass("error")){
+					$(this).after("<div class='error' >" + validate[name].msg +" </div>");					
+				}
+			} else {
+				if($(this).next().hasClass("error")) {
+					$(this).next().remove();
+				}
+			}
+		});
+		
+		$("body").delegate("." + name, "keyup", function() {
+			if(validate[name].regexp && !(new XRegExp(validate[name].regexp)).test($(this).val())) {
+				if(!$(this).next().hasClass("error")){
+					$(this).after("<div class='error'>" + validate[name].msg +" </div>");					
+				}
+			} else {
+				if($(this).next().hasClass("error")) {
+					$(this).next().remove();
+				}
+			}
+		});
+	});
+	
+	$('body').delegate(".xor", "keyup", function () {
+		validateXOR(this);
+	});
+
+	
 	$(".resources .add").click(function () {
 		var row = $(this).parents().find(".resources").find(".resource:first").clone(true);
 		$(row).find("input").each(function () {
@@ -129,9 +189,11 @@ $(document).ready(function () {
 	});
 	
 	$("#startSimulationButton").click(function () {
-		bimp.forms.read.start();
-		bimp.file.updateFile();
-		bimp.file.uploadFile();
+		if(validateForm()) {
+			bimp.forms.read.start();
+			bimp.file.updateFile();
+			bimp.file.uploadFile();
+		}
 	});
 	
 	$("#downloadBpmn").click(function () {
@@ -601,3 +663,52 @@ var pointCount = 0;
 var interval = 500;
 var timerId = "";
 var timer = 0;
+
+function validateXORs() {
+	$(".xor").each(function (){
+		validateXOR(this);
+	}); 
+}
+function validateXOR(xor) {
+	var percentage = 0;
+	$(xor).find(".probability").each(function() {
+		percentage = percentage + Number($(this).val());
+	});
+	if(percentage != 100) {
+		if(!$(xor).next().hasClass("error")) {
+			$(xor).after("<div class='error'> Your XOR gateway percentages do not sum up to 100%! </div>");
+		}	
+	} else {
+		if($(xor).next().hasClass("error")) {
+			$(xor).next().remove();
+		}
+	}
+}
+
+function validateRequiredFields() {
+	$.each(validate, function(name, content) {
+		if(validate[name].required == true) {
+			$("." + name).each(function() {
+				if($(this).val()== "" && !$(this).next().hasClass("error")) {
+					$(this).after("<div class='error'> This field is required! </div>");
+				} else {
+					if($(this).next().hasClass("error")) {
+						$(this).next().remove();
+					}
+				}
+			});
+		}
+	});
+}
+
+function validateForm() {
+	validateXORs();
+	validateRequiredFields();
+	if($(".error").size() == 0) {
+		return true;
+	} else {
+		alert("Your form has errors! Follow the requirements and try again.");
+		return false;
+	}
+	
+}
