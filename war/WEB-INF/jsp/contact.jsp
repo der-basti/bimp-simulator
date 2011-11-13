@@ -44,8 +44,8 @@
 						<textarea cols="40" rows="6" name="feedback"></textarea>
 					<li>
 						<label>Numbers</label>
-						<input type="text" id="txtCaptcha" class="captcha" />
-  				    	<input type="button" id="captchaRefresh" class="button" value="Refresh" />
+						<input type="text" id="txtCaptcha" class="captcha" disabled="disabled"/>
+  				    	<input type="button" id="captchaRefresh" class="button smallButton" value="Refresh" />
   				    </li>
 					<li>
 						<label for="captcha">Please write the numbers shown above</label>
@@ -53,7 +53,7 @@
 					</li>
 					<li>
 						<label for="submit">Send the form by clicking the button</label>
-						<button id="submitContactForm" class="button">Send</button>
+						<button id="submitContactForm" class="button smallButton">Send</button>
 					</li>
 				</ul>
 				</form>

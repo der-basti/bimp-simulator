@@ -72,7 +72,7 @@ i {	color: rgb(225,183,135); font-size: 110%; }
 
 /* Navigation menu */
 #nav {
-	width: 165px;
+	width: 160px;
 	float: right;
 	padding-top: 10px;
 }
@@ -198,6 +198,12 @@ ul#list-nav li { display:inline; }
 	display: none;
 }
 
+.smallButton {
+	margin-left: 10px;
+	padding: 1px 1px 1px 1px;
+	font-size: 10px;	
+}
+
 /* Navigation buttons appearance */
 .nav-button {
 	background-color: #4ABEC8;
@@ -237,7 +243,7 @@ ul#list-nav li { display:inline; }
 /* Box for the uploadpageButton */
 #uploadpageButtonBox {
 	margin: 0 auto;
-	width: 327px;
+	width: 339px;
 }
 
 /* Hover button appearance */
@@ -260,8 +266,8 @@ ul#list-nav li { display:inline; }
 
 /* Floating button for starting simulation */
 #sim-button-log-checkbox {
+	margin: 15px auto;
 	width: 200px;
-	margin: auto;
 }	
 #startSimulationButton {
 	font-size: 14px;
@@ -277,10 +283,10 @@ ul#list-nav li { display:inline; }
 
 /* Classes for JQuery toggle effect */
 .toggle-trigger {
+	padding-top: 5px;
 	background-color: rgb(26, 17, 7);
-	padding: 0px;
-	margin-top: 0px;
-	margin-bottom: 5px;
+	margin-top: 10px;
+	margin-bottom: 0;
 	height: 28px;
 	width: 100%;
 	font-size: 1.2em;
@@ -288,6 +294,9 @@ ul#list-nav li { display:inline; }
 	opacity: 0.6;
 	text-align: center;
 	cursor: pointer;
+}
+.toggle-trigger:first-child {
+	margin-top: 0;
 }
 
 h2.toggle-trigger a {
@@ -314,9 +323,18 @@ h2.toggle-trigger a:active {
 	opacity: 0.6;
 }
 
-.startEvent, .resources, .task, .timetables, .gateway, .catchEvent {
-	background-color: #eee;
-	margin-bottom: 10px;
+.toggle-div {
+	margin: 0 40px 10px 40px;
+	box-shadow: 0 0 15px #CCC;
+}
+
+.startEvent:first-child, .resources:first-child, .task:first-child, .timetables:first-child, .gatewayGroup:first-child, .catchEvent:first-child {
+	margin-top: 0;
+}	
+
+.startEvent, .resources, .task, .timetables, .gatewayGroup, .catchEvent {
+	background-color: rgb(245, 245, 245);
+	margin-top: 10px;
 }
 
 .layout-right {
@@ -353,7 +371,7 @@ h2.toggle-trigger a:active {
 }
 
 #help-nav {
-	margin-top: 15px;
+	margin-top: 10px;
 	margin-bottom: 50px;
 	width: 25%;
 	float: left;
@@ -444,11 +462,6 @@ h2.toggle-trigger a:active {
 	border:none;
     font-weight:bold;
     font-family:Modern;
-    user-select: none; 
-   	-moz-user-select: none; 
-    -khtml-user-select: none; 
-    -webkit-user-select: none; 
-    -o-user-select: none; 
 }
 
 #contactPage fieldset ul, #contactPage fieldset li {
