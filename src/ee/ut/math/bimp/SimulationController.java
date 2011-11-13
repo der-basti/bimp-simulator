@@ -27,7 +27,6 @@ import ee.ut.bpsimulator.logger.MxmlLogger;
 import ee.ut.math.bimp.data.DataService;
 import ee.ut.math.bimp.data.RepresentableActivity;
 import ee.ut.math.bimp.data.ResultItem;
-import ee.ut.math.bimp.data.Simulation;
 
 /**
  * Simulation controller.
