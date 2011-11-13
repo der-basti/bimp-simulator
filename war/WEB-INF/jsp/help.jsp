@@ -21,7 +21,7 @@
 	<div id="helpPage" class="contents gill-font justified inline">
 		<div id="help-nav">
 			<div class="help-nav-button" id="bimp-help-trigger">BIMP Simulator</div>
-			<div class="help-nav-button" id="bimp2-trigger">BIMP 2.0</div>
+			<div class="help-nav-button" id="bimp2-trigger">BPMN 2.0</div>
 			<div class="help-nav-button" id="bimpeditors-trigger">BIMP 2.0 Editors</div>
 			<div class="help-nav-button" id="ui-help-trigger">User Interface</div>
 		</div>
