@@ -87,18 +87,7 @@ bimp.parser = {
 	},
 	init : function () {
 		this.xmlFile = bimp.file.xmlFile;
-		if ($(bimp.parser.xmlFile)[0].documentElement.prefix) {
-			bimp.parser.prefix = $(bimp.parser.xmlFile)[0].documentElement.prefix + ":";
-			bimp.parser.prefixEscaped = $(bimp.parser.xmlFile)[0].documentElement.prefix + "\\:";
-			bimp.parser.prefixForDocumenation = (bimp.parser.prefixEscaped) ? bimp.parser.prefixEscaped:"";
-			bimp.parser.prefix = bimp.parser.prefix ? bimp.parser.prefix : "";
-			//TODO: OH MY :O ...? FIX ASAP
-			// this next line should have never been written, NEVER
-			if ($(bimp.parser.xmlFile).find(bimp.parser.prefixEscaped + "startEvent").size() < $(bimp.parser.xmlFile).find("startEvent").size()) {
-				// if we need to use prefix (we get results) then use it, otherwise don't
-				bimp.parser.prefixEscaped = "";
-			}
-		}
+
 	},
 	readStartEvent : function() {
 		//console.log("xmlFile", this.xmlFile);
