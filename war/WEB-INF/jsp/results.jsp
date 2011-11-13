@@ -33,15 +33,25 @@
 				<div id="resources-chart-div" class="chart"></div>
 			</div>
 			<div id="results">
-				<h3>Completed elements </h3> ${resultItem.completedElements } 
-				<h3>Completed process instances </h3> ${resultItem.completedProcessInstances }
-				<h3>Minimum process cost </h3> <span class ="cost">${resultItem.minProcessCost}</span>
-				<h3>Maximum process cost </h3> <span class ="cost">${resultItem.maxProcessCost }</span>
-				<h3>Total cost </h3>  <span class ="cost">${resultItem.totalCost }</span>
-				<h3>Minimum process duration </h3> <span class ="duration">${resultItem.minProcessDuration }</span>
-				<h3>Maximum process duration </h3> <span class ="duration">${resultItem.maxProcessDuration }</span>
-				<h3>Total duration </h3>  <span class ="duration">${resultItem.totalDuration }</span>
-				<br />
+			<table>
+			<tr>
+				<td></td>
+				<td><h3>Completed elements </h3> ${resultItem.completedElements } </td>
+				<td><h3>Completed process instances </h3> ${resultItem.completedProcessInstances }</td>
+			</tr>
+			<tr>
+				<td><h3>Minimum process cost </h3> <span class ="cost">${resultItem.minProcessCost}</span></td>
+				<td><h3>Maximum process cost </h3> <span class ="cost">${resultItem.maxProcessCost }</span></td>
+				<td><h3>Total cost </h3>  <span class ="cost">${resultItem.totalCost }</span></td>
+				<td><h3>Average cost </h3>  <span class ="cost">${resultItem.totalCost / resultItem.completedProcessInstances }</span></td>
+			</tr>
+			<tr>
+				<td><h3>Minimum process duration </h3> <span class ="duration">${resultItem.minProcessDuration }</span></td>
+				<td><h3>Maximum process duration </h3> <span class ="duration">${resultItem.maxProcessDuration }</span></td>
+				<td><h3>Total duration </h3>  <span class ="duration">${resultItem.totalDuration }</span></td>
+				<td><h3>Average duration </h3>  <span class ="duration">${resultItem.totalDuration / resultItem.completedProcessInstances }</span></td>
+			</tr>
+			</table>
 			</div>
 			<div id="result-table">
 			<table border="0">
