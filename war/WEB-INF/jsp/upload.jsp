@@ -71,11 +71,6 @@
 						<div class="startEvent">
 						<table class="form">
 							<tbody>
-								<tr>
-									<th>Name:</th>
-									<td><span class="name">Event's Name</span>
-									</td>
-								</tr>
 								<tr id="arrivalRateDistribution">
 									<th>Arrival rate:</th>
 									<td><select class="type" name="type">
@@ -188,7 +183,7 @@
 											</select>
 										</td>
 										<td>
-											<select class="startday" name="startday">
+											<select class="startday" name="startday" value="Fri">
 												<option value="Mon">Monday</option>
 												<option value="Tue">Tuesday</option>
 												<option value="Wed">Wednesday</option>

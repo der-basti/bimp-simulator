@@ -229,41 +229,69 @@ $(document).ready(function () {
 		closeLoadingModal();
 	});
 	
-	$("body").delegate(".gatewayGroup", "focus", function() {
-		$(this).addClass("focus");
-		$(this).find(".gateway").each(function(index, element){
-			var sourceId = $(element).parent().attr("id");
-			var id = $(bimp.parser.xmlFile).find(
+	$("body").delegate(".gatewayGroup,.startEvent,.task", "focus", function() {
+		var that = this;
+		if ($(this).hasClass("gatewayGroup")) {
+			$(this).find(".gateway").each(function(index, element){
+				var sourceId = $(element).parent().attr("id");
+				var source = $(bimp.parser.xmlFile).find(
+						$(bimp.parser.xmlFile).find(
+								"#" + $($(bimp.parser.xmlFile).find(
+										'[targetRef=' + sourceId + ']')[0]).attr('sourceRef'))[0]).attr("id");
+				var target = $(element).find(".targetRef").text();
+				$("[data-id='" + source + "']").addClass("source");
+				$("[data-id='" + target + "']").addClass("target");
+				if ($("[data-id='" + target + "']").size() > 0 && $("[data-id='" + target + "']").is(":visible")) {
+					$(that).addClass("focus");
+					addTargetIndicators($("[data-id='" + target + "']").position().top, $(element).parent().position().top);
+				}
+				if ($("[data-id='" + source + "']").size() > 0 && $("[data-id='" + source + "']").is(":visible")) {
+					$(that).addClass("focus");
+
+					addSourceIndicators($("[data-id='" + source + "']").position().top, $(element).parent().position().top);
+				}
+			});
+		} else {
+			var id = $(this).attr("data-id");
+			var source = $(bimp.parser.xmlFile).find(
 					$(bimp.parser.xmlFile).find(
 							"#" + $($(bimp.parser.xmlFile).find(
-									'[targetRef=' + sourceId + ']')[0]).attr('sourceRef'))[0]).attr("id");
-			var target = $(element).find(".targetRef").text();
-			$("[data-id='" + id + "']").addClass("source");
+									'[targetRef=' + id + ']')[0]).attr('sourceRef'))[0]).attr("id");
+			var target = $(bimp.parser.xmlFile).find(
+					$(bimp.parser.xmlFile).find(
+							"#" + $($(bimp.parser.xmlFile).find(
+									'[sourceRef=' + id + ']')[0]).attr('targetRef'))[0]).attr("id");
+			$("[data-id='" + source + "']").addClass("source");
+			$("#" + source).addClass("source");
 			$("[data-id='" + target + "']").addClass("target");
-			if ($("[data-id='" + target + "']").size() > 0) {
-				addTargetIndicators($("[data-id='" + target + "']").position().top, $(element).parent().position().top);
+			$("#" + target).addClass("target");
+			if ($("[data-id='" + target + "']").size() > 0 && $("[data-id='" + target + "']").is(":visible")) {
+				$(that).addClass("focus");
+				addTargetIndicators($("[data-id='" + target + "']").position().top, $(this).position().top);
 			}
-			if ($("[data-id='" + id + "']").size() > 0) {
-				addSourceIndicators($("[data-id='" + id + "']").position().top, $(element).parent().position().top);
+			if ($("[data-id='" + source + "']").size() > 0 && $("[data-id='" + source + "']").is(":visible")) {
+				$(that).addClass("focus");
+				addSourceIndicators($("[data-id='" + source + "']").position().top, $(this).position().top);
 			}
-		});
+			if ($("#" + target).size() > 0 && $("#" + target).is(":visible")) {
+				$(that).addClass("focus");
+				addTargetIndicators($("#" + target).position().top, $(this).position().top);
+			}
+			if ($("#" + source).size() > 0 && $("#" + source).is(":visible")) {
+				$(that).addClass("focus");
+				addSourceIndicators($("#" + source).position().top, $(this).position().top);
+			}
+		}
 	});
 	
-	$("body").delegate(".gatewayGroup", "focusout", function() {
+	$("body").delegate(".gatewayGroup,.task,.startEvent", "focusout", function() {
 		$(this).removeClass("focus");
-		$(this).find(".gateway").each(function(index, element){
-			var sourceId = $(element).parent().attr("id");
-			var id = $(bimp.parser.xmlFile).find(
-					$(bimp.parser.xmlFile).find(
-							"#" + $($(bimp.parser.xmlFile).find(
-									'[targetRef=' + sourceId + ']')[0]).attr('sourceRef'))[0]).attr("id");
-			
-			var target = $(element).find(".targetRef").text();
-			$("div[data-id='" + id + "']").removeClass("source");
-			$("div[data-id='" + target + "']").removeClass("target");
-			$(".targetIndicator").remove();
-			$(".sourceIndicator").remove();
-		});
+		$(".target").removeClass("target");
+		$(".source").removeClass("source");
+		$(".targetText").remove();
+		$(".sourceText").remove();
+		$(".targetIndicator").remove();
+		$(".sourceIndicator").remove();
 	});
 
 });
@@ -450,12 +478,32 @@ var preloadTaskResources = function () {
 	});
 };
 
-var addTargetIndicators = function (targetTop, gatewayTop) {
+var addTargetIndicators = function (targetTop, elementTop) {
+	if ($(".targetText").size() > 0 ) {
+		$(".targetText").text("Targets");
+	} else {
+		var targetText = jQuery('<span/>', {
+			css: {
+				position: "absolute",
+				top: elementTop - 10,
+				"margin-left": "-70px",
+				"font-size": "11px"
+			},
+			text: "Target"
+		});
+		targetText.addClass("targetText");
+		$("#uploadPage").append(targetText);
+	}
+	if (elementTop < targetTop) {
+		var tmp = elementTop;
+		elementTop = targetTop;
+		targetTop = tmp;
+	}
 	var div = jQuery('<div/>', {  
 	    css: {
 	        position: "absolute",
 	        top: targetTop-3 + "px",
-	        height: gatewayTop-3 - targetTop + "px",
+	        height: elementTop-3 - targetTop + "px",
 	        "border": "3px solid #666",
 	        "border-right": "none",
 	        "border-top-left-radius" : "30px",
@@ -468,12 +516,32 @@ var addTargetIndicators = function (targetTop, gatewayTop) {
 	$(div).addClass("targetIndicator");
 	$("#uploadPage").append(div);
 };
-var addSourceIndicators = function (sourceTop, gatewayTop) {
+var addSourceIndicators = function (sourceTop, elementTop) {
+	if ($(".sourceText").size() > 0 ) {
+		$(".sourceText").text("Sources");
+	} else {
+		var sourceText = jQuery('<span/>', {
+			css: {
+				position: "absolute",
+				top: elementTop - 10,
+				"font-size": "11px",
+				"margin-left": $("#uploadPage").width() + 35 + "px"
+			},
+			text: "Source"
+		});
+		sourceText.addClass("sourceText");
+		$("#uploadPage").append(sourceText);
+	}
+	if (elementTop < sourceTop) {
+		var tmp = elementTop;
+		elementTop = sourceTop;
+		sourceTop = tmp;
+	}
 	var div = jQuery('<div/>', {  
 		css: {
 			position: "absolute",
 			top: sourceTop-3 + "px",
-			height: gatewayTop-3 - sourceTop + "px",
+			height: elementTop-3 - sourceTop + "px",
 			"border": "3px solid #666",
 			"border-left": "none",
 			"border-top-right-radius" : "30px",
