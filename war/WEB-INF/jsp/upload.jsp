@@ -99,13 +99,13 @@
 									</td>
 								</tr>
 								<tr>
-									<th># of instances</th>
+									<th># of instances:</th>
 									<td><input class="instances" name="instances"
 										class="small" type="text" title="Integer should be used.">
 									</td>
 								</tr>
 								<tr>
-									<th>Simulation start time</th>
+									<th>Simulation start time:</th>
 									<td>
 										<!-- TODO: date and time input, 
 										get rid of script, 
@@ -250,7 +250,7 @@
 										</td>
 									</tr>
 									<tr>
-										<th>Duration <img src="./css/images/questionmark.png" title="Type of distribution. Can be Fixed, Standard, Exponentia or Uniform"/></th>
+										<th>Duration: <img src="./css/images/questionmark.png" title="Type of distribution. Can be Fixed, Standard, Exponentia or Uniform"/></th>
 										<td><select class="type" name="type">
 												<option value="fixed">Fixed</option>
 												<option value="standard">Standard</option>
