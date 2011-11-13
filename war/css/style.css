@@ -72,7 +72,7 @@ i {	color: rgb(225,183,135); font-size: 110%; }
 
 /* Navigation menu */
 #nav {
-	width: 165px;
+	width: 160px;
 	float: right;
 	padding-top: 10px;
 }
@@ -114,6 +114,9 @@ ul#list-nav li { display:inline; }
 	font-weight: normal;
 	display: none;
 }
+#data-input table {
+	margin-left: 5px;
+}
 #data-input input, #data-input span, #data-input select {
 	margin-right: 7px;
 }
@@ -121,15 +124,33 @@ ul#list-nav li { display:inline; }
 #data-input th {
 	font-weight: normal;
 }
-
+/*
+#data-input input {
+	text-align: center;
+}
+*/
 #data-input table TH {
 	vertical-align: top;
 	text-align: left;
 	font-weight: normal;
 }
-
+.resources th {
+	padding-right: 10px;
+}
 #data-input input.small {
 	width: 50px;
+}
+#data-input select {
+	height: 22px;
+}
+#data-input input.medium {
+	width: 92px;
+}
+#data-input input.time {
+	width: 70px;
+}
+#data-input input.percent {
+	width: 25px;
 }
  /* Result table design */
 #result-table {
@@ -198,6 +219,12 @@ ul#list-nav li { display:inline; }
 	display: none;
 }
 
+.smallButton {
+	margin-left: 10px;
+	padding: 1px 1px 1px 1px;
+	font-size: 10px;	
+}
+
 /* Navigation buttons appearance */
 .nav-button {
 	background-color: #4ABEC8;
@@ -237,7 +264,7 @@ ul#list-nav li { display:inline; }
 /* Box for the uploadpageButton */
 #uploadpageButtonBox {
 	margin: 0 auto;
-	width: 327px;
+	width: 339px;
 }
 
 /* Hover button appearance */
@@ -260,21 +287,27 @@ ul#list-nav li { display:inline; }
 
 /* Floating button for starting simulation */
 #sim-button-log-checkbox {
+	margin: 15px auto;
 	width: 200px;
-	margin: auto;
 }	
 #startSimulationButton {
 	font-size: 14px;
 	display: none;
 	width: 200px;
 }
+#continue-button {
+	position: relative;
+	left: 150px;
+	margin-top: 10px;
+	font-size: 13px;
+}
 
 /* Classes for JQuery toggle effect */
 .toggle-trigger {
+	padding-top: 5px;
 	background-color: rgb(26, 17, 7);
-	padding: 0px;
-	margin-top: 0px;
-	margin-bottom: 5px;
+	margin-top: 10px;
+	margin-bottom: 0;
 	height: 28px;
 	width: 100%;
 	font-size: 1.2em;
@@ -282,6 +315,10 @@ ul#list-nav li { display:inline; }
 	opacity: 0.6;
 	text-align: center;
 	cursor: pointer;
+	box-shadow: 0 2px 2px #666;
+}
+.toggle-trigger:first-child {
+	margin-top: 0;
 }
 
 h2.toggle-trigger a {
@@ -308,9 +345,19 @@ h2.toggle-trigger a:active {
 	opacity: 0.6;
 }
 
-.startEvent, .resources, .task, .timetables, .gateway, .catchEvent {
-	background-color: #eee;
+.toggle-div {
+	margin: 6px 40px 10px 40px;
+}
+
+.startEvent:last-child, .resources:last-child, .task:last-child, .timetables:last-child, .gatewayGroup:last-child, .catchEvent:last-child {
+	margin-bottom: 0px;
+}	
+
+.startEvent, .resources, .task, .timetables, .gatewayGroup, .catchEvent {
+	background-color: rgb(245, 245, 245);
+	margin-top: 0px;
 	margin-bottom: 10px;
+	box-shadow: 0 0 5px #CCC;
 }
 
 .layout-right {
@@ -347,7 +394,7 @@ h2.toggle-trigger a:active {
 }
 
 #help-nav {
-	margin-top: 15px;
+	margin-top: 10px;
 	margin-bottom: 50px;
 	width: 25%;
 	float: left;
@@ -438,11 +485,6 @@ h2.toggle-trigger a:active {
 	border:none;
     font-weight:bold;
     font-family:Modern;
-    user-select: none; 
-   	-moz-user-select: none; 
-    -khtml-user-select: none; 
-    -webkit-user-select: none; 
-    -o-user-select: none; 
 }
 
 #contactPage fieldset ul, #contactPage fieldset li {
@@ -549,10 +591,27 @@ h2.toggle-trigger a:active {
 	left: 6px;
 	top: 0;
 }
-.charts {
+#results {
 	clear: both;
 }
 .chart {
 	width: 445px;
 	float: left;
+}
+.source {
+	box-shadow: 0 0 15px #FfBEC8;	
+	border-top: 3px solid #666;
+	margin-top: -3px;
+}
+.target {
+	box-shadow: 0 0 10px #4ABEC8;
+	border-top: 3px solid #666;
+	margin-top: -3px;
+}
+.focus {
+	border-top: 3px solid #666;
+	margin-top: -3px;
+}
+.sourceText,.targetText {
+	color: #666;
 }

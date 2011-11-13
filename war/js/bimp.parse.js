@@ -162,7 +162,7 @@ bimp.parser = {
 	},
 	readConditionExpressions : function() {
 		sequenceFlows = $(this.xmlFile).find(bimp.parser.prefixEscaped + "sequenceFlow");
-		// TODO: find sequenceflows where sourceRef is XOR or OR split gateway 
+		// finds sequenceflows where sourceRef is XOR or OR split gateway 
 		// gatewayDirection="diverging" or gatewayDirection="mixed";
 		// XOR = exclusiveGateway, sum for XORs have to be 100%
 		// OR = inclusiveGateway, are independent
@@ -217,6 +217,7 @@ bimp.parser = {
 	countSequenceFlowsFromGateway : function (id) {
 		var count = 0;
 		sequenceFlows = $(this.xmlFile).find(bimp.parser.prefixEscaped + "sequenceFlow");
+		// TODO: Refactor it, currently too slow
 		$(sequenceFlows).each(function(index, sequenceFlow) {
 			var sourceRef = sequenceFlow.getAttribute("sourceRef");
 			var sourceRefNodeName = "";

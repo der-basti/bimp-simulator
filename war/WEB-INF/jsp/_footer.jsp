@@ -5,7 +5,7 @@
 	</div>
 	<div id="fb-google">
 		<div id="fb-root"></div>
-		<div class="fb-like" data-href="http://www.facebook.com/henri.trees"
+		<div class="fb-like" data-href="http://www.facebook.com/pages/BIMP-Business-Process-Simulator/293028094050864"
 			data-send="false" data-layout="button_count" data-width="100"
 			data-show-faces="false"></div>
 		<div id="plusone">

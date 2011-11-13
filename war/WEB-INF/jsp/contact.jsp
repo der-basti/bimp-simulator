@@ -23,7 +23,7 @@
 			<h1>CONTACT</h1>
 			<div id="emailAdress">
 				<h2>You can contact us via e-mail:</h2>
-				E-mail: <a href= "mailto:some.thing@mail.com">some [dot] thing [at] mail [dot] com</a>
+				E-mail: <a href= "mailto:madis@edit.ee">madis [at] edit [dot] ee</a>
 			</div>
 			<div id="contactForm">
 			<h2>Or contact us via this form:</h2>
@@ -44,8 +44,8 @@
 						<textarea cols="40" rows="6" name="feedback"></textarea>
 					<li>
 						<label>Numbers</label>
-						<input type="text" id="txtCaptcha" class="captcha" />
-  				    	<input type="button" id="captchaRefresh" class="button" value="Refresh" />
+						<input type="text" id="txtCaptcha" class="captcha" disabled="disabled"/>
+  				    	<input type="button" id="captchaRefresh" class="button smallButton" value="Refresh" />
   				    </li>
 					<li>
 						<label for="captcha">Please write the numbers shown above</label>
@@ -53,7 +53,7 @@
 					</li>
 					<li>
 						<label for="submit">Send the form by clicking the button</label>
-						<button id="submitContactForm" class="button">Send</button>
+						<button id="submitContactForm" class="button smallButton">Send</button>
 					</li>
 				</ul>
 				</form>

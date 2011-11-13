@@ -139,7 +139,7 @@ function drawResourcesChart() {
       // Create the data table.
       var data = new google.visualization.DataTable();
       data.addColumn('string', 'Resource');
-      data.addColumn('number', 'Time occupied');
+      data.addColumn('number', '% of time occupied');
       data.addRows(resources.length);
       for (var j = 0; j < resources.length; j++) {    
         data.setValue(j, 0, resources[j]);
@@ -147,7 +147,7 @@ function drawResourcesChart() {
       }
 
       // Set chart options
-      var options = {'title':'Resource utilization',
+      var options = {'title':'Resource utilization %',
                      'height':250,
                      'width':500,
 		      'legend':'none',
