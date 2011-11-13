@@ -3,7 +3,7 @@ bimp.forms = {
 		defaultEndTime: "17:00:00",
 		generate : {
 			start : function () {
-				this.startEvent("test");
+				this.startEvent();
 				this.tasks();
 				this.conditionExpressions();
 				this.intermediateCatchEvents();
@@ -13,7 +13,7 @@ bimp.forms = {
 				$(".currencyText").text($(".currency").val());
 				$(".timepicker").timepicker({timeFormat:"hh:mm:ss"});
 			},
-			startEvent : function (name) {
+			startEvent : function () {
 				var se = bimp.parser.startEvent;
 				
 				var id = $(bimp.parser.xmlFile).find(bimp.parser.prefixEscaped + "startEvent")[0].getAttribute("id");
