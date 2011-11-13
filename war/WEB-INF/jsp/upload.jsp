@@ -32,8 +32,8 @@
 				<ol>
 					<li>Please select a valid BPMN file.</li>
 					<li>Press <b class="blue">“Continue”</b> in order to add/change simulation information.</li>
-					<li>Click <b class="blue">“Start simulation”</b>.</li>
 					<li>Tick the <b class="blue">"Generate a log"</b> box if You want to be able to download simulation log afterwards.</li>
+					<li>Click <b class="blue">“Start simulation”</b>.</li>					
 					<li>Be amazed and wonder how such magic came to be.</li>
 				</ol> 
 			</div>
@@ -100,8 +100,8 @@
 								</tr>
 								<tr>
 									<th># of instances:</th>
-									<td><input class="instances" name="instances"
-										class="small" type="text" title="Specifies the number of how many process instances will be created during the simulation. Positive integer should be used.">
+									<td><input class="instances medium" name="instances"
+										type="text" title="Specifies the number of how many process instances will be created during the simulation. Positive integer should be used.">
 									</td>
 								</tr>
 								<tr>
@@ -110,12 +110,12 @@
 										<!-- TODO: date and time input, 
 										get rid of script, 
 										normal handler for starttime onFocus --> <input name="startAt"
-										class="normal datepicker startAtDate" type="text"
+										class="normal datepicker startAtDate medium" type="text"
 										onFocus="if(this.value==this.defaultValue){this.value='';}"
 										value="yyyy-mm-dd" title="„YYYY-MM-DD“"> 
 										
 										<input name="startAt"
-										class="normal timepicker startAtTime" type="text"
+										class="normal timepicker startAtTime time" type="text"
 										onFocus="if(this.value==this.defaultValue){this.value='';}"
 										value="HH:MM:SS" title="„HH:MM:SS“">
 										<script>
@@ -211,11 +211,11 @@
 										</td>
 										<td>
 
-											<input class="begintime timepicker" name="begintime" value="09:00:00">
+											<input class="begintime timepicker time" name="begintime" value="09:00:00">
 										</td>
 										<td>
 
-											<input class="endtime timepicker" name="endtime" value="17:00:00">
+											<input class="endtime timepicker time" name="endtime" value="17:00:00">
 										</td>
 										<td><a class="trigger remove" href="javascript:void(0)" title="Remove field">X</a></td>
 								</tr>
@@ -292,7 +292,7 @@
 									</tr>
 									<tr>
 										<td><span class="targetName">N/A</span></td>
-										<td><input class="small probability" name="probability" /><label
+										<td><input class="percent probability" name="probability" /><label
 											for="probability">%</label></td>
 									</tr>
 									<tr class="hidden">

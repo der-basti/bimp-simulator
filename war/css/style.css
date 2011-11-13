@@ -114,6 +114,9 @@ ul#list-nav li { display:inline; }
 	font-weight: normal;
 	display: none;
 }
+#data-input table {
+	margin-left: 5px;
+}
 #data-input input, #data-input span, #data-input select {
 	margin-right: 7px;
 }
@@ -121,15 +124,33 @@ ul#list-nav li { display:inline; }
 #data-input th {
 	font-weight: normal;
 }
-
+/*
+#data-input input {
+	text-align: center;
+}
+*/
 #data-input table TH {
 	vertical-align: top;
 	text-align: left;
 	font-weight: normal;
 }
-
+.resources th {
+	padding-right: 10px;
+}
 #data-input input.small {
 	width: 50px;
+}
+#data-input select {
+	height: 22px;
+}
+#data-input input.medium {
+	width: 92px;
+}
+#data-input input.time {
+	width: 70px;
+}
+#data-input input.percent {
+	width: 25px;
 }
  /* Result table design */
 #result-table {

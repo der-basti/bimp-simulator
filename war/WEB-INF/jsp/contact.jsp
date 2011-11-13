@@ -23,7 +23,7 @@
 			<h1>CONTACT</h1>
 			<div id="emailAdress">
 				<h2>You can contact us via e-mail:</h2>
-				E-mail: <a href= "mailto:some.thing@mail.com">some [dot] thing [at] mail [dot] com</a>
+				E-mail: <a href= "mailto:madis@edit.ee">madis [at] edit [dot] ee</a>
 			</div>
 			<div id="contactForm">
 			<h2>Or contact us via this form:</h2>
