@@ -15,8 +15,8 @@ public interface DataService {
 
 	/**
 	 * Creates an xml file.
-	 * @param item
-	 * @param path
+	 * @param item ResultItem that the xml will represent.
+	 * @param path path of the xml file.
 	 * @throws JAXBException
 	 * @throws IOException
 	 */
@@ -25,8 +25,8 @@ public interface DataService {
 	
 	/**
 	 * Formats the data to required representation format.
-	 * @param kpi
-	 * @return
+	 * @param kpi KpiCalculator
+	 * @return ResultItem with formatted data.
 	 */
 	public ResultItem formatData(KpiCalculator kpi);
 }

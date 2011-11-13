@@ -26,12 +26,13 @@ import ee.ut.bpsimulator.model.Activity;
 @Service
 public class DataServiceImpl implements DataService {
 
+	/** {@inheritDoc} */
 	public void createXML(ResultItem item, String path) throws JAXBException,
 			IOException {
 		JAXBContext context = JAXBContext.newInstance(ResultItem.class);
 		Marshaller m = context.createMarshaller();
 		m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-		m.setProperty(Marshaller.JAXB_ENCODING, "iso-8859-1");
+		m.setProperty(Marshaller.JAXB_ENCODING, "utf-8");
 
 		Writer w = null;
 		try {
@@ -46,6 +47,7 @@ public class DataServiceImpl implements DataService {
 		}
 	}
 
+	/** {@inheritDoc} */
 	public ResultItem formatData(KpiCalculator kpi) {
 		ResultItem item = new ResultItem();
 
