@@ -18,6 +18,8 @@ h2 { font-size: 14px; color: #4ABEC8; }
 
 h3 { font-size: 12px; color: rgb(147, 137, 90); }
 
+.smallFont { font-size: 12px; }
+
 #indexPage b { color: rgb(147, 137, 90) }
 
 ol { line-height: 175% }
