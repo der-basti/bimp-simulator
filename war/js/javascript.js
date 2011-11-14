@@ -69,6 +69,12 @@ $(document).ready(function () {
 		validateXOR(this);
 	});
 
+	$('body').delegate(".instances", "keyup", function () {
+		validateMaxValues();
+	});
+	$('body').delegate(".instances", "change", function () {
+		validateMaxValues();
+	});
 	
 	$(".resources .add").click(function () {
 		var row = $(this).parents().find(".resources").find(".resource:first").clone(true);
@@ -300,7 +306,7 @@ $(document).ready(function () {
 		closeLoadingModal();
 	});
 	
-	$("body").delegate(".gatewayGroup,.startEvent,.task", "focus", function() {
+	$("body").delegate(".gatewayGroup,.startEvent,.task,.catchEvent", "focus", function() {
 		var that = this;
 		if ($(this).hasClass("gatewayGroup")) {
 			$(this).find(".gateway").each(function(index, element){
@@ -355,7 +361,7 @@ $(document).ready(function () {
 		}
 	});
 	
-	$("body").delegate(".gatewayGroup,.task,.startEvent", "focusout", function() {
+	$("body").delegate(".gatewayGroup,.task,.startEvent,.catchEvent", "focusout", function() {
 		$(this).removeClass("focus");
 		$(".target").removeClass("target");
 		$(".source").removeClass("source");
@@ -726,9 +732,30 @@ function validateRequiredFields() {
 	});
 }
 
+function validateMaxValues() {
+	if($(".instances").val() > 100000) {
+		if($(".instances").next().hasClass("error")) {
+			$(".instances").next().remove();
+		}
+		$(".instances").after(errorTooltip('The maximum allowed number of instances is 100000!', $(".instances")));
+	} else if($(".instances").val() > 10000 && $("#mxmlLog").is(':checked')) {
+		if($(".instances").next().hasClass("error")) {
+			$(".instances").next().remove();
+		}
+		$(".instances").after(errorTooltip('You selected logging - The maximum allowed number of instances is 10000!', $(".instances")));
+		return false;
+	} else {
+		if($(".instances").next().hasClass("error")) {
+			$(".instances").next().remove();
+		}
+		return true;
+	}
+}
+
 function validateForm() {
 	validateXORs();
 	validateRequiredFields();
+	validateMaxValues();
 	if($(".error").size() == 0) {
 		return true;
 	} else {
