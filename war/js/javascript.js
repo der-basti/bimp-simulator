@@ -69,6 +69,12 @@ $(document).ready(function () {
 		validateXOR(this);
 	});
 
+	$('body').delegate(".instances", "keyup", function () {
+		validateMaxValues();
+	});
+	$('body').delegate(".instances", "change", function () {
+		validateMaxValues();
+	});
 	
 	$(".resources .add").click(function () {
 		var row = $(this).parents().find(".resources").find(".resource:first").clone(true);
@@ -726,9 +732,30 @@ function validateRequiredFields() {
 	});
 }
 
+function validateMaxValues() {
+	if($(".instances").val() > 100000) {
+		if($(".instances").next().hasClass("error")) {
+			$(".instances").next().remove();
+		}
+		$(".instances").after(errorTooltip('The maximum allowed number of instances is 100000!', $(".instances")));
+	} else if($(".instances").val() > 10000 && $("#mxmlLog").is(':checked')) {
+		if($(".instances").next().hasClass("error")) {
+			$(".instances").next().remove();
+		}
+		$(".instances").after(errorTooltip('You selected logging - The maximum allowed number of instances is 10000!', $(".instances")));
+		return false;
+	} else {
+		if($(".instances").next().hasClass("error")) {
+			$(".instances").next().remove();
+		}
+		return true;
+	}
+}
+
 function validateForm() {
 	validateXORs();
 	validateRequiredFields();
+	validateMaxValues();
 	if($(".error").size() == 0) {
 		return true;
 	} else {
@@ -747,8 +774,9 @@ function errorTooltip(msg, field) {
 			width: "180px",
 			border: "1px solid #AAA",
 			padding: "1px",
-			opacity: "1",
-			'text-align': "center"
+			'text-align': "center",
+			'border-radius': "7px",
+			'border-bottom-right-radius': "0"
 		}
 	});
 	$(div).append(jQuery('<span/>', {text:msg}));
