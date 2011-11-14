@@ -229,7 +229,7 @@ $(document).ready(function () {
 		closeLoadingModal();
 	});
 	
-	$("body").delegate(".gatewayGroup,.startEvent,.task", "focus", function() {
+	$("body").delegate(".gatewayGroup,.startEvent,.task,.catchEvent", "focus", function() {
 		var that = this;
 		if ($(this).hasClass("gatewayGroup")) {
 			$(this).find(".gateway").each(function(index, element){
@@ -284,7 +284,7 @@ $(document).ready(function () {
 		}
 	});
 	
-	$("body").delegate(".gatewayGroup,.task,.startEvent", "focusout", function() {
+	$("body").delegate(".gatewayGroup,.task,.startEvent,.catchEvent", "focusout", function() {
 		$(this).removeClass("focus");
 		$(".target").removeClass("target");
 		$(".source").removeClass("source");
