@@ -121,6 +121,7 @@ $(document).ready(function () {
 	});
 	
 	$("#continue-button").click(function() {
+		$("#continue-button").attr("disabled", true);
 		bimp.parser.init();
 		bimp.parser.start();
 		$("#instructions").hide();

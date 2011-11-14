@@ -624,3 +624,9 @@ h2.toggle-trigger a:active {
 	width: 100px;
 	float: right;
 }
+
+#results table TD{
+	padding-top: 10px;
+	padding-right: 32px;
+	padding-left: 32px;
+}
