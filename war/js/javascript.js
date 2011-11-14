@@ -467,10 +467,6 @@ var closeLoadingModal = function () {
 getStatus = function() {
 	//getting the status of the simulation
 	timer += interval;
-//	if (timer > 500000) {
-//		clearInterval(timerId);
-//		window.location = "/getResults";
-//	}
 	$.ajax({
 		contentType : 'application/json',
 		type : 'post',
@@ -507,7 +503,6 @@ getStatus = function() {
 				break;
 			case ("FINISHED"):
 				clearInterval(timerId);
-//				window.location = "/getResults";
 				$.ajax({
 					type : 'get',
 					url : '/getResults',
