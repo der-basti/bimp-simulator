@@ -184,7 +184,7 @@
 											</select>
 										</td>
 										<td>
-											<select class="startday" name="startday" value="Fri">
+											<select class="startday" name="startday">
 												<option value="Mon">Monday</option>
 												<option value="Tue">Tuesday</option>
 												<option value="Wed">Wednesday</option>
@@ -200,7 +200,7 @@
 												<option value="Tue">Tuesday</option>
 												<option value="Wed">Wednesday</option>
 												<option value="Thu">Thursday</option>
-												<option value="Fri">Friday</option>
+												<option value="Fri" selected >Friday</option>
 												<option value="Sat">Saturday</option>
 												<option value="Sun">Sunday</option>
 											</select>

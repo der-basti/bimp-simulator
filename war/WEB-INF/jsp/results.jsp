@@ -88,7 +88,7 @@
 				$(this).text($(this).text() + " (" + bimp.parser.startEvent.arrivalRateDistribution.timeUnit[0] + ")");
 			});
 			$(".cost").each(function () {
-				$(this).text($(this).text() + " " + currency);
+				$(this).text(Math.round($(this).text()*100)/100 + " " + currency);
 			});
 			$(".duration").each(function () {
 				if ($(this).text() >= 432000) {
