@@ -123,22 +123,29 @@ $(document).ready(function () {
 	$("#continue-button").click(function() {
 		$("#continue-button").attr("disabled", true);
 		bimp.parser.init();
-		bimp.parser.start();
-		$("#instructions").hide();
-		$("#upload-area").fadeOut(400, function() {
-			$("#data-input").fadeIn(400, (function() {
-				$("#startSimulationButton").fadeIn(400);
-				$("#logCheckBox").fadeIn(1000);
-				$(".toggle-div :input[title]").tooltip({
-					position: "top right",
-					effect: "fade"
-				});
-				$(".toggle-div img[title]").tooltip({
-					position: "top right",
-					effect: "fade"
-				});
-			}));
-		});
+		try {
+			bimp.parser.start();
+			$("#instructions").hide();
+			$("#upload-area").fadeOut(400, function() {
+				$("#data-input").fadeIn(400, (function() {
+					$("#startSimulationButton").fadeIn(400);
+					$("#logCheckBox").fadeIn(1000);
+					$(".toggle-div :input[title]").tooltip({
+						position: "top right",
+						effect: "fade"
+					});
+					$(".toggle-div img[title]").tooltip({
+						position: "top right",
+						effect: "fade"
+					});
+				}));
+			});
+		} catch (e) {
+			alert("File not valid");
+			if (console) {
+				console.log(e);
+			}
+		}
 	});
 	
 	$(".toggle-trigger").click(function() {
