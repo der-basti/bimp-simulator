@@ -24,8 +24,6 @@ public class MainPageController {
 
 	private static Logger log = Logger.getLogger(MainPageController.class);
 
-	@Resource
-	private DataService dataService;
 
 	/**
 	 * Default.

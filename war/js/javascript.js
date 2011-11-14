@@ -34,7 +34,7 @@ $(document).ready(function () {
 			  },
 			  probability: {
 				  "class": ".probability",
-				  regexp: "^((100)|([0-9]{0,2}))$",
+				  regexp: "^((100)|([0-9]{0,2})|[0-9]{0,2}(\\.[0-9]{0,2}))$",
 				  msg: "Invalid percentage!"
 			  }  
 			};
@@ -70,9 +70,13 @@ $(document).ready(function () {
 	});
 
 	$('body').delegate(".instances", "keyup", function () {
+		//TODO:
+		//For future reference, this overwrites the regexp validation
 		validateMaxValues();
 	});
 	$('body').delegate(".instances", "change", function () {
+		//TODO:
+		//For future reference, this overwrites the regexp validation
 		validateMaxValues();
 	});
 	
