@@ -125,6 +125,7 @@ $(document).ready(function () {
 	});
 	
 	$("#continue-button").click(function() {
+		$("#continue-button").attr("disabled", true);
 		bimp.parser.init();
 		bimp.parser.start();
 		$("#instructions").hide();
@@ -778,8 +779,9 @@ function errorTooltip(msg, field) {
 			width: "180px",
 			border: "1px solid #AAA",
 			padding: "1px",
-			opacity: "1",
-			'text-align': "center"
+			'text-align': "center",
+			'border-radius': "7px",
+			'border-bottom-right-radius': "0"
 		}
 	});
 	$(div).append(jQuery('<span/>', {text:msg}));
