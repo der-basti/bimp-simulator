@@ -81,6 +81,8 @@
 			var resources;
 			var utilization;
 
+			window.scrollTo(0, 0);
+			
 			$(".costTitle").each(function () {
 				$(this).text($(this).text() + " (" + currency + ")");
 			});
