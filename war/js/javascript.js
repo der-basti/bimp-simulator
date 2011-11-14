@@ -34,7 +34,7 @@ $(document).ready(function () {
 			  },
 			  probability: {
 				  "class": ".probability",
-				  regexp: "^((100)|([0-9]{0,2}))$",
+				  regexp: "^((100)|([0-9]{0,2})|[0-9]{0,2}(\\.[0-9]{0,2}))$",
 				  msg: "Invalid percentage!"
 			  }  
 			};
@@ -70,9 +70,13 @@ $(document).ready(function () {
 	});
 
 	$('body').delegate(".instances", "keyup", function () {
+		//TODO:
+		//For future reference, this overwrites the regexp validation
 		validateMaxValues();
 	});
 	$('body').delegate(".instances", "change", function () {
+		//TODO:
+		//For future reference, this overwrites the regexp validation
 		validateMaxValues();
 	});
 	
@@ -121,23 +125,31 @@ $(document).ready(function () {
 	});
 	
 	$("#continue-button").click(function() {
+		$("#continue-button").attr("disabled", true);
 		bimp.parser.init();
-		bimp.parser.start();
-		$("#instructions").hide();
-		$("#upload-area").fadeOut(400, function() {
-			$("#data-input").fadeIn(400, (function() {
-				$("#startSimulationButton").fadeIn(400);
-				$("#logCheckBox").fadeIn(1000);
-				$(".toggle-div :input[title]").tooltip({
-					position: "top right",
-					effect: "fade"
-				});
-				$(".toggle-div img[title]").tooltip({
-					position: "top right",
-					effect: "fade"
-				});
-			}));
-		});
+		try {
+			bimp.parser.start();
+			$("#instructions").hide();
+			$("#upload-area").fadeOut(400, function() {
+				$("#data-input").fadeIn(400, (function() {
+					$("#startSimulationButton").fadeIn(400);
+					$("#logCheckBox").fadeIn(1000);
+					$(".toggle-div :input[title]").tooltip({
+						position: "top right",
+						effect: "fade"
+					});
+					$(".toggle-div img[title]").tooltip({
+						position: "top right",
+						effect: "fade"
+					});
+				}));
+			});
+		} catch (e) {
+			alert("File not valid");
+			if (console) {
+				console.log(e);
+			}
+		}
 	});
 	
 	$(".toggle-trigger").click(function() {
@@ -221,29 +233,6 @@ $(document).ready(function () {
 		$('#hiddenDownloadForm').submit();
 	});
 	
-	$(".highlightSources").click(function () {
-		$(".gateway").removeClass("highlight");
-		var id=$(this).parents(".task").attr("data-id");
-		$(".gateway").each(function (i, element) {
-			//console.log($(element).find(".sourceRef").text());
-			if ($(element).find(".sourceRef").text() === id) {
-				$(element).addClass("highlight");
-			}
-		});
-	});
-	$(".highlightTargets").click(function () {
-		$(".gateway").removeClass("highlight");
-		var id=$(this).parents(".task, .startEvent").attr("data-id");
-		$(".gateway").each(function (i, element) {
-			if ($(element).find(".targetRef").text() === id) {
-				$(element).addClass("highlight");
-			}
-		});
-	});
-	$("body").delegate(".currency", "change", function () {
-		$(".currencyText").text($(this).val());
-	});
-	
 	$(".help-nav-button").click(function() {
 		var clickedButton = $(this);
 		$(".help-text").each(function () {
@@ -272,36 +261,14 @@ $(document).ready(function () {
 			}	
 		});
 	});
-	
-	$("#contactForm").ready(function() {
-		if ($("#txtCaptcha").val()=="") {
-			DrawCaptcha();
-		}
-	});
-	
-	$("#captchaRefresh").click(function() {
-		DrawCaptcha();
-	});
-	
+
 	$("body").delegate("#backToEditData", "click", function() {
 		$("#resultsPage").fadeOut("fast", function() {
 			$(this).remove();
 		});
 		$("#uploadPage").fadeIn("fast");
 	});
-	
-	$("#submitContactForm").click(function() {
-		if (!ValidCaptcha()) {
-			alert("Please enter the correct numbers");
-			return false;
-		} else {
 
-		}
-	});
-
-//	openLoadingModal();
-
-	
 	$("body").delegate(".close", "click", function () {
 		closeLoadingModal();
 	});
@@ -393,6 +360,8 @@ var removeLastButton = function () {
 
 var updateResourceDropdowns = function () {
 	$("select.resource").each(function () {
+		var curVal = $(this).val();
+		
 		$(this).find("option").remove();
 		var that = this;
 		if ($(that).parent().parent().hasClass("timetable")) {
@@ -401,6 +370,7 @@ var updateResourceDropdowns = function () {
 		$.each(bimp.parser.startEvent.resources, function(resourceName, resource) {
 			$(that).append($("<option></option>").attr("value", resourceName).text(resource.name));
 		});
+		$(this).val(curVal);
 
 	});
 };
@@ -634,29 +604,6 @@ var generateXCharacters = function (x, character) {
 	}
 	return result;
 };
-
-function DrawCaptcha() {
-    var a = Math.ceil(Math.random() * 10)+ '';
-    var b = Math.ceil(Math.random() * 10)+ '';       
-    var c = Math.ceil(Math.random() * 10)+ '';  
-    var d = Math.ceil(Math.random() * 10)+ '';  
-    var e = Math.ceil(Math.random() * 10)+ '';  
-    var f = Math.ceil(Math.random() * 10)+ '';  
-    var g = Math.ceil(Math.random() * 10)+ '';  
-    var code = a + ' ' + b + ' ' + ' ' + c + ' ' + d + ' ' + e + ' '+ f + ' ' + g;
-    $("#txtCaptcha").val(code);
-}
-
-function ValidCaptcha() {
-    var str1 = removeSpaces($("#txtCaptcha").val());
-    var str2 = removeSpaces($("#txtInput").val());
-    if (str1 == str2) return true;        
-    return false;
-}
-
-function removeSpaces(string) {
-    return string.split(' ').join('');
-}
 
 function loadLikeButton(d, s, id) {
 	var js, fjs = d.getElementsByTagName(s)[0];

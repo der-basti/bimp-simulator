@@ -1,7 +1,5 @@
 /* Base */
-html {
-	overflow-Y: scroll;
-}
+html { overflow-Y: scroll; }
 
 body {
 	margin: 0px;
@@ -623,4 +621,10 @@ h2.toggle-trigger a:active {
 	top: 10px;
 	width: 100px;
 	float: right;
+}
+
+#results table TD{
+	padding-top: 10px;
+	padding-right: 32px;
+	padding-left: 32px;
 }
