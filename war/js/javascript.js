@@ -43,7 +43,7 @@ $(document).ready(function () {
 		$("body").delegate(validate[name]["class"], "change", function() {
 			if(validate[name].regexp && !(new XRegExp(validate[name].regexp)).test($(this).val())) {
 				if(!$(this).next().hasClass("error")){
-					$(this).after("<div class='error' >" + validate[name].msg +" </div>");					
+					$(this).after(errorTooltip(validate[name].msg, this));				
 				}
 			} else {
 				if($(this).next().hasClass("error")) {
@@ -55,7 +55,7 @@ $(document).ready(function () {
 		$("body").delegate(validate[name]["class"], "keyup", function() {
 			if(validate[name].regexp && !(new XRegExp(validate[name].regexp)).test($(this).val())) {
 				if(!$(this).next().hasClass("error")){
-					$(this).after("<div class='error'>" + validate[name].msg +" </div>");					
+					$(this).after(errorTooltip(validate[name].msg, this));	
 				}
 			} else {
 				if($(this).next().hasClass("error")) {
@@ -715,7 +715,7 @@ function validateRequiredFields() {
 		if(validate[name].required == true) {
 			$(validate[name]["class"]).each(function() {
 				if($(this).val()== "" && !$(this).next().hasClass("error")) {
-					$(this).after("<div class='error'> This field is required! </div>");
+					$(this).after(errorTooltip('This field is required!', this));
 				} else {
 					if($(this).next().hasClass("error")) {
 						$(this).next().remove();
@@ -736,4 +736,24 @@ function validateForm() {
 		return false;
 	}
 	
+}
+
+function errorTooltip(msg, field) {
+	var div = jQuery('<div/>', {  
+		css: {
+			position: "absolute",
+			top: $(field).position().top - 22 + "px",
+			left: $(field).position().left - 185 + "px",
+			width: "180px",
+			border: "1px solid #AAA",
+			padding: "1px",
+			opacity: "1",
+			'text-align': "center"
+		}
+	});
+	$(div).append(jQuery('<span/>', {text:msg}));
+
+	
+	$(div).addClass('error');
+	return div;
 }
