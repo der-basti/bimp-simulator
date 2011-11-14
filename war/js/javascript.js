@@ -1,6 +1,75 @@
 $(document).ready(function () {
+	
+	browserValidation();
+	
 	loadLikeButton(document, 'script', 'facebook-jssdk');
 	removeLastButton();
+	
+	validate = {
+			  fixedCost: {
+				  "class": ".fixedCost",
+				  regexp: "^([0-9]+|[0-9]+(\\.[0-9]+))$",
+				  msg: "For decimal place, use a point!"
+			  },
+			  instances: {
+				  "class": ".instances",
+				  required: true,
+				  regexp: "^[0-9]+$",
+				  msg: "This field has to be an integer!"
+			  },
+			  name: {
+				  "class": ".resources .name",
+				  required: true
+			  },
+			  amount: {
+				  "class": ".amount",
+				  required: true,
+				  regexp: "^[0-9]+$",
+				  msg: "This field has to be an integer!"
+			  },
+			  costPerHour: {
+				  "class": ".costPerHour",
+				  regexp: "^([0-9]+|[0-9]+(\\.[0-9]+))$",
+				  msg: "For decimal place, use a point!"
+			  },
+			  probability: {
+				  "class": ".probability",
+				  regexp: "^((100)|([0-9]{0,2}))$",
+				  msg: "Invalid percentage!"
+			  }  
+			};
+	
+	$.each(validate, function(name, content) {
+		$("body").delegate(validate[name]["class"], "change", function() {
+			if(validate[name].regexp && !(new XRegExp(validate[name].regexp)).test($(this).val())) {
+				if(!$(this).next().hasClass("error")){
+					$(this).after(errorTooltip(validate[name].msg, this));				
+				}
+			} else {
+				if($(this).next().hasClass("error")) {
+					$(this).next().remove();
+				}
+			}
+		});
+		
+		$("body").delegate(validate[name]["class"], "keyup", function() {
+			if(validate[name].regexp && !(new XRegExp(validate[name].regexp)).test($(this).val())) {
+				if(!$(this).next().hasClass("error")){
+					$(this).after(errorTooltip(validate[name].msg, this));	
+				}
+			} else {
+				if($(this).next().hasClass("error")) {
+					$(this).next().remove();
+				}
+			}
+		});
+	});
+	
+	$('body').delegate(".xor", "keyup", function () {
+		validateXOR(this);
+	});
+
+	
 	$(".resources .add").click(function () {
 		var row = $(this).parents().find(".resources").find(".resource:first").clone(true);
 		$(row).find("input").each(function () {
@@ -129,9 +198,11 @@ $(document).ready(function () {
 	});
 	
 	$("#startSimulationButton").click(function () {
-		bimp.forms.read.start();
-		bimp.file.updateFile();
-		bimp.file.uploadFile();
+		if(validateForm()) {
+			bimp.forms.read.start();
+			bimp.file.updateFile();
+			bimp.file.uploadFile();
+		}
 	});
 	
 	$("#downloadBpmn").click(function () {
@@ -597,7 +668,92 @@ function loadLikeButton(d, s, id) {
 	fjs.parentNode.insertBefore(js, fjs);
 };
 
+function browserValidation() {
+	var is_chrome = /chrome/.test( navigator.userAgent.toLowerCase() );
+	var browser = $.browser;
+	if (is_chrome) {
+
+	} else if (browser.msie || browser.safari || (browser.mozilla && browser.version < 4) || (browser.opera && browser.version < 11 )) {
+		$("body").prepend(
+				'<div id="browser" class="gill-font">' +
+				'<div id="browserWarning">It seems that your browser is not supported by our application</br>' +
+				'We strongly recommend You to download the latest version of Mozilla Firefox or Google Chrome browsers</div>' +
+				'<div id="browserIcons"><a href="http://www.mozilla.org/en-US/firefox/new/"><img src="./css/images/firefox.png" border="0"></a>' +
+				'<a href="http://www.google.com/chrome"><img src="./css/images/chrome.png" border="0"></a></div>' +
+				'</div>');
+	}
+}
+
 var pointCount = 0;
 var interval = 500;
 var timerId = "";
 var timer = 0;
+
+function validateXORs() {
+	$(".xor").each(function (){
+		validateXOR(this);
+	}); 
+}
+function validateXOR(xor) {
+	var percentage = 0;
+	$(xor).find(".probability").each(function() {
+		percentage = percentage + Number($(this).val());
+	});
+	if(percentage != 100) {
+		if(!$(xor).next().hasClass("error")) {
+			$(xor).after("<div class='error'> Your XOR gateway percentages do not sum up to 100%! </div>");
+		}	
+	} else {
+		if($(xor).next().hasClass("error")) {
+			$(xor).next().remove();
+		}
+	}
+}
+
+function validateRequiredFields() {
+	$.each(validate, function(name, content) {
+		if(validate[name].required == true) {
+			$(validate[name]["class"]).each(function() {
+				if($(this).val()== "" && !$(this).next().hasClass("error")) {
+					$(this).after(errorTooltip('This field is required!', this));
+				} else {
+					if($(this).next().hasClass("error")) {
+						$(this).next().remove();
+					}
+				}
+			});
+		}
+	});
+}
+
+function validateForm() {
+	validateXORs();
+	validateRequiredFields();
+	if($(".error").size() == 0) {
+		return true;
+	} else {
+		alert("Your form has errors! Follow the requirements and try again.");
+		return false;
+	}
+	
+}
+
+function errorTooltip(msg, field) {
+	var div = jQuery('<div/>', {  
+		css: {
+			position: "absolute",
+			top: $(field).position().top - 22 + "px",
+			left: $(field).position().left - 185 + "px",
+			width: "180px",
+			border: "1px solid #AAA",
+			padding: "1px",
+			opacity: "1",
+			'text-align': "center"
+		}
+	});
+	$(div).append(jQuery('<span/>', {text:msg}));
+
+	
+	$(div).addClass('error');
+	return div;
+}

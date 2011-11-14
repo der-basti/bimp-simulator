@@ -22,7 +22,7 @@
 		<div id="help-nav">
 			<div class="help-nav-button" id="bimp-help-trigger">BIMP Simulator</div>
 			<div class="help-nav-button" id="bimp2-trigger">BPMN 2.0</div>
-			<div class="help-nav-button" id="bimpeditors-trigger">BIMP 2.0 Editors</div>
+			<div class="help-nav-button" id="bimpeditors-trigger">BPMN 2.0 Editors</div>
 			<div class="help-nav-button" id="ui-help-trigger">User Interface</div>
 		</div>
 		<div id="help-text-div">

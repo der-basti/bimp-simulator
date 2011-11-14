@@ -2,6 +2,8 @@ package ee.ut.math.bimp;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,7 +29,6 @@ import ee.ut.bpsimulator.logger.MxmlLogger;
 import ee.ut.math.bimp.data.DataService;
 import ee.ut.math.bimp.data.RepresentableActivity;
 import ee.ut.math.bimp.data.ResultItem;
-import ee.ut.math.bimp.data.Simulation;
 
 /**
  * Simulation controller.
@@ -141,8 +142,13 @@ public class SimulationController {
 		Object[] resources = runner.sim.getResourceManager().getDefinedResources().toArray();
 		double[] utilization = new double[resources.length];
 		String[] resourcesStr = new String[resources.length];
+		DecimalFormatSymbols otherSymbols = new DecimalFormatSymbols();
+		otherSymbols.setDecimalSeparator('.');
+		otherSymbols.setGroupingSeparator(' ');
+		DecimalFormat dec = new DecimalFormat("###.#", otherSymbols);
 		for (int i=0; i<resources.length; i++) {
-			utilization[i] = (int) (kpi.getResourceUtilization((ee.ut.bpsimulator.model.Resource) resources[i])*100);
+			utilization[i] = Double.parseDouble(dec.format((kpi.getResourceUtilization
+					((ee.ut.bpsimulator.model.Resource) resources[i])*100)));
 			resourcesStr[i] = resources[i].toString().split("id")[0].split("Resource ")[1];
 		}
 		
@@ -236,10 +242,15 @@ public class SimulationController {
 		}
 		String differenceStr = Long.toString((long) difference);
 		char first = differenceStr.charAt(0);
+		char second = differenceStr.charAt(1);
 		int powerOfTen = differenceStr.length()-1;
 		int interval;
 		
-		if (first < '5') { 
+		if (powerOfTen >= 2 && (first < '2' || first == '2' && second < '5')) {
+			powerOfTen -=2;
+			interval = (int) (25*(Math.pow(10, powerOfTen)));
+		}
+		else if (first < '5') {
 			powerOfTen -= 1;
 			interval = (int) (5*(Math.pow(10, powerOfTen)));
 		}

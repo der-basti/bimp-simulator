@@ -1,7 +1,5 @@
-package ee.ut.math.bimp.data;
+package ee.ut.math.bimp;
 
-import ee.ut.math.bimp.SimulationChecker;
-import ee.ut.math.bimp.SimulatorRunner;
 
 
 /**

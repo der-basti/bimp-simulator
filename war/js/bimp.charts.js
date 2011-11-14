@@ -106,13 +106,14 @@ function drawCostsChart() {
       }
 
       // Set chart options
-      var options = {'title':'Process costs',
+      var options = {'title':'Process costs (' + currency +')',
                      'height':250,
                      'width':500,
 		      'legend':'none',
 		      'hAxis.textStyle': {
 			  fontSize:10},
 		      'hAxis.slantedText':false,
+		      'hAxis.title':'Cost (' + currency + ')',
 		      'vAxis.title':'# of processes',
 		      'chartArea.left':1,
 		      'chartArea.top':1,

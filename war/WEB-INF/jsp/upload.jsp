@@ -16,6 +16,7 @@
 <script type="text/javascript" src="./js/bimp.charts.js"></script>
 <script type="text/javascript" src="./js/javascript.js"></script>
 <script type="text/javascript" src="./js/jquery-ui-timepicker-addon.js"></script>
+<script type="text/javascript" src="./js/xregexp-min.js"></script>
 <script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
 
 <link rel="stylesheet" type="text/css" href="./css/style.css"></link>
@@ -52,7 +53,7 @@
 								type="file" id="file-select" name="fileData" />
 							<div id="file-drag">or drop it here</div>
 						</div>
-					<span id="fileName">No file selected.</span>
+					<span id="fileName" class="smallFont">No file selected.</span>
 					</fieldset>
 					
 				</form>
@@ -107,12 +108,12 @@
 										normal handler for starttime onFocus --> <input name="startAt"
 										class="normal datepicker startAtDate medium" type="text"
 										onFocus="if(this.value==this.defaultValue){this.value='';}"
-										value="yyyy-mm-dd" title="„YYYY-MM-DD“"> 
+										value="yyyy-mm-dd" title="YYYY-MM-DD"> 
 										
 										<input name="startAt"
 										class="normal timepicker startAtTime time" type="text"
 										onFocus="if(this.value==this.defaultValue){this.value='';}"
-										value="HH:MM:SS" title="„HH:MM:SS“">
+										value="HH:MM:SS" title="HH:MM:SS">
 										<script>
 											$(".datepicker").datepicker({
 												dateFormat : 'yy-mm-dd'
@@ -237,7 +238,7 @@
 										<td><span class="id">id</span></td>
 									</tr>
 									<tr>
-										<th>Resource: <img src="./css/images/questionmark.png" title="Resource of this specific task"/></th>
+										<th>Resource: <img src="./css/images/questionmark.png" title="Resource of this specific task."/></th>
 										<td><select class="resource" name="resource">
 										</select>
 										Fixed cost:
@@ -245,7 +246,7 @@
 										</td>
 									</tr>
 									<tr>
-										<th>Duration: <img src="./css/images/questionmark.png" title="Type of distribution. Can be Fixed, Standard, Exponentia or Uniform"/></th>
+										<th>Duration: <img src="./css/images/questionmark.png" title="Type of distribution. Can be Fixed, Standard, Exponentia or Uniform."/></th>
 										<td><select class="type" name="type">
 												<option value="fixed">Fixed</option>
 												<option value="standard">Standard</option>

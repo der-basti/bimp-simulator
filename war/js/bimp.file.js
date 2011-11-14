@@ -24,7 +24,22 @@ bimp.file = {
 				reader.onloadend = function (e) {
 					try {
 						bimp.file.xmlFile = $.parseXML(e.target.result);
+						if ($(bimp.file.xmlFile)[0].documentElement.prefix) {
+							bimp.parser.prefix = $(bimp.file.xmlFile)[0].documentElement.prefix + ":";
+							bimp.parser.prefixEscaped = $(bimp.file.xmlFile)[0].documentElement.prefix + "\\:";
+							bimp.parser.prefixForDocumenation = (bimp.parser.prefixEscaped) ? bimp.parser.prefixEscaped:"";
+							bimp.parser.prefix = bimp.parser.prefix ? bimp.parser.prefix : "";
+							//TODO: OH MY :O ...? FIX ASAP
+							// this next line should have never been written, NEVER
+							if ($(bimp.file.xmlFile).find(bimp.parser.prefixEscaped + "startEvent").size() < $(bimp.file.xmlFile).find("startEvent").size()) {
+								// if we need to use prefix (we get results) then use it, otherwise don't
+								bimp.parser.prefixEscaped = "";
+							}
+						}
 						//console.log("Parse success..");
+						if($(bimp.file.xmlFile).find(bimp.parser.prefixEscaped + "startEvent").size() == 0) {
+							throw "No start event found!";
+						}
 						var doc = $(bimp.file.xmlFile).find("documentation");
 						if (doc.length > 0) {
 							//console.log("File with simulation information provided");
