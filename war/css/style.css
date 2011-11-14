@@ -1,7 +1,5 @@
 /* Base */
-html {
-	overflow-Y: scroll;
-}
+html { overflow-Y: scroll; }
 
 body {
 	margin: 0px;
