@@ -56,7 +56,7 @@
 			<div id="result-table">
 			<table border="0">
 				<tr>
-					<th>Description</th>
+					<th>Task description</th>
 					<th><span class ="costTitle">Average cost</span></th>
 					<th><span class ="durationTitle">Average waiting time</span></th>
 				</tr>

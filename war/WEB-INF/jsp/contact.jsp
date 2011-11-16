@@ -24,7 +24,7 @@
 				<h1>CONTACT</h1>
 				<div id="emailAdress">
 					<h2>You can contact us via e-mail:</h2>
-					E-mail: <a href= "mailto:madis@edit.ee">madis [at] edit [dot] ee</a>
+					E-mail: <a href= "mailto:madis[at]edit[dot]ee">madis [at] edit [dot] ee</a>
 				</div>
 			</div>
 			<div id="facebook-box">
