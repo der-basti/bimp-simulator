@@ -28,7 +28,6 @@ bimp.forms = {
 				});
 			},
 			resource : function (name, resourceObj) {
-				//console.log(name, resourceObj);
 				if (!$(".resources .resource:first").attr("data-id")){
 					bimp.forms.populateWithData(".resources", resourceObj);
 					$(".resources .resource:first").attr("data-id", name);
@@ -41,7 +40,6 @@ bimp.forms = {
 				$(".resources .resource .remove").show();
 			},
 			timetable : function (name, timetableObj) {
-				//TODO: use populateWithData?
 				var days;
 				var times;
 				try {
@@ -49,7 +47,6 @@ bimp.forms = {
 						days = _days;
 						times = _times;
 					});
-					//console.log("days:", days, "times:", times);
 					startday = days.split("-")[0];
 					endday = days.split("-")[1];
 					begintime = times.split("-")[0];
@@ -141,7 +138,6 @@ bimp.forms = {
 		},
 		populateWithData : function (selector, obj, clone, htmlObj) {
 			$.each(obj, function(name, value){
-				//console.log(name, " - ", value);
 				if (name === "name" && value === "") {
 					value = "N/A";
 				}
@@ -269,13 +265,6 @@ bimp.forms = {
 				$.each(obj, function(name, value) {
 					if (typeof(value) !== "function") {
 						if (typeof(value) == "object") {
-//							if (name !== "resources" && name !== "timetable") {
-//								$.each(value, function (_name, _value) {
-//									//console.log("Reading", name, "with value", value);
-//									obj[name][_name] = $(selector + " ." + _name).val();
-//								});
-//							}
-//							bimp.forms.read.readData(selector + " ." + name, value);
 							if (name == "durationDistribution" || name == "arrivalRateDistribution") {
 								var timeUnit = $(selector).find(".timeUnit").val();
 								$.each(value, function (_name, _value) {

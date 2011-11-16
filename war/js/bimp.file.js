@@ -3,7 +3,6 @@ bimp = {};
 bimp.file = {
 		inputFiles : [],
 		xmlFile : "",
-		simulationInfoTag : "documentation",
 		initUpload : function() {
 			$("#file-select").bind("change", FileSelectHandler);
 			var filedrag = $("#file-drag");
@@ -11,10 +10,6 @@ bimp.file = {
 			filedrag.bind("dragleave", FileDragHover);
 			filedrag.bind("drop", FileSelectHandler);
 			filedrag.css({display:"block"});
-		},
-		getFileExtension : function (file) {
-			var splittedName = file.name.split(".");
-			return splittedName[splittedName.length - 1];
 		},
 		parseFile : function (file) {
 			//console.log("Parsing file: ", file);
@@ -29,8 +24,7 @@ bimp.file = {
 							bimp.parser.prefixEscaped = $(bimp.file.xmlFile)[0].documentElement.prefix + "\\:";
 							bimp.parser.prefixForDocumenation = (bimp.parser.prefixEscaped) ? bimp.parser.prefixEscaped:"";
 							bimp.parser.prefix = bimp.parser.prefix ? bimp.parser.prefix : "";
-							//TODO: OH MY :O ...? FIX ASAP
-							// this next line should have never been written, NEVER
+							// check if we need to use prefixEscaped for chrome or not
 							if ($(bimp.file.xmlFile).find(bimp.parser.prefixEscaped + "startEvent").size() < $(bimp.file.xmlFile).find("startEvent").size()) {
 								// if we need to use prefix (we get results) then use it, otherwise don't
 								bimp.parser.prefixEscaped = "";
@@ -40,17 +34,11 @@ bimp.file = {
 						if($(bimp.file.xmlFile).find(bimp.parser.prefixEscaped + "startEvent").size() == 0) {
 							throw "No start event found!";
 						}
-						var doc = $(bimp.file.xmlFile).find("documentation");
-						if (doc.length > 0) {
-							//console.log("File with simulation information provided");
-						} else {
-							//console.log("File with no simulation information provided");
-						}
 						$("#fileName").text(bimp.file.inputFiles[0].name + " is selected.");
 						$(".currentFileName").text(bimp.file.inputFiles[0].name);
 						$("#continue-button").attr("disabled", false);
 					} catch (e) {
-						alert("Error parsing file, please provide valid file.");
+						alert("Error parsing file, please provide a valid file.");
 						console.log(e);
 					}
 				};
@@ -60,16 +48,11 @@ bimp.file = {
 				console.log(e);
 			}
 		},
-		outputFileInfo : function (msg) {
-			$("#file-info").html(msg);
-		},
 		uploadFile : function () {
 			$.post("/uploadjson", {"mxmlLog": $("#mxmlLog").is(':checked'),"fileData": new XMLSerializer().serializeToString(bimp.parser.xmlFile)}, function (data) {
-				//console.log(data);
 				if (data.status == "Success") {
 					//console.log("file upload successful");
 					if (data.redirect) {
-//						window.location = data.redirect;
 						openLoadingModal();
 					}
 				}
@@ -106,7 +89,6 @@ bimp.file = {
 				});
 			}
 			
-			var documentation = bimp.parser.prefixForDocumenation == "" ? "documentation" : bimp.parser.prefixForDocumenation + "documentation";
 			// update startEvent
 			$(bimp.parser.xmlFile).find(bimp.parser.prefixEscaped + "startEvent").find(bimp.parser.prefixForDocumenation + "documentation")[0].textContent = JSON.stringify(bimp.parser.startEvent);
 			//console.log("Found startEvent and updated it");

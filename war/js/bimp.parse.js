@@ -90,7 +90,6 @@ bimp.parser = {
 
 	},
 	readStartEvent : function() {
-		//console.log("xmlFile", this.xmlFile);
 		var doc = $(this.xmlFile).find(bimp.parser.prefixEscaped + "startEvent").find(bimp.parser.prefixEscaped + "documentation");
 		if (doc.length > 0) {
 			//console.log("Found startEvent and added it");
@@ -138,7 +137,6 @@ bimp.parser = {
 			if (data.length > 0) {
 				catchEventObj = $.parseJSON($(data).text());
 			}
-			//TODO: check if it works with multiple catchEvents also..
 			var id = event.getAttribute("id");
 			var name = {
 					name : event.getAttribute("name")
