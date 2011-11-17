@@ -139,39 +139,40 @@ public class SimulationController {
 		item = dataService.formatData(kpi);
 		model.addObject("resultItem", item);
 
-		Object[] resources = runner.sim.getResourceManager().getDefinedResources().toArray();
-		double[] utilization = new double[resources.length];
-		String[] resourcesStr = new String[resources.length];
-		DecimalFormatSymbols otherSymbols = new DecimalFormatSymbols();
-		otherSymbols.setDecimalSeparator('.');
-		otherSymbols.setGroupingSeparator(' ');
-		DecimalFormat dec = new DecimalFormat("###.#", otherSymbols);
-		for (int i=0; i<resources.length; i++) {
-			utilization[i] = Double.parseDouble(dec.format((kpi.getResourceUtilization
-					((ee.ut.bpsimulator.model.Resource) resources[i])*100)));
-			resourcesStr[i] = resources[i].toString().split("id")[0].split("Resource ")[1];
+		if (runner.sim.getResourceManager().getDefinedResources() != null) {
+			Object[] resources = runner.sim.getResourceManager().getDefinedResources().toArray();
+			double[] utilization = new double[resources.length];
+			String[] resourcesStr = new String[resources.length];
+			DecimalFormatSymbols otherSymbols = new DecimalFormatSymbols();
+			otherSymbols.setDecimalSeparator('.');
+			otherSymbols.setGroupingSeparator(' ');
+			DecimalFormat dec = new DecimalFormat("###.#", otherSymbols);
+			for (int i=0; i<resources.length; i++) {
+				utilization[i] = Double.parseDouble(dec.format((kpi.getResourceUtilization
+						((ee.ut.bpsimulator.model.Resource) resources[i])*100)));
+				resourcesStr[i] = resources[i].toString().split("id")[0].split("Resource ")[1];
+			}
+			
+			List<String[]> chartIntervals = new ArrayList<String[]>();
+			List<int[]> chartCounts = new ArrayList<int[]>();
+			
+			getHistogramValues(kpi.getProcessDurations(), chartIntervals, chartCounts, false);
+			getHistogramValues(kpi.getProcessWaitingTimes(), chartIntervals, chartCounts, false);
+			getHistogramValues(kpi.getProcessCosts(), chartIntervals, chartCounts, true);
+			
+			Gson gsonObject = new Gson();
+			
+			model.addObject("durationIntervals", gsonObject.toJson(chartIntervals.get(0)));
+			model.addObject("waitingTimeIntervals", gsonObject.toJson(chartIntervals.get(1)));
+			model.addObject("costIntervals", gsonObject.toJson(chartIntervals.get(2)));
+			
+			model.addObject("durationCounts", gsonObject.toJson(chartCounts.get(0)));
+			model.addObject("waitingTimeCounts", gsonObject.toJson(chartCounts.get(1)));
+			model.addObject("costCounts", gsonObject.toJson(chartCounts.get(2)));
+			
+			model.addObject("resources", gsonObject.toJson(resourcesStr));
+			model.addObject("utilization", gsonObject.toJson(utilization));
 		}
-		
-		List<String[]> chartIntervals = new ArrayList<String[]>();
-		List<int[]> chartCounts = new ArrayList<int[]>();
-		
-		getHistogramValues(kpi.getProcessDurations(), chartIntervals, chartCounts, false);
-		getHistogramValues(kpi.getProcessWaitingTimes(), chartIntervals, chartCounts, false);
-		getHistogramValues(kpi.getProcessCosts(), chartIntervals, chartCounts, true);
-		
-		Gson gsonObject = new Gson();
-		
-		
-		model.addObject("durationIntervals", gsonObject.toJson(chartIntervals.get(0)));
-		model.addObject("waitingTimeIntervals", gsonObject.toJson(chartIntervals.get(1)));
-		model.addObject("costIntervals", gsonObject.toJson(chartIntervals.get(2)));
-		
-		model.addObject("durationCounts", gsonObject.toJson(chartCounts.get(0)));
-		model.addObject("waitingTimeCounts", gsonObject.toJson(chartCounts.get(1)));
-		model.addObject("costCounts", gsonObject.toJson(chartCounts.get(2)));
-		
-		model.addObject("resources", gsonObject.toJson(resourcesStr));
-		model.addObject("utilization", gsonObject.toJson(utilization));
 		
 		model.addObject("enableLogDownload",
 				Boolean.valueOf((String) session.getAttribute("mxmlLog")));
@@ -195,88 +196,95 @@ public class SimulationController {
 
 	private void getHistogramValues(double[] array, List<String[]> intervalList, List<int[]> countList, boolean isCostChart) {
 		
-		double max = array[0];
-		double min = array[0];
-		for (int i=0; i<array.length; i++) {
-			if (array[i] < 0) {
-				array[i] = 0; 
-			}
-			if (array[i] > max) {
-				max = array[i];
-			}
-			if (array[i] < min) {
-				min = array[i];
-			}
-		}
-		
-		int divisor;
-		String unit;
-		
-		if (isCostChart) {
-			divisor = 1;
-			unit = "";
-		}
-		
-		else if (max >= 432000) {
-			divisor = 86400;
-			unit = " days";
-		}
-		else if (max >= 18000) {
-			divisor = 3600;
-			unit = " h";
-		}
-		else if (max >= 300) {
-			divisor = 60;
-			unit = " min";
-		}
-		else {
-			divisor = 1;
-			unit = " s";
-		}
-		
-		double difference = (max-min)/divisor;
-		if (difference == 0) {
+		if (array == null) {
 			intervalList.add(null);
 			countList.add(null);
 			return;
 		}
-		String differenceStr = Long.toString((long) difference);
-		char first = differenceStr.charAt(0);
-		char second = differenceStr.charAt(1);
-		int powerOfTen = differenceStr.length()-1;
-		int interval;
-		
-		if (powerOfTen >= 2 && (first < '2' || first == '2' && second < '5')) {
-			powerOfTen -=2;
-			interval = (int) (25*(Math.pow(10, powerOfTen)));
-		}
-		else if (first < '5') {
-			powerOfTen -= 1;
-			interval = (int) (5*(Math.pow(10, powerOfTen)));
-		}
 		else {
-			interval = (int) (Math.pow(10, powerOfTen));
+			double max = array[0];
+			double min = array[0];
+			for (int i=0; i<array.length; i++) {
+				if (array[i] < 0) {
+					array[i] = 0; 
+				}
+				if (array[i] > max) {
+					max = array[i];
+				}
+				if (array[i] < min) {
+					min = array[i];
+				}
+			}
+			
+			int divisor;
+			String unit;
+			
+			if (isCostChart) {
+				divisor = 1;
+				unit = "";
+			}
+			
+			else if (max >= 432000) {
+				divisor = 86400;
+				unit = " days";
+			}
+			else if (max >= 18000) {
+				divisor = 3600;
+				unit = " h";
+			}
+			else if (max >= 300) {
+				divisor = 60;
+				unit = " min";
+			}
+			else {
+				divisor = 1;
+				unit = " s";
+			}
+			
+			double difference = (max-min)/divisor;
+			if (difference == 0) {
+				intervalList.add(null);
+				countList.add(null);
+				return;
+			}
+			String differenceStr = Long.toString((long) difference);
+			char first = difference > 0 ? differenceStr.charAt(0) : '0';
+			char second = difference >= 10 ? differenceStr.charAt(1) : '0';
+			int powerOfTen = differenceStr.length()-1;
+			int interval;
+			
+			if (powerOfTen >= 2 && (first < '2' || first == '2' && second < '5')) {
+				powerOfTen -=2;
+				interval = (int) (25*(Math.pow(10, powerOfTen)));
+			}
+			else if (first < '5') {
+				powerOfTen -= 1;
+				interval = (int) (5*(Math.pow(10, powerOfTen)));
+			}
+			else {
+				interval = (int) (Math.pow(10, powerOfTen));
+			}
+	
+			int intervalAmount = (int) Math.ceil(difference/interval);
+			
+			
+			int[] counts = new int[intervalAmount];
+			String[] intervals = new String[intervalAmount];
+			int lowest = ((int)(min/divisor/interval))*interval;
+			
+			for (int i=0; i<intervalAmount; i++) {
+				intervals[i] = Integer.toString((int)((lowest + i*interval))) + " - " 
+				+ Integer.toString((int)((lowest + (i+1)*interval))) + unit;
+			}
+	
+			for (double value : array) {
+				int i = (int) ((value-min)/divisor/interval);
+				counts[i] += 1;
+			}
+			
+			intervalList.add(intervals);
+			countList.add(counts);
 		}
-
-		int intervalAmount = (int) Math.ceil(difference/interval);
-		
-		
-		int[] counts = new int[intervalAmount];
-		String[] intervals = new String[intervalAmount];
-		int lowest = ((int)(min/divisor/interval))*interval;
-		
-		for (int i=0; i<intervalAmount; i++) {
-			intervals[i] = Integer.toString((int)((lowest + i*interval))) + " - " 
-			+ Integer.toString((int)((lowest + (i+1)*interval))) + unit;
-		}
-
-		for (double value : array) {
-			int i = (int) ((value-min)/divisor/interval);
-			counts[i] += 1;
-		}
-		
-		intervalList.add(intervals);
-		countList.add(counts);
 	}
 
 	/**
@@ -313,23 +321,63 @@ public class SimulationController {
 			writer.append(',');
 			writer.append("Total duration");
 			writer.append('\n');
-
-			writer.append(String.valueOf(item.getCompletedElements()));
+			
+			if (item.getCompletedElements() != null) {
+				writer.append(String.valueOf(item.getCompletedElements()));
+			}
+			else {
+				writer.append("");
+			}
 			writer.append(',');
-			writer.append(String.valueOf(item.getCompletedProcessInstances()));
+			if (item.getCompletedProcessInstances() != null) {
+				writer.append(String.valueOf(item.getCompletedProcessInstances()));
+			}
+			else {
+				writer.append("");
+			}	
 			writer.append(',');
-			writer.append(String.valueOf(item.getMaxProcessCost()));
+			if (item.getMaxProcessCost() != null) {
+				writer.append(String.valueOf(item.getMaxProcessCost()));
+			}
+			else {
+				writer.append("");
+			}
 			writer.append(',');
-			writer.append(String.valueOf(item.getMaxProcessDuration()));
+			if (item.getMaxProcessDuration() != null) {
+				writer.append(String.valueOf(item.getMaxProcessDuration()));
+			}
+			else {
+				writer.append("");
+			}
 			writer.append(',');
-			writer.append(String.valueOf(item.getMinProcessCost()));
+			if (item.getMinProcessCost() != null) {
+				writer.append(String.valueOf(item.getMinProcessCost()));
+			}
+			else {
+				writer.append("");
+			}
 			writer.append(',');
-			writer.append(String.valueOf(item.getMinProcessDuration()));
+			if (item.getMinProcessDuration() != null) {
+				writer.append(String.valueOf(item.getMinProcessDuration()));
+			}
+			else {
+				writer.append("");
+			}
 			writer.append(',');
-			writer.append(String.valueOf(item.getTotalCost()));
+			if (item.getTotalCost() != null) {
+				writer.append(String.valueOf(item.getTotalCost()));
+			}
+			else {
+				writer.append("");
+			}
 			writer.append(',');
-			writer.append(String.valueOf(item.getTotalDuration()));
-			writer.append('\n');
+			if (item.getTotalDuration() != null) {
+				writer.append(String.valueOf(item.getTotalDuration()));
+			}
+			else {
+				writer.append("");
+			}
+				writer.append('\n');
 
 			writer.append('\n');
 
@@ -345,15 +393,40 @@ public class SimulationController {
 			writer.append('\n');
 
 			for (RepresentableActivity activity : item.getActivities()) {
-				writer.append(activity.getDescription());
+				if (activity.getDescription() != null) {
+					writer.append(activity.getDescription());
+				}
+				else {
+					writer.append("");
+				}
 				writer.append(',');
-				writer.append(activity.getAvgCost());
+				if (activity.getAvgCost() != null) {
+					writer.append(activity.getAvgCost());
+				}
+				else {
+					writer.append("");
+				}
 				writer.append(',');
-				writer.append(activity.getAvgDuration());
+				if (activity.getAvgDuration() != null) {
+					writer.append(activity.getAvgDuration());
+				}
+				else {
+					writer.append("");
+				}
 				writer.append(',');
-				writer.append(activity.getAvgIdle());
+				if (activity.getAvgIdle() != null) {
+					writer.append(activity.getAvgIdle());
+				}
+				else {
+					writer.append("");
+				}
 				writer.append(',');
-				writer.append(activity.getAvgWaiting());
+				if (activity.getAvgWaiting() != null) {
+					writer.append(activity.getAvgWaiting());
+				}
+				else {
+					writer.append("");
+				}
 				writer.append('\n');
 			}
 
