@@ -423,20 +423,20 @@ getStatus = function() {
 				break;
 			case ("ERROR"):
 				clearInterval(timerId);
-				showLoadingError();
+				showLoadingError(data);
 				break;
 			}
 		},
-		error : function(e) {
+		error : function(data) {
 			clearInterval(timerId);
-			showLoadingError();
-			throw e;
+			showLoadingError(data);
+			throw data;
 		}
 
 	});
 };
 
-var showLoadingError = function () {
+var showLoadingError = function (data) {
 	$("#loading").addClass("error");
 	$(".title").text("Simulation ended with an error, please revise your data.");
 	$(".status").text("Error: " + (data.error ?  + data.error : "Unknown error"));

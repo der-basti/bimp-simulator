@@ -631,6 +631,10 @@ h2.toggle-trigger a:active {
 }
 
 #loading .top {
-	border-bottom: 1px solid #EDEDED;
-	box-shadow: 0 1px #fff;
+	border-bottom: 1px solid rgba(190, 190, 190, 0.5);
+	box-shadow: 0 1px rgba(255,255,255,0.5);
+}
+#loading.error .top {
+	border-bottom: 1px solid rgba(220, 220, 220, 1);
+	box-shadow: 0 1px rgba(255,255,255,1);
 }
