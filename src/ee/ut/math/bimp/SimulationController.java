@@ -279,6 +279,9 @@ public class SimulationController {
 	
 			for (double value : array) {
 				int i = (int) ((value-min)/divisor/interval);
+				if (i >= counts.length) {
+					i = counts.length -1;
+				}
 				counts[i] += 1;
 			}
 			
