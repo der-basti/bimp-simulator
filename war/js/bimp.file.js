@@ -62,30 +62,30 @@ bimp.file = {
 			// check, if we have inputfile with siminfo
 			if ($(bimp.parser.xmlFile).find(bimp.parser.prefixEscaped + "startEvent").find(bimp.parser.prefixEscaped + "documentation").size() == 0) {
 				// lets add missing nodes to bpmn file
-				var doc = bimp.parser.xmlFile.createElement(bimp.parser.prefix + "documentation");
+				var ns = bimp.parser.xmlFile.documentElement.getAttribute("xmlns");
+				if (!ns) {
+					ns = "";
+				}
+				var doc = bimp.parser.xmlFile.createElementNS(ns, bimp.parser.prefix + "documentation");
 				doc.setAttribute("id", generateId());
 				var se = $(bimp.parser.xmlFile).find(bimp.parser.prefixEscaped + "startEvent")[0];
 				se.appendChild(doc);
 				$(bimp.parser.xmlFile).find(bimp.parser.prefixEscaped + "task").each(function (i, task) {
-					var doc = bimp.parser.xmlFile.createElement(bimp.parser.prefix + "documentation");
+					var doc = bimp.parser.xmlFile.createElementNS(ns, bimp.parser.prefix + "documentation");
 					doc.setAttribute("id", generateId());
 					task.appendChild(doc);
 				});
 				$(bimp.parser.xmlFile).find(bimp.parser.prefixEscaped + "intermediateCatchEvent").each(function (i, event) {
-					var doc = bimp.parser.xmlFile.createElement(bimp.parser.prefix + "documentation");
+					var doc = bimp.parser.xmlFile.createElementNS(ns, bimp.parser.prefix + "documentation");
 					doc.setAttribute("id", generateId());
 					event.appendChild(doc);
 				});
 				$.each(bimp.parser.conditionExpressions, function(id, element) {
-					var conditionExpression = bimp.parser.xmlFile.createElement(bimp.parser.prefix + "conditionExpression");
+					var conditionExpression = bimp.parser.xmlFile.createElementNS(ns, bimp.parser.prefix + "conditionExpression");
 					conditionExpression.setAttribute("xsi:type", "tFormalExpression");
 					conditionExpression.setAttribute("xmlns:xsi","http://www.w3.org/2001/XMLSchema-instance");
 					var sf = $(bimp.parser.xmlFile).find("#" + id)[0];
 					sf.appendChild(conditionExpression);
-				});
-				// remove all xmlns attributes because it causes simulator's crash.
-				$(bimp.parser.xmlFile).find(bimp.parser.prefixEscaped + "documentation").each(function () {
-					this.removeAttribute("xmlns");
 				});
 			}
 			

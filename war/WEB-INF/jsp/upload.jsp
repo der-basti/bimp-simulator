@@ -76,7 +76,7 @@
 									<th>Arrival rate:</th>
 									<td><select class="type" name="type">
 											<option value="fixed">Fixed</option>
-											<option value="standard">Normal</option>
+											<option value="normal">Normal</option>
 											<option value="exponential">Exponential</option>
 											<option value="uniform">Uniform</option>
 										</select>
@@ -249,7 +249,7 @@
 										<th>Duration: <img src="./css/images/questionmark.png" title="Type of distribution. Can be Fixed, Standard, Exponentia or Uniform."/></th>
 										<td><select class="type" name="type">
 												<option value="fixed">Fixed</option>
-												<option value="standard">Normal</option>
+												<option value="normal">Normal</option>
 												<option value="exponential">Exponential</option>
 												<option value="uniform">Uniform</option>
 											</select>
@@ -323,7 +323,7 @@
 										<th>Duration:</th>
 										<td><select class="type" name="type">
 												<option value="fixed">Fixed</option>
-												<option value="standard">Normal</option>
+												<option value="normal">Normal</option>
 												<option value="exponential">Exponential</option>
 												<option value="uniform">Uniform</option>
 

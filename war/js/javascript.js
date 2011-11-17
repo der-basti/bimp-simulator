@@ -4,64 +4,13 @@ $(document).ready(function () {
 	
 	loadLikeButton(document, 'script', 'facebook-jssdk');
 	removeLastButton();
-	
-	validate = {
-			  fixedCost: {
-				  "class": ".fixedCost",
-				  regexp: "^([0-9]+|[0-9]+(\\.[0-9]+))$",
-				  msg: "For decimal place, use a point!"
-			  },
-			  instances: {
-				  "class": ".instances",
-				  required: true,
-				  regexp: "^[0-9]+$",
-				  msg: "This field has to be an integer!"
-			  },
-			  name: {
-				  "class": ".resources .name",
-				  required: true
-			  },
-			  amount: {
-				  "class": ".amount",
-				  required: true,
-				  regexp: "^[0-9]+$",
-				  msg: "This field has to be an integer!"
-			  },
-			  costPerHour: {
-				  "class": ".costPerHour",
-				  regexp: "^([0-9]+|[0-9]+(\\.[0-9]+))$",
-				  msg: "For decimal place, use a point!"
-			  },
-			  probability: {
-				  "class": ".probability",
-				  regexp: "^((100)|([0-9]{0,2})|[0-9]{0,2}(\\.[0-9]{0,2}))$",
-				  msg: "Invalid percentage!"
-			  }  
-			};
-	
 	$.each(validate, function(name, content) {
 		$("body").delegate(validate[name]["class"], "change", function() {
-			if(validate[name].regexp && !(new XRegExp(validate[name].regexp)).test($(this).val())) {
-				if(!$(this).next().hasClass("error")){
-					$(this).after(errorTooltip(validate[name].msg, this));				
-				}
-			} else {
-				if($(this).next().hasClass("error")) {
-					$(this).next().remove();
-				}
-			}
+			validate.validateField(this, name);
 		});
 		
 		$("body").delegate(validate[name]["class"], "keyup", function() {
-			if(validate[name].regexp && !(new XRegExp(validate[name].regexp)).test($(this).val())) {
-				if(!$(this).next().hasClass("error")){
-					$(this).after(errorTooltip(validate[name].msg, this));	
-				}
-			} else {
-				if($(this).next().hasClass("error")) {
-					$(this).next().remove();
-				}
-			}
+			validate.validateField(this, name);
 		});
 	});
 	
@@ -69,17 +18,6 @@ $(document).ready(function () {
 		validateXOR(this);
 	});
 
-	$('body').delegate(".instances", "keyup", function () {
-		//TODO:
-		//For future reference, this overwrites the regexp validation
-		validateMaxValues();
-	});
-	$('body').delegate(".instances", "change", function () {
-		//TODO:
-		//For future reference, this overwrites the regexp validation
-		validateMaxValues();
-	});
-	
 	$(".resources .add").click(function () {
 		var row = $(this).parents().find(".resources").find(".resource:first").clone(true);
 		$(row).find("input").each(function () {
@@ -391,7 +329,7 @@ var updateTypeSelection = function (element) {
 	// update the fields to be show for selected duration option values
 	var show = {
 			fixed : "value",
-			standard : "mean,stdev",
+			normal : "mean,stdev",
 			uniform : "min,max",
 			exponential : "mean"
 	};
@@ -407,8 +345,8 @@ var openLoadingModal = function () {
 	$("body").append("<div id='modal-bg'></div>");
 	$("body").append("<div id='loading'>" +
 			"<div class='close'><span>x</span></div>" +
-			"<h2 class='title'>Running your simulation, please wait</h2>" +
-			"<span class='status'>Status</span>" +
+			"<div class='top'><h2 class='title'>Running your simulation, please wait</h2></div>" +
+			"<div><span class='status'>Status</span></div>" +
 			"<div class='progressBarContainer'><div class='progressBar'></div></div>" +
 			"<h2 class='progress'>Progress</h2>" +
 			"</div>");
@@ -464,7 +402,7 @@ getStatus = function() {
 				break;
 			case ("FINALIZING"):
 				$(".progressBarContainer").fadeOut();
-				if (pointCount < 3) {
+				if (pointCount < 4) {
 					$(".status").text(data.status + " and writing logs" + generateXCharacters(pointCount, "."));
 					pointCount += 1;
 				} else {
@@ -485,19 +423,24 @@ getStatus = function() {
 				break;
 			case ("ERROR"):
 				clearInterval(timerId);
-				$("#loading").addClass("error");
-				$(".title").text("Simulation ended with an error, please revise your data.");
-				$(".status").text("Error: " + (data.error ?  + data.error : "Unknown error"));
-				$(".close").show();
+				showLoadingError();
 				break;
 			}
 		},
 		error : function(e) {
 			clearInterval(timerId);
+			showLoadingError();
 			throw e;
 		}
 
 	});
+};
+
+var showLoadingError = function () {
+	$("#loading").addClass("error");
+	$(".title").text("Simulation ended with an error, please revise your data.");
+	$(".status").text("Error: " + (data.error ?  + data.error : "Unknown error"));
+	$(".close").show();
 };
 
 var preloadTaskResources = function () {
@@ -674,30 +617,18 @@ function validateRequiredFields() {
 	});
 }
 
-function validateMaxValues() {
-	if($(".instances").val() > 100000) {
-		if($(".instances").next().hasClass("error")) {
-			$(".instances").next().remove();
-		}
-		$(".instances").after(errorTooltip('The maximum allowed number of instances is 100000!', $(".instances")));
-	} else if($(".instances").val() > 10000 && $("#mxmlLog").is(':checked')) {
-		if($(".instances").next().hasClass("error")) {
-			$(".instances").next().remove();
-		}
-		$(".instances").after(errorTooltip('You selected logging - The maximum allowed number of instances is 10000!', $(".instances")));
-		return false;
-	} else {
-		if($(".instances").next().hasClass("error")) {
-			$(".instances").next().remove();
-		}
-		return true;
-	}
+function validateFields() {
+	$.each(validate, function(name, content) {
+		$(validate[name]["class"]).each(function () {
+			validate.validateField(this, name);
+		});
+	});
 }
 
 function validateForm() {
 	validateXORs();
 	validateRequiredFields();
-	validateMaxValues();
+	validateFields();
 	if($(".error").size() == 0) {
 		return true;
 	} else {
@@ -727,3 +658,77 @@ function errorTooltip(msg, field) {
 	$(div).addClass('error');
 	return div;
 }
+
+validate = {
+		validateField : function (element, name) {
+			if(validate[name].regexp && !(new XRegExp(validate[name].regexp)).test($(element).val())) {
+				if($(element).next().hasClass("error")){
+					$(element).next().remove();
+				}
+				$(element).after(errorTooltip(validate[name].msg, element));				
+			} else if (validate[name].custom && !validate[name].custom($(element).val())) {
+				if($(element).next().hasClass("error")){
+					$(element).next().remove();
+				}
+				$(element).after(errorTooltip(validate[name].customMsg, element));				
+			} else {
+				if($(element).next().hasClass("error")) {
+					$(element).next().remove();
+				}
+			}
+		},
+		  fixedCost: {
+			  "class": ".fixedCost",
+			  regexp: "^([0-9]*|[0-9]+(\\.[0-9]+))$",
+			  msg: "For decimal place, use a point!"
+		  },
+		  instances: {
+			  "class": ".instances",
+			  required: true,
+			  regexp: "^[0-9]+$",
+			  custom: function (value) {
+				  try {
+					  var val = Number(value);
+				  if(val > 100000) {
+					  validate.instances.customMsg = validate.instances.msg2;
+					  return false;
+					} else if(val > 10000 && $("#mxmlLog").is(':checked')) {
+						validate.instances.customMsg = validate.instances.msg3;
+						return false;
+					} else if (val < 1){
+						validate.instances.customMsg = validate.instances.msg;
+						return false;
+					} else {
+						return true;
+					}
+				  } catch (e) {
+					  validate.instances.customMsg = validate.instances.msg;
+					  return false;
+				  }
+			  },
+			  msg: "This field has to be a positive integer!",
+			  customMsg: "",
+			  msg2: "The maximum allowed number of instances is 100000!",
+			  msg3: "You selected logging - The maximum allowed number of instances is 10000!",
+		  },
+		  name: {
+			  "class": ".resources .name",
+			  required: true
+		  },
+		  amount: {
+			  "class": ".amount",
+			  required: true,
+			  regexp: "^[0-9]+$",
+			  msg: "This field has to be a positive integer!"
+		  },
+		  costPerHour: {
+			  "class": ".costPerHour",
+			  regexp: "^([0-9]*|[0-9]+(\\.[0-9]+))$",
+			  msg: "For decimal place, use a point!"
+		  },
+		  probability: {
+			  "class": ".probability",
+			  regexp: "^((100)|([0-9]{0,2})|[0-9]{0,2}(\\.[0-9]{0,2}))$",
+			  msg: "Invalid percentage!"
+		  }  
+		};
