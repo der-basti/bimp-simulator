@@ -66,22 +66,52 @@ bimp.file = {
 				if (!ns) {
 					ns = "";
 				}
-				var doc = bimp.parser.xmlFile.createElementNS(ns, bimp.parser.prefix + "documentation");
+				var doc = "";
+				try {
+					doc = bimp.parser.xmlFile.createElementNS(ns, bimp.parser.prefix + "documentation");
+				} catch (e) {
+					if (console && console.log) {
+						console.log("Unable to add documentation tags due to namespace issues, trying fallback..");
+					}
+					doc = bimp.parser.xmlFile.createElement(bimp.parser.prefix + "documentation");
+				} 
 				doc.setAttribute("id", generateId());
 				var se = $(bimp.parser.xmlFile).find(bimp.parser.prefixEscaped + "startEvent")[0];
 				se.appendChild(doc);
 				$(bimp.parser.xmlFile).find(bimp.parser.prefixEscaped + "task").each(function (i, task) {
-					var doc = bimp.parser.xmlFile.createElementNS(ns, bimp.parser.prefix + "documentation");
+					try {
+						doc = bimp.parser.xmlFile.createElementNS(ns, bimp.parser.prefix + "documentation");
+					} catch (e) {
+						if (console && console.log) {
+							console.log("Unable to add documentation tags due to namespace issues, trying fallback..");
+						}
+						doc = bimp.parser.xmlFile.createElement(bimp.parser.prefix + "documentation");
+					} 
 					doc.setAttribute("id", generateId());
 					task.appendChild(doc);
 				});
 				$(bimp.parser.xmlFile).find(bimp.parser.prefixEscaped + "intermediateCatchEvent").each(function (i, event) {
-					var doc = bimp.parser.xmlFile.createElementNS(ns, bimp.parser.prefix + "documentation");
+					try {
+						doc = bimp.parser.xmlFile.createElementNS(ns, bimp.parser.prefix + "documentation");
+					} catch (e) {
+						if (console && console.log) {
+							console.log("Unable to add documentation tags due to namespace issues, trying fallback..");
+						}
+						doc = bimp.parser.xmlFile.createElement(bimp.parser.prefix + "documentation");
+					} 
 					doc.setAttribute("id", generateId());
 					event.appendChild(doc);
 				});
 				$.each(bimp.parser.conditionExpressions, function(id, element) {
-					var conditionExpression = bimp.parser.xmlFile.createElementNS(ns, bimp.parser.prefix + "conditionExpression");
+					var conditionExpression = "";
+					try {
+						conditionExpression = bimp.parser.xmlFile.createElementNS(ns, bimp.parser.prefix + "conditionExpression");
+					} catch (e) {
+						if (console && console.log) {
+							console.log("Unable to add documentation tags due to namespace issues, trying fallback..");
+						}
+						conditionExpression = bimp.parser.xmlFile.createElement(bimp.parser.prefix + "conditionExpression");
+					} 
 					conditionExpression.setAttribute("xsi:type", "tFormalExpression");
 					conditionExpression.setAttribute("xmlns:xsi","http://www.w3.org/2001/XMLSchema-instance");
 					var sf = $(bimp.parser.xmlFile).find("#" + id)[0];

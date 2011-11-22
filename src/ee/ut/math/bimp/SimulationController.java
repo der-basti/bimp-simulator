@@ -69,6 +69,7 @@ public class SimulationController {
 			} else {
 				status = "ERROR";
 				json.put("error", simulation.getException().getMessage());
+				log.error(simulation.getException().getMessage());
 			}
 			if (status.equals(null)) {
 				status = "RUNNING";

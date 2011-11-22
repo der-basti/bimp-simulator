@@ -93,8 +93,14 @@ bimp.parser = {
 		var doc = $(this.xmlFile).find(bimp.parser.prefixEscaped + "startEvent").find(bimp.parser.prefixEscaped + "documentation");
 		if (doc.length > 0) {
 			//console.log("Found startEvent and added it");
-			var simInfo = $.parseJSON(doc.text());
-			$.extend(true, this.startEvent, simInfo);
+			try {
+				var simInfo = $.parseJSON(doc.text());
+				$.extend(true, this.startEvent, simInfo);
+			} catch (e) {
+				if (console && console.log) {
+					console.log("Documentation tag contains invalid JSON, ignoring it", e)
+				}
+			}
 		} else {
 			//console.log("No documentation info found for startEvent");
 			// checking for resources defined with pools and lanes
@@ -115,7 +121,13 @@ bimp.parser = {
 			var data = $(task).find(bimp.parser.prefixEscaped + "documentation");
 			var taskObj = {};
 			if (data.length > 0) {
-				taskObj = $.parseJSON($(data).text());
+				try {
+					taskObj = $.parseJSON($(data).text());
+				} catch (e) {
+					if (console && console.log) {
+						console.log("Documentation tag contains invalid JSON, ignoring it", e)
+					}
+				}
 			}
 			var id = task.getAttribute("id");
 			var name = {
@@ -135,7 +147,13 @@ bimp.parser = {
 			var data = $(event).find(bimp.parser.prefixEscaped + "documentation");
 			var catchEventObj = {};
 			if (data.length > 0) {
-				catchEventObj = $.parseJSON($(data).text());
+				try {
+					catchEventObj = $.parseJSON($(data).text());
+				} catch (e) {
+					if (console && console.log) {
+						console.log("Documentation tag contains invalid JSON, ignoring it", e)
+					}
+				}
 			}
 			var id = event.getAttribute("id");
 			var name = {
@@ -160,7 +178,7 @@ bimp.parser = {
 				var conditionExpression = $(sequenceFlow).find(bimp.parser.prefixEscaped + "conditionExpression");
 				var value = "";
 				if (conditionExpression.length > 0) {
-					value = conditionExpression[0].textContent;
+					value = Number(conditionExpression[0].textContent) ? conditionExpression[0].textContent : 0;
 				}
 				//console.log("Found conditionExpression and added it");
 				var targetRef = sequenceFlow.getAttribute("targetRef");

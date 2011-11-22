@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 
@@ -91,8 +92,10 @@ public class FileUploadController {
 					log.error("Could not find file", e);
 				}
 				PrintStream ps = new PrintStream(fout);
-				ps.print(fileData);
-				ps.close();
+				OutputStreamWriter out = new OutputStreamWriter(ps, "UTF-8");
+				out.write(fileData);
+				out.flush();
+				out.close();
 				log.info("Uploaded file: " + ff.getAbsolutePath());
 				String fileName = ff.getName();
 				String[] al = fileName.split("\\.");

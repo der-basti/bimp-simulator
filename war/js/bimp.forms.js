@@ -9,6 +9,7 @@ bimp.forms = {
 				this.intermediateCatchEvents();
 				bimp.forms.groupGateways();
 				bimp.forms.setDefaultXORValues();
+				updateResourceDropdowns();
 				removeLastButton();
 				$(".currencyText").text($(".currency").val());
 				$(".timepicker").timepicker({timeFormat:"hh:mm:ss"});
@@ -96,8 +97,8 @@ bimp.forms = {
 			},
 			conditionExpressions : function () {
 				if (!bimp.parser.hasConditionExpressions) {
-					$(".gateways").parent().hide();
-					$(".gateways").parent().prev().hide();
+					$(".gateways").parent().remove();
+					$(".gateways").parent().prev().remove();
 				} else {
 					$.each(bimp.parser.conditionExpressions, function(id, ce) {
 						bimp.forms.generate.conditionExpression(id, ce);
@@ -117,7 +118,7 @@ bimp.forms = {
 			intermediateCatchEvents : function() {
 				// if we have no intermediateEvents, then hide the div and h2
 				if (!bimp.parser.hasIntermediatecatchEvents) {
-					$(".intermediateCatchEvent").hide();
+					$(".intermediateCatchEvent").remove();
 				} else {
 					$.each(bimp.parser.intermediateCatchEvents, function(id, ice) {
 						bimp.forms.generate.intermediateCatchEvent(id, ice);
@@ -213,8 +214,10 @@ bimp.forms = {
 				var resources = $(".resources .resource");
 				bimp.parser.startEvent.resources = {};
 				$(resources).each( function(index, element) {
+					var cost = $(element).find(".costPerHour").val() === "" ? 0 : $(element).find(".costPerHour").val();
+					var amount = $(element).find(".amount").val() === "" ? 1 : $(element).find(".amount").val(); 
 					bimp.parser.startEvent.addResource($(element).attr("data-id"), 
-							$(element).find(".name").val(), $(element).find(".costPerHour").val(), $(element).find(".amount").val());
+							$(element).find(".name").val(), cost, amount);
 				});
 			},
 			timetable : function () {
