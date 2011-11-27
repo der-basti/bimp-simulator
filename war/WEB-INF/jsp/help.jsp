@@ -34,12 +34,11 @@
 			gain higher customer 
 			satisfaction, product or service quality, delivery and time-to-market speed. This kind of goal can be 
 			achieved using a systematic approach called business process management (henceforth BPM for short). 
-			Many commercial state of the art business process modeling tools incorporate a simulation component, 
-			e.g. IBM Websphere Business Modeler, Savvion Process Modeler and others. However, these process 
-			simulators are often slow, cannot simulate complex real-life business processes and sometimes cannot 
-			even deal with large-scale simulations. The simulator is designed and implemented from scratch in the 
-			Java programming language and it will support the simulation of business process models defined in the 
-			BPMN 2.0 standard.</p>
+			Many commercial state of the art business process modeling tools incorporate a simulation component. 
+			However, these process simulators are often slow, cannot simulate complex real-life business processes 
+			and sometimes cannot even deal with large-scale simulations. The simulator is designed and implemented 
+			from scratch in the Java programming language and it will support the simulation of business process 
+			models defined in the BPMN 2.0 standard.</p>
 			</div>
 			<div class="help-text" id="bimp2-help">
 			<H1>BPMN 2.0</H1>
