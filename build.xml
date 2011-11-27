@@ -25,18 +25,7 @@
 		<pathelement location="${tomcat.home}/bin/tomcat-juli.jar" />
 	</path>
 
-	<!--<target name="compile" depends="clean" description="compile *.java => *.class">
-		<mkdir dir="${classes.dir}" />
-		<mkdir dir="${junit.classes.dir}" />
-		<javac srcdir="${src.dir}" destdir="${classes.dir}" encoding="UTF8">
-			<classpath refid="build.class.path" />
-		</javac>
-		<javac srcdir="${junit.src.dir}" destdir="${junit.classes.dir}" encoding="UTF8">
-			<classpath refid="build.class.path" />
-		</javac>
-	</target>-->
-
-	<target name="build" description="Build the system">
+	<target name="build" description="Build the system" depends="copy-libs">
 		<mkdir dir="${build.dir}" />
 		<mkdir dir="${build.classes.dir}" />
 		<mkdir dir="${war.classes.dir}" />
@@ -49,6 +38,7 @@
 			<fileset dir="${build.classes.dir}">
 			</fileset>
 		</copy>
+		<copy file="${src.dir}/log4j.xml" todir="${build.classes.dir}" />
 	</target>
 
 	<target name="war" depends="build">
@@ -74,16 +64,26 @@
 		</copy>
 
 	</target>
-	<target name="all" depends="stop-tomcat,unzip-tomcat,copy-confs,build,start-tomcat">
+	<target name="all" depends="stop-tomcat,unzip-tomcat,build,start-tomcat">
 
 	</target>
 
 	<target name="clean" description="Clean up build system results">
 		<delete dir="${build.dir}" />
 		<delete dir="${war.classes.dir}" />
+		<delete dir="${lib.war.dir}" />
+	</target>
+	
+	<target name="copy-libs">
+		<mkdir dir="${lib.war.dir}"/>
+		<copy todir="${lib.war.dir}">
+			<fileset dir="${lib.dir}">
+				<exclude name="servlet-api.jar"/>
+			</fileset>
+		</copy>
 	</target>
 
-	<target name="start-tomcat">
+	<target name="start-tomcat" depends="copy-confs">
 		<java classname="org.apache.catalina.startup.Bootstrap" fork="true" spawn="true" classpathref="tomcat.class.path">
 			<jvmarg value="-Dcatalina.home=${tomcat.home}" />
 			<arg line="start" />

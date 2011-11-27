@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF8"
     pageEncoding="UTF8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 		<div id="resultsPage" class="contents gill-font">
 			<button id="backToEditData" class="button">Back to edit data</button>	
