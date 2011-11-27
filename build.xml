@@ -43,7 +43,7 @@
 
 	<target name="war" depends="build">
 		<mkdir dir="${dist.dir}" />
-		<zip destfile="${dist.dir}/${app.name}-${app.version}.war" basedir="${war.dir}" update="true" />
+		<zip destfile="${dist.dir}/${app.name}.war" basedir="${war.dir}" update="true" />
 
 		<!--<war destfile="${app.name}-${app.version}.war">
 		  <fileset dir="${src.dir}"/>
