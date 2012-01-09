@@ -15,7 +15,7 @@ bimp.file = {
 			//console.log("Parsing file: ", file);
 			try {
 				var reader = new FileReader();
-				reader.readAsText(this.inputFiles[0]);
+				reader.readAsText(file);
 				reader.onloadend = function (e) {
 					try {
 						bimp.file.xmlFile = $.parseXML(e.target.result);
@@ -34,18 +34,22 @@ bimp.file = {
 						if($(bimp.file.xmlFile).find(bimp.parser.prefixEscaped + "startEvent").size() == 0) {
 							throw "No start event found!";
 						}
-						$("#fileName").text(bimp.file.inputFiles[0].name + " is selected.");
-						$(".currentFileName").text(bimp.file.inputFiles[0].name);
+						if (bimp.file.inputFiles[0]) {
+							$("#fileName").text(bimp.file.inputFiles[0].name + " is selected.");
+							$(".currentFileName").text(bimp.file.inputFiles[0].name);
+						}
 						$("#continue-button").attr("disabled", false);
 					} catch (e) {
-						alert("Error parsing file, please provide a valid file.");
+//						alert("Error parsing file, please provide a valid file.");
 						console.log(e);
+						throw "Invalid file";
 					}
 				};
 				
 			} catch (e) {
-				alert("Error reading file, please provide valid file.", e);
+//				alert("Error reading file, please provide valid file.", e);
 				console.log(e);
+				throw "Invalid file";
 			}
 		},
 		uploadFile : function () {

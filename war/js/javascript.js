@@ -64,24 +64,8 @@ $(document).ready(function () {
 	
 	$("#continue-button").click(function() {
 		$("#continue-button").attr("disabled", true);
-		bimp.parser.init();
 		try {
-			bimp.parser.start();
-			$("#instructions").hide();
-			$("#upload-area").fadeOut(400, function() {
-				$("#data-input").fadeIn(400, (function() {
-					$("#startSimulationButton").fadeIn(400);
-					$("#logCheckBox").fadeIn(1000);
-					$(".toggle-div :input[title]").tooltip({
-						position: "top right",
-						effect: "fade"
-					});
-					$(".toggle-div img[title]").tooltip({
-						position: "top right",
-						effect: "fade"
-					});
-				}));
-			});
+			showForm(400);
 		} catch (e) {
 			alert("File not valid");
 			if (console) {
@@ -279,6 +263,26 @@ $(document).ready(function () {
 });
 
 var timeTableRow;
+
+var showForm = function (delay) {
+	bimp.parser.init();
+	bimp.parser.start();
+	$("#instructions").hide();
+	$("#upload-area").fadeOut(delay, function() {
+		$("#data-input").fadeIn(delay, (function() {
+			$("#startSimulationButton").fadeIn(delay);
+			$("#logCheckBox").fadeIn(delay);
+			$(".toggle-div :input[title]").tooltip({
+				position: "top right",
+				effect: "fade"
+			});
+			$(".toggle-div img[title]").tooltip({
+				position: "top right",
+				effect: "fade"
+			});
+		}));
+	});
+};
 
 var areAllExpanded = function () {
 	var result = true;

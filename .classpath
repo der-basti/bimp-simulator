@@ -44,5 +44,38 @@
 	<classpathentry kind="lib" path="lib/rpst2.jar"/>
 	<classpathentry kind="lib" path="lib/servlet-api.jar"/>
 	<classpathentry kind="lib" path="lib/standard.jar"/>
+	<classpathentry kind="lib" path="test/lib/apache-mime4j-0.6.jar"/>
+	<classpathentry kind="lib" path="test/lib/bsh-1.3.0.jar"/>
+	<classpathentry kind="lib" path="test/lib/cglib-nodep-2.1_3.jar"/>
+	<classpathentry kind="lib" path="test/lib/commons-codec-1.4.jar"/>
+	<classpathentry kind="lib" path="test/lib/commons-collections-3.2.1.jar"/>
+	<classpathentry kind="lib" path="test/lib/commons-exec-1.1.jar"/>
+	<classpathentry kind="lib" path="test/lib/commons-io-2.0.1.jar"/>
+	<classpathentry kind="lib" path="test/lib/commons-jxpath-1.3.jar"/>
+	<classpathentry kind="lib" path="test/lib/commons-lang-2.6.jar"/>
+	<classpathentry kind="lib" path="test/lib/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="test/lib/cssparser-0.9.5.jar"/>
+	<classpathentry kind="lib" path="test/lib/guava-10.0.1.jar"/>
+	<classpathentry kind="lib" path="test/lib/hamcrest-all-1.1.jar"/>
+	<classpathentry kind="lib" path="test/lib/htmlunit-2.9.jar"/>
+	<classpathentry kind="lib" path="test/lib/htmlunit-core-js-2.9.jar"/>
+	<classpathentry kind="lib" path="test/lib/httpclient-4.1.2.jar"/>
+	<classpathentry kind="lib" path="test/lib/httpcore-4.1.3.jar"/>
+	<classpathentry kind="lib" path="test/lib/httpmime-4.1.2.jar"/>
+	<classpathentry kind="lib" path="test/lib/jcommander-1.13.jar"/>
+	<classpathentry kind="lib" path="test/lib/jna-3.3.0.jar"/>
+	<classpathentry kind="lib" path="test/lib/json-20080701.jar"/>
+	<classpathentry kind="lib" path="test/lib/junit-dep-4.10.jar"/>
+	<classpathentry kind="lib" path="test/lib/nekohtml-1.9.15.jar"/>
+	<classpathentry kind="lib" path="test/lib/operadriver-v0.8.1.jar"/>
+	<classpathentry kind="lib" path="test/lib/protobuf-java-2.4.1.jar"/>
+	<classpathentry kind="lib" path="test/lib/sac-1.3.jar"/>
+	<classpathentry kind="lib" path="test/lib/selenium-java-2.14.0-srcs.jar"/>
+	<classpathentry kind="lib" path="test/lib/selenium-java-2.14.0.jar"/>
+	<classpathentry kind="lib" path="test/lib/serializer-2.7.1.jar"/>
+	<classpathentry kind="lib" path="test/lib/testng-6.0.1-nobsh-noguice.jar"/>
+	<classpathentry kind="lib" path="test/lib/xalan-2.7.1.jar"/>
+	<classpathentry kind="lib" path="test/lib/xercesImpl-2.9.1.jar"/>
+	<classpathentry kind="lib" path="test/lib/xml-apis-1.3.04.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
