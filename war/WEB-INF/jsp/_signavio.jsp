@@ -1,20 +1,23 @@
+<input type="hidden" id="signavioFile" value='${xmlFile}'/>
 <script type="text/javascript">
 	$(document).ready(function () {
-		var signavioXmlFile = ${xmlFile};
-		var referer = ${referer};
+		var signavioXmlFile = $("#signavioFile").val();
+		var referer = "${referer}";
 		try {
-			bimp.file.parseFile(signavioXmlFile);
+			console.log("loading signavio xml");
+			bimp.file.readTextToDocument(signavioXmlFile);
 			try {
+				console.log("showing form");
 				showForm(0);
 			} catch (e) {
 				console.log(e);
 				alert("invalid model");
-				document.location(referer);
+				document.location = referer;
 			}
 		} catch (e) {
 			console.log(e);
 			alert("invalid file");
-			document.location(referer);
+			document.location = referer;
 		}
 	});
 </script>

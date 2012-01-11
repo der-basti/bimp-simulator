@@ -18,27 +18,7 @@ bimp.file = {
 				reader.readAsText(file);
 				reader.onloadend = function (e) {
 					try {
-						bimp.file.xmlFile = $.parseXML(e.target.result);
-						if ($(bimp.file.xmlFile)[0].documentElement.prefix) {
-							bimp.parser.prefix = $(bimp.file.xmlFile)[0].documentElement.prefix + ":";
-							bimp.parser.prefixEscaped = $(bimp.file.xmlFile)[0].documentElement.prefix + "\\:";
-							bimp.parser.prefixForDocumenation = (bimp.parser.prefixEscaped) ? bimp.parser.prefixEscaped:"";
-							bimp.parser.prefix = bimp.parser.prefix ? bimp.parser.prefix : "";
-							// check if we need to use prefixEscaped for chrome or not
-							if ($(bimp.file.xmlFile).find(bimp.parser.prefixEscaped + "startEvent").size() < $(bimp.file.xmlFile).find("startEvent").size()) {
-								// if we need to use prefix (we get results) then use it, otherwise don't
-								bimp.parser.prefixEscaped = "";
-							}
-						}
-						//console.log("Parse success..");
-						if($(bimp.file.xmlFile).find(bimp.parser.prefixEscaped + "startEvent").size() == 0) {
-							throw "No start event found!";
-						}
-						if (bimp.file.inputFiles[0]) {
-							$("#fileName").text(bimp.file.inputFiles[0].name + " is selected.");
-							$(".currentFileName").text(bimp.file.inputFiles[0].name);
-						}
-						$("#continue-button").attr("disabled", false);
+						bimp.file.readTextToDocument(e.target.result);
 					} catch (e) {
 //						alert("Error parsing file, please provide a valid file.");
 						console.log(e);
@@ -51,6 +31,29 @@ bimp.file = {
 				console.log(e);
 				throw "Invalid file";
 			}
+		},
+		readTextToDocument: function (text) {
+			bimp.file.xmlFile = $.parseXML(text);
+			if ($(bimp.file.xmlFile)[0].documentElement.prefix) {
+				bimp.parser.prefix = $(bimp.file.xmlFile)[0].documentElement.prefix + ":";
+				bimp.parser.prefixEscaped = $(bimp.file.xmlFile)[0].documentElement.prefix + "\\:";
+				bimp.parser.prefixForDocumenation = (bimp.parser.prefixEscaped) ? bimp.parser.prefixEscaped:"";
+				bimp.parser.prefix = bimp.parser.prefix ? bimp.parser.prefix : "";
+				// check if we need to use prefixEscaped for chrome or not
+				if ($(bimp.file.xmlFile).find(bimp.parser.prefixEscaped + "startEvent").size() < $(bimp.file.xmlFile).find("startEvent").size()) {
+					// if we need to use prefix (we get results) then use it, otherwise don't
+					bimp.parser.prefixEscaped = "";
+				}
+			}
+			//console.log("Parse success..");
+			if($(bimp.file.xmlFile).find(bimp.parser.prefixEscaped + "startEvent").size() == 0) {
+				throw "No start event found!";
+			}
+			if (bimp.file.inputFiles[0]) {
+				$("#fileName").text(bimp.file.inputFiles[0].name + " is selected.");
+				$(".currentFileName").text(bimp.file.inputFiles[0].name);
+			}
+			$("#continue-button").attr("disabled", false);
 		},
 		uploadFile : function () {
 			$.post("/uploadjson", {"mxmlLog": $("#mxmlLog").is(':checked'),"fileData": new XMLSerializer().serializeToString(bimp.parser.xmlFile)}, function (data) {
