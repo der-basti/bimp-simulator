@@ -22,14 +22,14 @@ bimp.file = {
 					} catch (e) {
 //						alert("Error parsing file, please provide a valid file.");
 						console.log(e);
-						throw "Invalid file";
+						throw new Error("Invalid file");
 					}
 				};
 				
 			} catch (e) {
 //				alert("Error reading file, please provide valid file.", e);
 				console.log(e);
-				throw "Invalid file";
+				throw new Error("Invalid file");
 			}
 		},
 		readTextToDocument: function (text) {
