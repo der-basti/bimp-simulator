@@ -4,6 +4,7 @@ bimp.parser = {
 	prefix : "",
 	prefixForDocumenation : "",
 	start : function () {
+		this.init();
 		this.readStartEvent();
 		this.readTasks();
 		this.readIntermediateCatchEvents();
@@ -90,6 +91,7 @@ bimp.parser = {
 
 	},
 	readStartEvent : function() {
+		$("body").trigger(bimp.testutil.config.startEvent, ["readStartEvent"]);
 		var doc = $(this.xmlFile).find(bimp.parser.prefixEscaped + "startEvent").find(bimp.parser.prefixEscaped + "documentation");
 		if (doc.length > 0) {
 			//console.log("Found startEvent and added it");
@@ -98,7 +100,7 @@ bimp.parser = {
 				$.extend(true, this.startEvent, simInfo);
 			} catch (e) {
 				if (console && console.log) {
-					console.log("Documentation tag contains invalid JSON, ignoring it", e)
+					console.log("Documentation tag contains invalid JSON, ignoring it", e);
 				}
 			}
 		} else {
@@ -112,9 +114,11 @@ bimp.parser = {
 				bimp.parser.startEvent.addResource(id, name);
 			});
 		}
+		$("body").trigger(bimp.testutil.config.endEvent, ["readStartEvent"]);
 		return true;
 	},
 	readTasks : function() {
+		$("body").trigger(bimp.testutil.config.startEvent, ["readTasks"]);
 		var tasks = $(this.xmlFile).find(bimp.parser.prefixEscaped + "task");
 		//console.log("Found",tasks.length,"tasks");
 		$(tasks).each(function(index, task){
@@ -137,9 +141,11 @@ bimp.parser = {
 			bimp.parser.addTask(id, taskObj);
 			//console.log("Added task", name," with id =", id);
 		});
+		$("body").trigger(bimp.testutil.config.endEvent, ["readTasks"]);
 		return true;
 	},
 	readIntermediateCatchEvents : function() {
+		$("body").trigger(bimp.testutil.config.startEvent, ["readIntermediateCatchEvents"]);
 		var events = $(this.xmlFile).find(bimp.parser.prefixEscaped + "intermediateCatchEvent");
 		//console.log("Found", events.length, "intermediateCatchEvents");
 		$(events).each(function(index, event){
@@ -163,9 +169,12 @@ bimp.parser = {
 			bimp.parser.addIntermediateCatchEvent(id, catchEventObj);
 			//console.log("Added catchEvent with id =", id);
 		});
+
+		$("body").trigger(bimp.testutil.config.endEvent, ["readIntermediateCatchEvents"]);
 		return true;
 	},
 	readConditionExpressions : function() {
+		$("body").trigger(bimp.testutil.config.startEvent, ["readConditionExpressions"]);
 		sequenceFlows = $(this.xmlFile).find(bimp.parser.prefixEscaped + "sequenceFlow");
 		// finds sequenceflows where sourceRef is XOR or OR split gateway 
 		// gatewayDirection="diverging" or gatewayDirection="mixed";
@@ -195,6 +204,7 @@ bimp.parser = {
 				bimp.parser.conditionExpressions[id] = ce;
 			}
 		});
+		$("body").trigger(bimp.testutil.config.endEvent, ["readConditionExpressions"]);
 		return true;
 	},
 	findSplitGateway : function(id) {

@@ -33,7 +33,7 @@ bimp.file = {
 			}
 		},
 		readTextToDocument: function (text) {
-			$("body").trigger(bimp.testutil.config.startedEvent, ["readTextToDecument"]);
+			$("body").trigger(bimp.testutil.config.startEvent, ["readTextToDocument"]);
 			bimp.file.xmlFile = $.parseXML(text);
 			if ($(bimp.file.xmlFile)[0].documentElement.prefix) {
 				bimp.parser.prefix = $(bimp.file.xmlFile)[0].documentElement.prefix + ":";
@@ -55,19 +55,24 @@ bimp.file = {
 				$(".currentFileName").text(bimp.file.inputFiles[0].name);
 			}
 			$("#continue-button").attr("disabled", false);
-			$("body").trigger(bimp.testutil.config.endEvent, ["readTextToDecument"]);
+			$("body").trigger(bimp.testutil.config.endEvent, ["readTextToDocument"]);
 		},
 		uploadFile : function () {
+			$("body").trigger(bimp.testutil.config.startEvent, ["uploadFile"]);
 			$.post("/uploadjson", {"mxmlLog": $("#mxmlLog").is(':checked'),"fileData": new XMLSerializer().serializeToString(bimp.parser.xmlFile)}, function (data) {
 				if (data.status == "Success") {
 					//console.log("file upload successful");
 					if (data.redirect) {
+						$("body").trigger(bimp.testutil.config.endEvent, ["uploadFile"]);
 						openLoadingModal();
 					}
+				} else {
+					throw new Error ("Unable to upload file");
 				}
 			});
 		},
 		updateFile : function () {
+			$("body").trigger(bimp.testutil.config.startEvent, ["updateFile"]);
 			// check, if we have inputfile with siminfo
 			if ($(bimp.parser.xmlFile).find(bimp.parser.prefixEscaped + "startEvent").find(bimp.parser.prefixEscaped + "documentation").size() == 0) {
 				// lets add missing nodes to bpmn file
@@ -163,6 +168,7 @@ bimp.file = {
 					}
 				});
 			});
+			$("body").trigger(bimp.testutil.config.endEvent, ["updateFile"]);
 		}
 		
 };

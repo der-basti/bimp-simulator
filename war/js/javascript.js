@@ -65,6 +65,7 @@ $(document).ready(function () {
 	$("#continue-button").click(function() {
 		$("#continue-button").attr("disabled", true);
 		try {
+			bimp.parser.start();
 			showForm(400);
 		} catch (e) {
 			alert("File not valid");
@@ -138,7 +139,7 @@ $(document).ready(function () {
 	});
 	
 	$("#startSimulationButton").click(function () {
-		if(validateForm()) {
+		if (validateForm()) {
 			bimp.forms.read.start();
 			bimp.file.updateFile();
 			bimp.file.uploadFile();
@@ -265,9 +266,7 @@ $(document).ready(function () {
 var timeTableRow;
 
 var showForm = function (delay) {
-	$("body").trigger(bimp.testutil.config.startedEvent, ["showForm"]);
-	bimp.parser.init();
-	bimp.parser.start();
+	$("body").trigger(bimp.testutil.config.startEvent, ["showForm"]);
 	$("#instructions").hide();
 	$("#upload-area").fadeOut(delay, function() {
 		$("#data-input").fadeIn(delay, (function() {
@@ -348,6 +347,7 @@ var updateTypeSelection = function (element) {
 };
 
 var openLoadingModal = function () {
+	$("body").trigger(bimp.testutil.config.startEvent, ["openLoadingModal"]);
 	$("body").append("<div id='modal-bg'></div>");
 	$("body").append("<div id='loading'>" +
 			"<div class='close'><span>x</span></div>" +
@@ -362,11 +362,7 @@ var openLoadingModal = function () {
 	$.ajax({
 		contentType : 'application/json',
 		type : 'get',
-		url : '/simulate',
-		error : function(e) {
-			throw e;
-		}
-
+		url : '/simulate'
 	});
 	timerId = setInterval("getStatus()", interval);
 	$("#modal-bg").fadeIn();
@@ -424,6 +420,12 @@ getStatus = function() {
 						$("#uploadPage").fadeOut();
 						closeLoadingModal();
 						$("#header").after(data);
+						$("body").trigger(bimp.testutil.config.endEvent, ["openLoadingModal"]);
+					}, 
+					error: function (data) {
+						clearInterval(timerId);
+						data.error = "Unable to retireve results";
+						showLoadingError(data);
 					}
 				});
 				break;
@@ -447,6 +449,7 @@ var showLoadingError = function (data) {
 	$(".title").text("Simulation ended with an error, please revise your data.");
 	$(".status").text("Error: " + (data.error ?  + data.error : "Unknown error"));
 	$(".close").show();
+	throw new Error("Simulation error: " +  (data.error ?  + data.error : "Unknown error"));
 };
 
 var preloadTaskResources = function () {
@@ -641,7 +644,6 @@ function validateForm() {
 		alert("Your form has errors! Follow the requirements and try again.");
 		return false;
 	}
-	
 }
 
 function errorTooltip(msg, field) {
@@ -659,7 +661,6 @@ function errorTooltip(msg, field) {
 		}
 	});
 	$(div).append(jQuery('<span/>', {text:msg}));
-
 	
 	$(div).addClass('error');
 	return div;

@@ -199,10 +199,12 @@ bimp.forms = {
 		},
 		read : {
 			start : function () {
+				$("body").trigger(bimp.testutil.config.startEvent, ["readForm"]);
 				this.startEvent();
 				this.tasks();
 				this.conditionExpressions();
 				this.intermediateCatchEvents();
+				$("body").trigger(bimp.testutil.config.endEvent, ["readForm"]);
 			},
 			startEvent : function () {
 				var selector = ".startEvent";
