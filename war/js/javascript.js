@@ -265,6 +265,7 @@ $(document).ready(function () {
 var timeTableRow;
 
 var showForm = function (delay) {
+	$("body").trigger(bimp.testutil.config.startedEvent, ["showForm"]);
 	bimp.parser.init();
 	bimp.parser.start();
 	$("#instructions").hide();
@@ -282,6 +283,7 @@ var showForm = function (delay) {
 			});
 		}));
 	});
+	$("body").trigger(bimp.testutil.config.endEvent, ["showForm"]);
 };
 
 var areAllExpanded = function () {

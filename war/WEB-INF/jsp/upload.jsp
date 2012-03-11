@@ -6,13 +6,14 @@
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF8">
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-<script type="text/javascript" src="./js/jquery-1.6.4.min.js"></script>
+<script type="text/javascript" src="./js/jquery-1.7.1.min.js"></script>
 <script type="text/javascript" src="./js/jquery-ui-1.8.16.custom.min.js"></script>
 <script type="text/javascript" src="./js/jquery.tools.min.js"></script>
 <script type="text/javascript" src="./js/bimp.file.js"></script>
 <script type="text/javascript" src="./js/bimp.parse.js"></script>
 <script type="text/javascript" src="./js/bimp.forms.js"></script>
 <script type="text/javascript" src="./js/bimp.charts.js"></script>
+<script type="text/javascript" src="./js/bimp.testutil.js"></script>
 <script type="text/javascript" src="./js/javascript.js"></script>
 <script type="text/javascript" src="./js/jquery-ui-timepicker-addon.js"></script>
 <script type="text/javascript" src="./js/xregexp-min.js"></script>
@@ -72,7 +73,7 @@
 						<table class="form">
 							<tbody>
 								<tr id="arrivalRateDistribution">
-									<th>Arrival rate:</th>
+									<th>Inter arrival rate:</th>
 									<td><select class="type" name="type">
 											<option value="fixed">Fixed</option>
 											<option value="normal">Normal</option>
@@ -365,6 +366,9 @@
 	</div>
 	<c:if test="${not empty xmlFile}">
 		<jsp:include page="_signavio.jsp"></jsp:include>
+	</c:if>
+	<c:if test="${not empty testFile}">
+		<jsp:include page="_testFile.jsp"></jsp:include>
 	</c:if>
 </body>
 </html>

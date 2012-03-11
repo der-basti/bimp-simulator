@@ -136,9 +136,8 @@
 			</c:if>
 			
 			drawDurationsChart();
-			drawWaitingTimesChart();
-			drawCostsChart();
+// 			removing these until simulator starts returning correct data
+// 			drawWaitingTimesChart();
+// 			drawCostsChart();
 			drawResourcesChart();
 		</script>
-	
-	

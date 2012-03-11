@@ -33,6 +33,7 @@ bimp.file = {
 			}
 		},
 		readTextToDocument: function (text) {
+			$("body").trigger(bimp.testutil.config.startedEvent, ["readTextToDecument"]);
 			bimp.file.xmlFile = $.parseXML(text);
 			if ($(bimp.file.xmlFile)[0].documentElement.prefix) {
 				bimp.parser.prefix = $(bimp.file.xmlFile)[0].documentElement.prefix + ":";
@@ -47,13 +48,14 @@ bimp.file = {
 			}
 			//console.log("Parse success..");
 			if($(bimp.file.xmlFile).find(bimp.parser.prefixEscaped + "startEvent").size() == 0) {
-				throw "No start event found!";
+				throw new Error("No start event found!");
 			}
 			if (bimp.file.inputFiles[0]) {
 				$("#fileName").text(bimp.file.inputFiles[0].name + " is selected.");
 				$(".currentFileName").text(bimp.file.inputFiles[0].name);
 			}
 			$("#continue-button").attr("disabled", false);
+			$("body").trigger(bimp.testutil.config.endEvent, ["readTextToDecument"]);
 		},
 		uploadFile : function () {
 			$.post("/uploadjson", {"mxmlLog": $("#mxmlLog").is(':checked'),"fileData": new XMLSerializer().serializeToString(bimp.parser.xmlFile)}, function (data) {

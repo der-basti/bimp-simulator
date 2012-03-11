@@ -28,6 +28,7 @@
     <url-pattern>*.png</url-pattern>
     <url-pattern>*.jpg</url-pattern>
     <url-pattern>*.bpmn</url-pattern>
+    <url-pattern>*.ico</url-pattern>
  </servlet-mapping>
   
 
