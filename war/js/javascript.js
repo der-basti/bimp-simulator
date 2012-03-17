@@ -424,7 +424,7 @@ getStatus = function() {
 					}, 
 					error: function (data) {
 						clearInterval(timerId);
-						data.error = "Unable to retireve results";
+						data.error = "Unable to retrieve results";
 						showLoadingError(data);
 					}
 				});
