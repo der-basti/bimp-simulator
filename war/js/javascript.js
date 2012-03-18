@@ -346,6 +346,7 @@ var updateTypeSelection = function (element) {
 	});
 };
 
+// TODO: implement better and more flexible modal solution
 var openLoadingModal = function () {
 	$("body").trigger(bimp.testutil.config.startEvent, ["openLoadingModal"]);
 	$("body").append("<div id='modal-bg'></div>");
@@ -448,6 +449,11 @@ var showLoadingError = function (data) {
 	$("#loading").addClass("error");
 	$(".title").text("Simulation ended with an error, please revise your data.");
 	$(".status").text("Error: " + (data.error ?  + data.error : "Unknown error"));
+	$(".status").parent().append("<a id='details' href='#'>Details</a>");
+	$("body").on("click", "#details", function () {
+		alert(data.stacktrace);
+		return false;
+	});
 	$(".close").show();
 	throw new Error("Simulation error: " +  (data.error ?  + data.error : "Unknown error"));
 };

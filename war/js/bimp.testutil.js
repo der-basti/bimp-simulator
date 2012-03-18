@@ -25,9 +25,9 @@ bimp.testutil = bimp.testutil ? bimp.testutil : {
 	},
 	init: function () {
 		// 
-		bimp.testutil.config.fileName = $("testFileName").val();
-		bimp.testutil.config.fileNr = $("testFileNr").val();
-		bimp.testutil.config.filesTotal = $("filesTotal").val();
+		bimp.testutil.config.fileName = $("#fileName").val();
+		bimp.testutil.config.fileNr = $("#fileNr").val();
+		bimp.testutil.config.filesTotal = $("#filesTotal").val();
 		console.log("initialising testutil");
 		var aq = bimp.testutil.config.actionQ;
 		aq.add(function () {
@@ -123,7 +123,17 @@ bimp.testutil = bimp.testutil ? bimp.testutil : {
 				//handling the error thrown in the setInterval
 				$(window).error(function (e) {
 					clearInterval(bimp.testutil.timeoutChecker);
-					$("body").trigger(bimp.testutil.config.errorEvent, {name: "openLoadingModal", cause: e});
+					// since we catch a bit different error, lets try to extract some useful information from it
+					var er = e.originalEvent;
+					var data = {};
+					if (er) {
+						data.toString = function () {
+							return er.message; 
+						};
+						data.stack = er.filename + ": " + er.lineno;
+						data.errorcode = 2; // simulation error
+					}
+					$("body").trigger(bimp.testutil.config.errorEvent, {name: "openLoadingModal", cause: data});
 				});
 				bimp.file.uploadFile();
 				
@@ -154,10 +164,10 @@ bimp.testutil = bimp.testutil ? bimp.testutil : {
 			$("body").on(config.startEvent, function (e, data) {
 				watcher.stats[data] = watcher.stats[data] ? watcher.stats[data] : {};
 				watcher.stats[data].name = data;
-				watcher.stats[data].startDate = new Date();
+				watcher.stats[data].startDate = new Date().getTime();
 			});
 			$("body").on(config.endEvent, function (e, data) {
-				watcher.stats[data].endDate = new Date();
+				watcher.stats[data].endDate = new Date().getTime();
 				watcher.stats[data].duration = (watcher.stats[data].endDate - watcher.stats[data].startDate) / 1000;
 				watcher.stats[data].errorCode = 0;
 				console.log("end of", data, "duration:", watcher.stats[data].duration);
@@ -171,11 +181,11 @@ bimp.testutil = bimp.testutil ? bimp.testutil : {
 				var watcher = bimp.testutil.watcher;
 				console.log("got error in", data["name"], "saying that", data["cause"].toString(), "at", data["cause"].stack);
 				watcher.stats[data["name"]] = watcher.stats[data["name"]] ? watcher.stats[data["name"]] : {};
-				watcher.stats[data["name"]].error = {
-						type: data["cause"].toString(),
-						stack: data["cause"].stack
-				};
-				watcher.stats[data["name"]].errorCode = 1;
+//				watcher.stats[data["name"]].error = {
+//						type: data["cause"].toString(),
+//						stack: data["cause"].stack
+//				};
+				watcher.stats[data["name"]].errorCode = data["cause"].errorcode ? data["cause"].errorcode : 1;
 				watcher.stats[data["name"]].errorText = data["cause"].toString(); 
 				watcher.stats[data["name"]].stackTrace = data["cause"].stack;
 				$("body").trigger(bimp.testutil.config.finishEvent, {status: "Simulation ended with error!"});
@@ -192,7 +202,10 @@ bimp.testutil = bimp.testutil ? bimp.testutil : {
 			var stats = bimp.testutil.watcher.stats;
 			var array = [];
 			$.each(stats, function (element, value) {
-				array.push(value);
+				console.log(element);
+				if (element != "startDate" || element != "endDate") {
+					array.push(value);
+				}
 			});
 			bimp.testutil.reporter.sendData(JSON.stringify(array));
 			
@@ -207,6 +220,13 @@ bimp.testutil = bimp.testutil ? bimp.testutil : {
 				},
 				success: function (e) {
 					console.log("data sent");
+					// now continue with new file or finish up the testing.
+					console.log(bimp.testutil.config.fileNr, bimp.testutil.config.filesTotal);
+					if (bimp.testutil.config.fileNr < bimp.testutil.config.filesTotal) {
+						window.location = "/runtestfiles?action=getfile&filenr=" + bimp.testutil.config.fileNr;
+					} else {
+//						window.location = "/runtestfiles?action=finished";
+					}
 				},
 				error: function (e) {
 					console.log("unable to send data");

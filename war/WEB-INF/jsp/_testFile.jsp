@@ -1,5 +1,6 @@
 <input type="hidden" id="testFile" value='${testFile}'/>
 <input type="hidden" id="fileNr" value="${fileNr}"/>
+<input type="hidden" id="fileName" value="${fileName}"/>
 <input type="hidden" id="filesTotal" value="${filesTotal}"/>
 
 <script type="text/javascript">
