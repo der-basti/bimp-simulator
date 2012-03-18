@@ -451,11 +451,12 @@ var showLoadingError = function (data) {
 	$(".status").text("Error: " + (data.error ?  + data.error : "Unknown error"));
 	$(".status").parent().append("<a id='details' href='#'>Details</a>");
 	$("body").on("click", "#details", function () {
-		alert(data.stacktrace);
+		$("<div style='height: 200px; overflow-x: hidden; '></div>").html(data.stacktrace).dialog({width: "500px", height: "400px", title: "Error details", buttons: { "Ok": function() { $(this).dialog("close"); } }, resizable: false }).css({height: "200px"});
 		return false;
 	});
 	$(".close").show();
-	throw new Error("Simulation error: " +  (data.error ?  + data.error : "Unknown error"));
+	throw new SimulationError("Simulation error: " +  (data.error ?  + data.error : "Unknown error") + "||"+ data.stacktrace, data.stacktrace);
+//	throw new Error("Simulation error: " +  (data.error ?  + data.error : "Unknown error"));
 };
 
 var preloadTaskResources = function () {
@@ -647,7 +648,7 @@ function validateForm() {
 	if($(".error").size() == 0) {
 		return true;
 	} else {
-		alert("Your form has errors! Follow the requirements and try again.");
+		$("<div></div>").html("Your form has errors! Follow the requirements and try again.").dialog({width : "300px", title: "Error!", buttons: { "Ok": function() { $(this).dialog("close"); } }, resizable: false });
 		return false;
 	}
 }
@@ -745,3 +746,11 @@ validate = {
 			  msg: "Invalid percentage!"
 		  }  
 		};
+
+function SimulationError(message, stacktrace) {
+	this.message = message;
+	this.stacktrace = stacktrace;
+}
+
+SimulationError.prototype = new Error();
+SimulationError.constructor = SimulationError;

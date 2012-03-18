@@ -4,6 +4,7 @@ html { overflow-Y: scroll; }
 body {
 	margin: 0px;
 	background-image: url(images/background.png);
+	font-size: 11px;
 }
 
 h1 {
@@ -40,6 +41,7 @@ i {	color: rgb(225,183,135); font-size: 110%; }
 	width: 950px;
 	margin: 0 auto;
 	display: block;
+	font-size: 14px;
 }
 
 #header, #footer {

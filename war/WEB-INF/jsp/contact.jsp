@@ -5,13 +5,13 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF8">
 	<script type="text/javascript" src="./js/jquery-1.7.1.min.js"></script>
-	<script type="text/javascript" src="./js/jquery-ui-1.8.16.custom.min.js"></script>
+	<script type="text/javascript" src="./js/jquery-ui-1.8.18.custom.min.js"></script>
 	<script type="text/javascript" src="./js/javascript.js"></script>
 	<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
 	
 	
 	<link rel="stylesheet" type="text/css" href="./css/style.css"></link>
-	<link rel="stylesheet" type="text/css" href="./css/jquery-ui-1.8.16.custom.css"></link>
+	<link rel="stylesheet" type="text/css" href="./css/jquery-ui-1.8.18.custom.css"></link>
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
 	<title>BIMP Simulator</title>
 </head>

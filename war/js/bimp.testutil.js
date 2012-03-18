@@ -26,9 +26,10 @@ bimp.testutil = bimp.testutil ? bimp.testutil : {
 	init: function () {
 		// 
 		bimp.testutil.config.fileName = $("#fileName").val();
-		bimp.testutil.config.fileNr = $("#fileNr").val();
-		bimp.testutil.config.filesTotal = $("#filesTotal").val();
+		bimp.testutil.config.fileNr = parseInt($("#fileNr").val(), 10);
+		bimp.testutil.config.filesTotal = parseInt($("#filesTotal").val(), 10);
 		console.log("initialising testutil");
+		console.log(bimp.testutil.config.fileNr, "/", bimp.testutil.config.filesTotal);
 		var aq = bimp.testutil.config.actionQ;
 		aq.add(function () {
 			try {
@@ -186,8 +187,9 @@ bimp.testutil = bimp.testutil ? bimp.testutil : {
 //						stack: data["cause"].stack
 //				};
 				watcher.stats[data["name"]].errorCode = data["cause"].errorcode ? data["cause"].errorcode : 1;
-				watcher.stats[data["name"]].errorText = data["cause"].toString(); 
-				watcher.stats[data["name"]].stackTrace = data["cause"].stack;
+				var simStack = data["cause"].toString().split("||")[1] ? " caused by => " + data["cause"].toString().split("||")[1] : "";
+				watcher.stats[data["name"]].errorMessage = escapeHtml(data["cause"].toString().split("||")[0]); 
+				watcher.stats[data["name"]].stackTrace = escapeHtml(data["cause"].stack + simStack);
 				$("body").trigger(bimp.testutil.config.finishEvent, {status: "Simulation ended with error!"});
 			});
 			$("body").on(config.finishEvent, function (e, data) {
@@ -202,10 +204,7 @@ bimp.testutil = bimp.testutil ? bimp.testutil : {
 			var stats = bimp.testutil.watcher.stats;
 			var array = [];
 			$.each(stats, function (element, value) {
-				console.log(element);
-				if (element != "startDate" || element != "endDate") {
-					array.push(value);
-				}
+				array.push(value);
 			});
 			bimp.testutil.reporter.sendData(JSON.stringify(array));
 			
@@ -225,7 +224,7 @@ bimp.testutil = bimp.testutil ? bimp.testutil : {
 					if (bimp.testutil.config.fileNr < bimp.testutil.config.filesTotal) {
 						window.location = "/runtestfiles?action=getfile&filenr=" + bimp.testutil.config.fileNr;
 					} else {
-//						window.location = "/runtestfiles?action=finished";
+						window.location = "/runtestfiles?action=finished";
 					}
 				},
 				error: function (e) {
@@ -235,3 +234,7 @@ bimp.testutil = bimp.testutil ? bimp.testutil : {
 		}
 	}
 };
+
+function escapeHtml(html) {
+	return $('<div></div').text(html).html();
+}
