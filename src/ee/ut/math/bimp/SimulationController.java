@@ -4,9 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -30,6 +28,7 @@ import ee.ut.bpsimulator.logger.MxmlLogger;
 import ee.ut.math.bimp.data.DataService;
 import ee.ut.math.bimp.data.RepresentableActivity;
 import ee.ut.math.bimp.data.ResultItem;
+import ee.ut.math.bimp.model.HistogramValue;
 import ee.ut.math.bimp.model.Simulation;
 
 /**
@@ -154,22 +153,19 @@ public class SimulationController {
         resourcesStr[i] = resources[i].toString().split("id")[0].split("Resource ")[1];
       }
 
-      List<String[]> chartIntervals = new ArrayList<String[]>();
-      List<int[]> chartCounts = new ArrayList<int[]>();
-
-      getHistogramValues(kpi.getProcessDurations(), chartIntervals, chartCounts, false);
-      getHistogramValues(kpi.getProcessWaitingTimes(), chartIntervals, chartCounts, false);
-      getHistogramValues(kpi.getProcessCosts(), chartIntervals, chartCounts, true);
+      HistogramValue durationsHV = getHistogramValues(kpi.getProcessDurations(), false);
+      HistogramValue waitingTimesHV = getHistogramValues(kpi.getProcessWaitingTimes(), false);
+      HistogramValue costsHV = getHistogramValues(kpi.getProcessCosts(), true);
 
       Gson gsonObject = new Gson();
 
-      model.addObject("durationIntervals", gsonObject.toJson(chartIntervals.get(0)));
-      model.addObject("waitingTimeIntervals", gsonObject.toJson(chartIntervals.get(1)));
-      model.addObject("costIntervals", gsonObject.toJson(chartIntervals.get(2)));
+      model.addObject("durationIntervals", gsonObject.toJson(durationsHV.getIntervals()));
+      model.addObject("waitingTimeIntervals", gsonObject.toJson(waitingTimesHV.getIntervals()));
+      model.addObject("costIntervals", gsonObject.toJson(costsHV.getIntervals()));
 
-      model.addObject("durationCounts", gsonObject.toJson(chartCounts.get(0)));
-      model.addObject("waitingTimeCounts", gsonObject.toJson(chartCounts.get(1)));
-      model.addObject("costCounts", gsonObject.toJson(chartCounts.get(2)));
+      model.addObject("durationCounts", gsonObject.toJson(durationsHV.getCounts()));
+      model.addObject("waitingTimeCounts", gsonObject.toJson(waitingTimesHV.getCounts()));
+      model.addObject("costCounts", gsonObject.toJson(costsHV.getCounts()));
 
       model.addObject("resources", gsonObject.toJson(resourcesStr));
       model.addObject("utilization", gsonObject.toJson(utilization));
@@ -192,91 +188,94 @@ public class SimulationController {
 
   }
 
-  private void getHistogramValues(double[] array, List<String[]> intervalList, List<int[]> countList, boolean isCostChart) {
-
-    if (array == null) {
-      intervalList.add(null);
-      countList.add(null);
-      return;
-    } else {
-      double max = array[0];
-      double min = array[0];
-      for (int i = 0; i < array.length; i++) {
-        if (array[i] < 0) {
-          array[i] = 0;
-        }
-        if (array[i] > max) {
-          max = array[i];
-        }
-        if (array[i] < min) {
-          min = array[i];
-        }
-      }
-
-      int divisor;
-      String unit;
-
-      if (isCostChart) {
-        divisor = 1;
-        unit = "";
-      }
-
-      else if (max >= 432000) {
-        divisor = 86400;
-        unit = " days";
-      } else if (max >= 18000) {
-        divisor = 3600;
-        unit = " h";
-      } else if (max >= 300) {
-        divisor = 60;
-        unit = " min";
+  private HistogramValue getHistogramValues(double[] array, boolean isCostChart) {
+    try {
+      if (array == null) {
+        return new HistogramValue(null, null);
       } else {
-        divisor = 1;
-        unit = " s";
-      }
-
-      double difference = (max - min) / divisor;
-      if (difference == 0) {
-        intervalList.add(null);
-        countList.add(null);
-        return;
-      }
-      String differenceStr = Long.toString((long) difference);
-      char first = difference > 0 ? differenceStr.charAt(0) : '0';
-      char second = difference >= 10 ? differenceStr.charAt(1) : '0';
-      int powerOfTen = differenceStr.length() - 1;
-      int interval;
-
-      if (powerOfTen >= 2 && (first < '2' || first == '2' && second < '5')) {
-        powerOfTen -= 2;
-        interval = (int) (25 * (Math.pow(10, powerOfTen)));
-      } else if (first < '5') {
-        powerOfTen -= 1;
-        interval = (int) (5 * (Math.pow(10, powerOfTen)));
-      } else {
-        interval = (int) (Math.pow(10, powerOfTen));
-      }
-
-      int intervalAmount = (int) Math.ceil(difference / interval);
-
-      int[] counts = new int[intervalAmount];
-      String[] intervals = new String[intervalAmount];
-      int lowest = ((int) (min / divisor / interval)) * interval;
-
-      for (int i = 0; i < intervalAmount; i++) {
-        intervals[i] = Integer.toString(((lowest + i * interval))) + " - " + Integer.toString(((lowest + (i + 1) * interval))) + unit;
-      }
-
-      for (double value : array) {
-        int i = (int) ((value - min) / divisor / interval);
-        if (i >= counts.length) {
-          i = counts.length - 1;
+        double max = array[0];
+        double min = array[0];
+        for (int i = 0; i < array.length; i++) {
+          if (array[i] < 0) {
+            array[i] = 0;
+          }
+          if (array[i] > max) {
+            max = array[i];
+          }
+          if (array[i] < min) {
+            min = array[i];
+          }
         }
-        counts[i] += 1;
-      }
 
-      intervalList.add(intervals);
-      countList.add(counts);
+        int divisor;
+        String unit;
+
+        if (isCostChart) {
+          divisor = 1;
+          unit = "";
+        }
+
+        else if (max >= 432000) {
+          divisor = 86400;
+          unit = " days";
+        } else if (max >= 18000) {
+          divisor = 3600;
+          unit = " h";
+        } else if (max >= 300) {
+          divisor = 60;
+          unit = " min";
+        } else {
+          divisor = 1;
+          unit = " s";
+        }
+
+        double difference = (max - min) / divisor;
+        if (difference == 0) {
+          return new HistogramValue(null, null);
+        }
+        String differenceStr = Long.toString((long) difference);
+        char first = difference > 0 ? differenceStr.charAt(0) : '0';
+        char second = difference >= 10 ? differenceStr.charAt(1) : '0';
+        int powerOfTen = differenceStr.length() - 1;
+        int interval;
+
+        if (powerOfTen >= 2 && (first < '2' || first == '2' && second < '5')) {
+          powerOfTen -= 2;
+          interval = (int) (25 * (Math.pow(10, powerOfTen)));
+        } else if (first < '5') {
+          powerOfTen -= 1;
+          interval = (int) (5 * (Math.pow(10, powerOfTen)));
+        } else {
+          interval = (int) (Math.pow(10, powerOfTen));
+        }
+
+        int intervalAmount = (int) Math.ceil(difference / interval);
+        log.info("intervalamount is " + intervalAmount);
+        if (intervalAmount > Integer.MAX_VALUE - 5) {
+          // avoiding puddles
+          return new HistogramValue();
+        }
+        int[] counts = new int[intervalAmount];
+        String[] intervals = new String[intervalAmount];
+        int lowest = ((int) (min / divisor / interval)) * interval;
+
+        for (int i = 0; i < intervalAmount; i++) {
+          intervals[i] = Integer.toString(((lowest + i * interval))) + " - " + Integer.toString(((lowest + (i + 1) * interval))) + unit;
+        }
+
+        for (double value : array) {
+          int i = (int) ((value - min) / divisor / interval);
+          if (i >= counts.length) {
+            i = counts.length - 1;
+          }
+          counts[i] += 1;
+        }
+
+        return new HistogramValue(counts, intervals);
+      }
+    } catch (Exception e) {
+      log.error(e.getCause(), e);
+      return new HistogramValue();
     }
   }
 

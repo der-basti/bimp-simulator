@@ -88,6 +88,7 @@ bimp.testutil = bimp.testutil ? bimp.testutil : {
 		
 		aq.add(function () {
 			try {
+				autoFillFields();
 				if (!validateForm()) {
 					$("body").trigger(bimp.testutil.config.errorEvent, {name: "validateForm", cause: new Error("Form not valid")});
 				} else {
@@ -234,6 +235,11 @@ bimp.testutil = bimp.testutil ? bimp.testutil : {
 		}
 	}
 };
+
+function autoFillFields() {
+	$(".instances").val("1000");
+	$(".resources .amount").val("5");
+}
 
 function escapeHtml(html) {
 	return $('<div></div').text(html).html();

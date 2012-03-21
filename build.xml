@@ -17,10 +17,6 @@
 	</path>
 
 	<path id="tomcat.class.path">
-		<fileset dir="${tomcat.home}/lib">
-			<include name="**/*.jar" />
-			<include name="**/*.zip" />
-		</fileset>
 		<pathelement location="${tomcat.home}/bin/bootstrap.jar" />
 		<pathelement location="${tomcat.home}/bin/tomcat-juli.jar" />
 	</path>
@@ -86,9 +82,22 @@
 	<target name="start-tomcat" depends="copy-confs">
 		<java classname="org.apache.catalina.startup.Bootstrap" fork="true" spawn="true" classpathref="tomcat.class.path">
 			<jvmarg value="-Dcatalina.home=${tomcat.home}" />
+			<jvmarg value="-Dcatalina.base=${tomcat.home}" />
+			<jvmarg value="-Djava.endorsed.dirs=${tomcat.home}/endorsed" />
 			<arg line="start" />
 		</java>
 	</target>
+	
+	<target name="start-tomcat-debug" depends="copy-confs">
+		<java classname="org.apache.catalina.startup.Bootstrap" fork="true" spawn="true" classpathref="tomcat.class.path">
+			<jvmarg value="-Dcatalina.home=${tomcat.home}" />
+			<jvmarg value="-Dcatalina.base=${tomcat.home}" />
+			<jvmarg value="-Xdebug"/>
+			<jvmarg value="-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=n"/>
+			<arg line="start" />
+		</java>
+	</target>
+	
 
 	<!-- ############### TESTS ###############-->
 
