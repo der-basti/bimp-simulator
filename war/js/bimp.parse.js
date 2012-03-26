@@ -197,7 +197,7 @@ bimp.parser = {
 					value = 1;
 				}
 				var id = sequenceFlow.getAttribute("id");
-				var gatewayName = sequenceFlow.getAttribute("name");
+				var gatewayName = sequenceFlow.getAttribute("name") ? sequenceFlow.getAttribute("name") : "N/A";
 				ce = new bimp.parser.conditionExpression(id, targetRef, sourceRef, value,
 						type, targetName ? (targetName.trim != "" ? targetName : "N/A") : "N/A", gatewayName);
 				bimp.parser.hasConditionExpressions = true;
@@ -208,6 +208,7 @@ bimp.parser = {
 		return true;
 	},
 	findSplitGateway : function(id) {
+		//TODO: CACHE IT!, use one find, check element type with $(this).is("exclusiveGateway");
 		var result = null;
 		var exclusiveGateways = $(this.xmlFile).find(bimp.parser.prefixEscaped + "exclusiveGateway");
 		var inclusiveGateways = $(this.xmlFile).find(bimp.parser.prefixEscaped + "inclusiveGateway");

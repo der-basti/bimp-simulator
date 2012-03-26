@@ -15,67 +15,68 @@ import ee.ut.bpsimulator.logger.MxmlLogger;
  */
 public class SimulatorRunner {
 
-	private static Logger log = Logger.getLogger(SimulatorRunner.class);
+  private static Logger log = Logger.getLogger(SimulatorRunner.class);
 
-	public BPSimulator sim;
+  public BPSimulator sim;
 
-	public KpiCalculator kpiStats;
+  public KpiCalculator kpiStats;
 
-	public String path;
-	
-	public MxmlLogger mxmlLog;
+  public String path;
 
-	public BPSimulator getSim() {
-		return sim;
-	}
+  public MxmlLogger mxmlLog;
 
-	public KpiCalculator getKpiStats() {
-		return kpiStats;
-	}
+  public BPSimulator getSim() {
+    return sim;
+  }
 
-	public String getPath() {
-		return path;
-	}
-	
-	public void setMxmlLog(MxmlLogger mxmlLog) {
-		this.mxmlLog = mxmlLog;
-	}
-	
-	public MxmlLogger getMxmlLog() {
-		return mxmlLog;
-	}
+  public KpiCalculator getKpiStats() {
+    return kpiStats;
+  }
 
+  public String getPath() {
+    return path;
+  }
 
-	/**
-	 * Initializes the simulator and stats calculator.
-	 * 
-	 * @param path
-	 *            the file path.
-	 */
-	public void init(String path) {
-		this.path = path;
-		sim = new BPSimulator(path);
-		kpiStats = new KpiCalculator(sim);
-	}
+  public void setMxmlLog(MxmlLogger mxmlLog) {
+    this.mxmlLog = mxmlLog;
+  }
 
-	/**
-	 * Starts the simulation.
-	 * @throws Exception 
-	 */
-	public void start() throws Exception {
-		if (sim != null && kpiStats != null) {
+  public MxmlLogger getMxmlLog() {
+    return mxmlLog;
+  }
 
-				log.debug("Running simulation");
+  /**
+   * Initializes the simulator and stats calculator.
+   * 
+   * @param path
+   *          the file path.
+   */
+  public void init(String path) {
+    this.path = path;
+    BPSimulator.MAX_COMPLETED_ELEMENTS = 3000000;
+    sim = new BPSimulator(path);
+    kpiStats = new KpiCalculator(sim);
+  }
 
-				ComplexLogger logger = sim.getLogger();
-				if(mxmlLog!=null) {
-					log.debug("WILL LOG");
-					logger.addLogger(mxmlLog);
-				}
-				logger.addLogger(kpiStats);
+  /**
+   * Starts the simulation.
+   * 
+   * @throws Exception
+   */
+  public void start() throws Exception {
+    if (sim != null && kpiStats != null) {
 
-				sim.run();
+      log.debug("Running simulation");
 
-		}
-	}
+      ComplexLogger logger = sim.getLogger();
+      if (mxmlLog != null) {
+        log.debug("WILL LOG");
+        logger.addLogger(mxmlLog);
+      }
+      logger.addLogger(kpiStats);
+
+      sim.run();
+
+    }
+  }
 }

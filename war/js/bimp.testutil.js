@@ -237,7 +237,7 @@ bimp.testutil = bimp.testutil ? bimp.testutil : {
 };
 
 function autoFillFields() {
-	$(".instances").val("1000");
+	$(".instances").val("1");
 	$(".resources .amount").val("5");
 }
 

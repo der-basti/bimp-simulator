@@ -3,8 +3,6 @@ package ee.ut.math.bimp.model;
 import ee.ut.math.bimp.SimulationChecker;
 import ee.ut.math.bimp.SimulatorRunner;
 
-
-
 /**
  * Simulation class for holding all simulation related objects
  * 
@@ -12,45 +10,43 @@ import ee.ut.math.bimp.SimulatorRunner;
  * 
  */
 public class Simulation {
-	private SimulatorRunner runner;
-	private SimulationChecker checker;
-	private Exception exception;
-	
-	public Simulation(String filePath) {
-		this.runner = new SimulatorRunner();
-		this.runner.init(filePath);
-		this.exception = null;
-		this.checker = new SimulationChecker(filePath, runner.getSim(),
-				runner.getKpiStats(), runner.getMxmlLog());
-	}
+  private SimulatorRunner runner;
+  private SimulationChecker checker;
+  private Exception exception;
 
-	public void start() throws Exception  {
-			this.runner.start();
-	}
+  public Simulation(String filePath) {
+    this.runner = new SimulatorRunner();
+    this.runner.init(filePath);
+    this.exception = null;
+    this.checker = new SimulationChecker(filePath, runner.getSim(), runner.getKpiStats(), runner.getMxmlLog());
+  }
 
-	public SimulatorRunner getRunner() {
-		return runner;
-	}
+  public void start() throws Exception {
+    this.runner.start();
+  }
 
-	public void setRunner(SimulatorRunner runner) {
-		this.runner = runner;
-	}
+  public SimulatorRunner getRunner() {
+    return runner;
+  }
 
-	public SimulationChecker getChecker() {
-		return checker;
-	}
+  public void setRunner(SimulatorRunner runner) {
+    this.runner = runner;
+  }
 
-	public void setChecker(SimulationChecker checker) {
-		this.checker = checker;
-	}
+  public SimulationChecker getChecker() {
+    return checker;
+  }
 
-	public Exception getException() {
-		return exception;
-	}
+  public void setChecker(SimulationChecker checker) {
+    this.checker = checker;
+  }
 
-	public void setException(Exception exception) {
-		this.exception = exception;
-	}
+  public Exception getException() {
+    return exception;
+  }
 
+  public void setException(Exception exception) {
+    this.exception = exception;
+  }
 
 }

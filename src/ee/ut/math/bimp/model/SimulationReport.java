@@ -1,15 +1,18 @@
 package ee.ut.math.bimp.model;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class SimulationReport {
   private String fileName;
   private List<Event> events;
   private boolean hasError;
-  private double duration;
+  private Date startDate;
 
   public SimulationReport(String fileName) {
     this.fileName = fileName;
+    this.startDate = new Date();
   }
 
   public List<Event> getEvents() {
@@ -49,8 +52,17 @@ public class SimulationReport {
     return d;
   }
 
-  public void setDuration(double duration) {
-    this.duration = duration;
+  public Date getStartDate() {
+    return startDate;
+  }
+
+  public void setStartDate(Date startDate) {
+    this.startDate = startDate;
+  }
+
+  public String getFormattedStartDate() {
+    SimpleDateFormat std = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+    return std.format(startDate);
   }
 
 }

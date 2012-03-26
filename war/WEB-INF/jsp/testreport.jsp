@@ -12,6 +12,12 @@
 		<table>
 			<thead>
 				<tr>
+					<th colspan="13">
+						<h3>Test report</h3>
+						<h4>Date: ${simulationReports[0].formattedStartDate}</h4>
+					</th>
+				</tr>
+				<tr>
 					<th>File name</th>
 					<th>Total duration</th>
 					<th>1</th>
@@ -114,7 +120,7 @@ tr.error {
 		$(".event.nok").click(function () {
 			var stackTrace = $(this).data("stacktrace"),
 				errorMessage = $(this).data("errormessage");
-			$("<div style='height: 200px; overflow-x: hidden; '></div>").append("<strong>" + errorMessage + "</strong>").append("<p>" + stackTrace + "</p>").dialog({width: "500px", height: "400px", title: $(this).data("eventname") + " error details", buttons: { "Ok": function() { $(this).dialog("close"); } }, resizable: false }).css({height: "200px"});
+			$("<div style='height: 200px; overflow-x: hidden; '></div>").append("<strong>" + errorMessage + "</strong>").append("<p>" + stackTrace + "</p>").dialog({width: "500px", height: "400px", title: $(this).data("eventname") + " error details", buttons: { "Ok": function() { $(this).dialog("close"); } }, resizable: true }).css({height: "200px"});
 			
 		});
 		

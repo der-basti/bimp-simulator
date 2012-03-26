@@ -138,14 +138,12 @@ bimp.forms = {
 			
 		},
 		populateWithData : function (selector, obj, clone, htmlObj) {
-			$.each(obj, function(name, value){
-				if (name === "name" && value === "") {
+			$.each(obj, function(name, value) {
+				if ((name === "name" && value === "") || typeof value === "undefined") {
 					value = "N/A";
-				}
-				if (value == "0" || value == 0) {
+				} else if (value == "0" || value == 0) {
 					value = "";
-				}
-				if (typeof(value) == "object") {
+				} else if (typeof(value) == "object") {
 					$.each(value, function(_name, _value) {
 						if (typeof(_value) !== "object") {
 							if (["min", "max", "value", "mean", "stdev"].indexOf(_name) > -1) {
@@ -337,8 +335,9 @@ bimp.forms = {
 				var probs = $(group).find(".probability");
 				if ($(probs[0]).val() == "") {
 					var result = Math.round((100 / probs.length)*100) / 100;
+					var remainder = 100 - result * probs.length;
 					$(probs).val(result);
-					
+					$(probs[0]).val(result + remainder);
 				}
 			});
 		}
