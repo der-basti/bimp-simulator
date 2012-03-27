@@ -34,10 +34,12 @@
 				</tr>
 			</thead>
 			<tbody>
+				<c:set var="totalDuration" value=0 />
 				<c:forEach items="${simulationReports}" var="report">
 					<tr class=''>
 						<td class="<c:if test="${report.hasError}">nok</c:if>"><p class="filename">${report.fileName}</p></td>
 						<td>${report.duration} s</td>
+						<c:set var="totalDuration" value=${totalDuration + report.duration} />
 						<c:forEach items="${report.events}" var="event">
 							<td class="event <c:if test="${event.errorCode != 0}">nok</c:if>"
 								title="${event.name}"

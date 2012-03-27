@@ -87,7 +87,7 @@ public class TestProcessController {
         request.getSession().setAttribute("simulationReports", reports);
         log.info("events = " + events.get(0).getStackTrace());
       } catch (Exception e) {
-        log.info("Unable to parse the simulation data", e);
+        log.warn("Unable to parse the simulation data", e);
         errorCode = 1;
         errorMessage = "Unable to parse the simulation data";
       }
@@ -101,7 +101,7 @@ public class TestProcessController {
         log.error("Unable to send json response", e);
       }
     } catch (Exception e) {
-      log.error(e.getMessage() + "; " + e.getStackTrace().toString());
+      log.error(e.getMessage(), e);
     }
   }
 

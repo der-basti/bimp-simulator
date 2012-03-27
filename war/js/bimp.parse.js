@@ -208,7 +208,7 @@ bimp.parser = {
 		return true;
 	},
 	findSplitGateway : function(id) {
-		//TODO: CACHE IT!, use one find, check element type with $(this).is("exclusiveGateway");
+		//TODO: CACHE IT!, use one find and one loop, check element type with $(this).is("exclusiveGateway");
 		var result = null;
 		var exclusiveGateways = $(this.xmlFile).find(bimp.parser.prefixEscaped + "exclusiveGateway");
 		var inclusiveGateways = $(this.xmlFile).find(bimp.parser.prefixEscaped + "inclusiveGateway");
