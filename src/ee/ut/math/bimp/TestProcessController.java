@@ -23,6 +23,7 @@ import com.google.gson.reflect.TypeToken;
 
 import ee.ut.math.bimp.model.Event;
 import ee.ut.math.bimp.model.SimulationReport;
+import ee.ut.math.bimp.model.TestReport;
 
 @Controller
 public class TestProcessController {
@@ -62,7 +63,8 @@ public class TestProcessController {
   @RequestMapping(value = "/testreport", method = RequestMethod.GET)
   public String getTestReport(HttpServletResponse response, HttpServletRequest request, Model model) {
     List<SimulationReport> reports = (List<SimulationReport>) request.getSession().getAttribute("simulationReports");
-    model.addAttribute("simulationReports", reports);
+    TestReport testReport = new TestReport(reports);
+    model.addAttribute("testReport", testReport);
     return "/testreport";
   }
 

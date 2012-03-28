@@ -64,15 +64,15 @@ $(document).ready(function () {
 	
 	$("#continue-button").click(function() {
 		$("#continue-button").attr("disabled", true);
-//		try {
+		try {
 			bimp.parser.start();
 			showForm(400);
-//		} catch (e) {
-//			alert("File not valid");
-//			if (console) {
-//				console.log(e);
-//			}
-//		}
+		} catch (e) {
+			alert("File not valid");
+			if (console) {
+				console.log(e);
+			}
+		}
 	});
 	
 	$(".toggle-trigger").click(function() {

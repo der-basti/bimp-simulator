@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF8" pageEncoding="UTF8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+<c:set var="simulationReports" value="${testReport.simulationReports}" />
 <html>
 	<head>
 		<title>Test report</title>
@@ -34,12 +34,10 @@
 				</tr>
 			</thead>
 			<tbody>
-				<c:set var="totalDuration" value=0 />
 				<c:forEach items="${simulationReports}" var="report">
 					<tr class=''>
 						<td class="<c:if test="${report.hasError}">nok</c:if>"><p class="filename">${report.fileName}</p></td>
 						<td>${report.duration} s</td>
-						<c:set var="totalDuration" value=${totalDuration + report.duration} />
 						<c:forEach items="${report.events}" var="event">
 							<td class="event <c:if test="${event.errorCode != 0}">nok</c:if>"
 								title="${event.name}"
@@ -53,6 +51,26 @@
 						</c:forEach>
 					</tr>
 				</c:forEach>
+			</tbody>
+		</table>
+		<table>
+			<thead>
+				<tr>
+					<th>
+						<h4>Summary</h4>
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>Status:</td>
+					<td>${testReport.unsuccessfulTestsCount}/${testReport.fileCount}</td>
+					<td>${testReport.successPercentage}</td>
+				</tr>
+				<tr>
+					<td>Total duration:</td>
+					<td>${testReport.testDuration} s</td>
+				</tr>
 			</tbody>
 		</table>
 	</body>
