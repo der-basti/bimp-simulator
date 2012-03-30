@@ -10,14 +10,16 @@ public class TestReport {
   private int successfulTestsCount;
   private String successPercentage;
   private int[] successfulEventsCount;
+  private String[] eventNames;
 
   public TestReport(List<SimulationReport> simulationReports) {
     this.simulationReports = simulationReports;
     setTestDuration();
     setSuccessfulTestsCount();
+    setEventCount();
     setSuccessPercentage();
     setSuccessfulEventsCount();
-    setEventCount();
+    setEventNames();
   }
 
   public double getTestDuration() {
@@ -101,6 +103,23 @@ public class TestReport {
 
   public void setSimulationReports(List<SimulationReport> simulationReports) {
     this.simulationReports = simulationReports;
+  }
+
+  public String[] getEventNames() {
+    return eventNames;
+  }
+
+  public void setEventNames() {
+    String[] result = new String[getEventCount()];
+    for (SimulationReport sr : simulationReports) {
+      final List<Event> events = sr.getEvents();
+      if (events.size() == getEventCount()) {
+        for (int i = 0; i < events.size(); i++) {
+          result[i] = events.get(i).getName();
+        }
+      }
+    }
+    this.eventNames = result;
   }
 
 }

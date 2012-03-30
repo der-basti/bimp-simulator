@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -37,6 +38,7 @@ public class TestProcessController {
   private static final Type type = new TypeToken<List<Event>>() {
   }.getType();
 
+  @SuppressWarnings("unchecked")
   @RequestMapping(value = "/runtestfiles", method = RequestMethod.GET)
   public String TestController(HttpServletResponse response, HttpServletRequest request, Model model) {
     String action = request.getParameter("action");
@@ -53,21 +55,30 @@ public class TestProcessController {
         }
       } else if (action.equalsIgnoreCase(FINISH)) {
         List<SimulationReport> reports = (List<SimulationReport>) request.getSession().getAttribute("simulationReports");
-        model.addAttribute("simulationReports", reports);
+        if (reports == null) {
+          reports = new ArrayList<SimulationReport>();
+        }
+        TestReport testReport = new TestReport(reports);
+        model.addAttribute("testReport", testReport);
         return "/testreport";
       }
     }
     return "/upload";
   }
 
+  @SuppressWarnings("unchecked")
   @RequestMapping(value = "/testreport", method = RequestMethod.GET)
   public String getTestReport(HttpServletResponse response, HttpServletRequest request, Model model) {
     List<SimulationReport> reports = (List<SimulationReport>) request.getSession().getAttribute("simulationReports");
+    if (reports == null) {
+      reports = new ArrayList<SimulationReport>();
+    }
     TestReport testReport = new TestReport(reports);
     model.addAttribute("testReport", testReport);
     return "/testreport";
   }
 
+  @SuppressWarnings("unchecked")
   @RequestMapping(value = "/runtestfiles", method = RequestMethod.POST)
   public void saveFileSimulationReport(HttpServletResponse response, HttpServletRequest request, Model model) {
     try {
