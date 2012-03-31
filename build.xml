@@ -9,6 +9,13 @@
 			<include name="*.jar" />
 		</fileset>
 	</path>
+	
+	<path id="selenium.classpath">
+		<fileset dir="${test.lib.dir}">
+			<include name="*.jar" />
+		</fileset>
+		<pathelement location="${test.classes.dir}" />
+	</path>
 
 	<path id="test.classpath">
 		<pathelement location="${test.classes.dir}" />
@@ -88,7 +95,7 @@
 		</java>
 	</target>
 	
-	<target name="start-tomcat-debug" depends="copy-confs">
+	<target name="start-tomcat-jpda" depends="copy-confs">
 		<java classname="org.apache.catalina.startup.Bootstrap" fork="true" spawn="true" classpathref="tomcat.class.path">
 			<jvmarg value="-Dcatalina.home=${tomcat.home}" />
 			<jvmarg value="-Dcatalina.base=${tomcat.home}" />
@@ -108,7 +115,20 @@
 			<classpath refid="test.classpath" />
 		</javac>
 	</target>
+	
+	<target name="compile-selenium">
+		<mkdir dir="${test.dir}" />
+		<mkdir dir="${test.classes.dir}" />
+		<javac srcdir="${test.dir}" destdir="${test.classes.dir}" debug="true" debuglevel="lines,vars,source" encoding="utf-8" compiler="modern">
+			<classpath refid="selenium.classpath" />
+		</javac>
+	</target>
 
+	<target name="selenium" depends="compile-selenium">
+		<java classname="ee.ut.math.selenium.SeleniumMain" fork="true" spawn="false" classpathref="selenium.classpath">
+		</java>
+	</target>
+	
 	<target name="test" depends="compile-test">
 		<junit>
 			<classpath refid="test.classpath" />
@@ -120,14 +140,6 @@
 	</target>
 
 	<!-- ############# END TESTS #############-->
-
-	<!-- Not working at the moment -->
-	<target name="start-tomcat-jpda">
-		<java classname="org.apache.catalina.startup.Bootstrap" fork="true" spawn="true" classpathref="tomcat.class.path">
-			<jvmarg value="-Dcatalina.home=${tomcat.home}" />
-			<arg line="jpda start" />
-		</java>
-	</target>
 
 	<target name="stop-tomcat" depends="tomcat-check-status" if="tomcat.started">
 		<java classname="org.apache.catalina.startup.Bootstrap" fork="true" classpathref="tomcat.class.path">
