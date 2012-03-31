@@ -4,7 +4,7 @@ bimp.testutil = bimp.testutil ? bimp.testutil : {
 		startEvent: "action-started",
 		endEvent: "action-ended",
 		errorEvent: "error-event",
-		finishEvent: "finis-event",
+		finishEvent: "finish-event",
 		simulationTimeout: 30,
 		actionQ: {
 			actions: [],

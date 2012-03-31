@@ -334,7 +334,7 @@ bimp.forms = {
 			$(".gatewayGroup.xor").each(function (index, group) {
 				var probs = $(group).find(".probability");
 				if ($(probs[0]).val() == "") {
-					var result = Math.round((100 / probs.length)*100) / 100;
+					var result = Math.round((100 / probs.length));
 					var remainder = 100 - result * probs.length;
 					$(probs).val(result);
 					$(probs[0]).val(result + remainder);

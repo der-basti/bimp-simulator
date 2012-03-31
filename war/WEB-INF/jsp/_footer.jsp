@@ -1,7 +1,7 @@
 <div id="footer">
 	<div id="footer-text">
 		BIMP
-		<h3>Copyright 2011 &copy;</h3>
+		<h3>Copyright 2011 - 2012&copy;</h3>
 	</div>
 	<div id="fb-google">
 		<div id="fb-root"></div>

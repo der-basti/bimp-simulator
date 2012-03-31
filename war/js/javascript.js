@@ -64,15 +64,15 @@ $(document).ready(function () {
 	
 	$("#continue-button").click(function() {
 		$("#continue-button").attr("disabled", true);
-		try {
+//		try {
 			bimp.parser.start();
 			showForm(400);
-		} catch (e) {
-			alert("File not valid");
-			if (console) {
-				console.log(e);
-			}
-		}
+//		} catch (e) {
+//			alert("File not valid");
+//			if (console) {
+//				console.log(e);
+//			}
+//		}
 	});
 	
 	$(".toggle-trigger").click(function() {
@@ -414,21 +414,24 @@ getStatus = function() {
 				break;
 			case ("FINISHED"):
 				clearInterval(timerId);
-				$.ajax({
-					type : 'get',
-					url : '/getResults',
-					success : function(data) {
-						$("#uploadPage").fadeOut();
-						closeLoadingModal();
-						$("#header").after(data);
-						$("body").trigger(bimp.testutil.config.endEvent, ["openLoadingModal"]);
-					}, 
-					error: function (data) {
-						clearInterval(timerId);
-						data.error = "Unable to retrieve results";
-						showLoadingError(data);
-					}
-				});
+				if (!isResultsShown) {
+					$.ajax({
+						type : 'get',
+						url : '/getResults',
+						success : function(data) {
+							$("#uploadPage").fadeOut();
+							closeLoadingModal();
+							$("#header").after(data);
+							$("body").trigger(bimp.testutil.config.endEvent, ["openLoadingModal"]);
+						}, 
+						error: function (data) {
+							clearInterval(timerId);
+							data.error = "Unable to retrieve results";
+							showLoadingError(data);
+						}
+					});
+				}
+				isResultsShown = true;
 				break;
 			case ("ERROR"):
 				clearInterval(timerId);
@@ -591,10 +594,11 @@ function browserValidation() {
 	}
 }
 
-var pointCount = 0;
-var interval = 500;
-var timerId = "";
-var timer = 0;
+var pointCount = 0,
+	interval = 500,
+	timerId = "",
+	timer = 0,
+	isResultsShown = false;
 
 function validateXORs() {
 	$(".xor").each(function (){

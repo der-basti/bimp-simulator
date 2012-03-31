@@ -210,42 +210,68 @@ bimp.parser = {
 	findSplitGateway : function(id) {
 		//TODO: CACHE IT!, use one find and one loop, check element type with $(this).is("exclusiveGateway");
 		var result = null;
-		var exclusiveGateways = $(this.xmlFile).find(bimp.parser.prefixEscaped + "exclusiveGateway");
-		var inclusiveGateways = $(this.xmlFile).find(bimp.parser.prefixEscaped + "inclusiveGateway");
-		$(exclusiveGateways).each(function(index, exclusiveGateway) {
-			if (exclusiveGateway.getAttribute("id") == id && 
-					(exclusiveGateway.getAttribute("gatewayDirection") == "diverging" ||
-					exclusiveGateway.getAttribute("gatewayDirection") == "mixed") ||
+//		var exclusiveGateways = $(this.xmlFile).find(bimp.parser.prefixEscaped + "exclusiveGateway");
+//		var inclusiveGateways = $(this.xmlFile).find(bimp.parser.prefixEscaped + "inclusiveGateway");
+		var gateways = bimp.parser.cache.get("gateways", function () { 
+			return $(bimp.parser.xmlFile).find(bimp.parser.prefixEscaped + "exclusiveGateway," + bimp.parser.prefixEscaped + "inclusiveGateway");
+			});
+//		var inclusiveGateways = bimp.parse.cache.get("inclusiveGateways", function () { 
+//			return $(this.xmlFile).find(bimp.parser.prefixEscaped + "inclusiveGateway");
+//		});
+		$(gateways).each(function(index, gateway) {
+			if (gateway.getAttribute("id") == id && 
+					(gateway.getAttribute("gatewayDirection") == "diverging" ||
+							gateway.getAttribute("gatewayDirection") == "mixed") ||
 					bimp.parser.countSequenceFlowsFromGateway(id) > 1) {
-				result = "Exclusive (XOR)";
+				if ($(this).is("exclusiveGateway")) {
+					result = "Exclusive (XOR)";
+				} else {
+					result = "Inclusive (OR)";
+				}
+				return false;
 			}
 		});
-		$(inclusiveGateways).each(function(index, inclusiveGateway) {
-			if (inclusiveGateway.getAttribute("id") == id && 
-					(inclusiveGateway.getAttribute("gatewayDirection") == "diverging" ||
-					inclusiveGateway.getAttribute("gatewayDirection") == "mixed") ||
-					bimp.parser.countSequenceFlowsFromGateway(id) > 1) {
-				result = "Inclusive (OR)";
-			}
-		});
+//		$(inclusiveGateways).each(function(index, inclusiveGateway) {
+//			if (inclusiveGateway.getAttribute("id") == id && 
+//					(inclusiveGateway.getAttribute("gatewayDirection") == "diverging" ||
+//					inclusiveGateway.getAttribute("gatewayDirection") == "mixed") ||
+//					bimp.parser.countSequenceFlowsFromGateway(id) > 1) {
+//				result = "Inclusive (OR)";
+//			}
+//		});
 		return result;
 	},
 	countSequenceFlowsFromGateway : function (id) {
-		var count = 0;
-		sequenceFlows = $(this.xmlFile).find(bimp.parser.prefixEscaped + "sequenceFlow");
-		// TODO: Refactor it, currently too slow
+		var count = 0,
+			sequenceFlows = bimp.parser.cache.get("sequenceFlows", function () {
+				return $(bimp.parser.xmlFile).find(bimp.parser.prefixEscaped + "sequenceFlow");
+			});
 		$(sequenceFlows).each(function(index, sequenceFlow) {
 			var sourceRef = sequenceFlow.getAttribute("sourceRef");
-			var sourceRefNodeName = "";
-			if ($(bimp.parser.xmlFile).find("#" + sourceRef)[0]) {
-				sourceRefNodeName = $(bimp.parser.xmlFile).find("#" + sourceRef)[0].nodeName;
-			}
-			if (sourceRefNodeName == bimp.parser.prefix + "exclusiveGateway" || sourceRefNodeName == bimp.parser.prefix + "inclusiveGateway") {
-				if (sourceRef === id) {
+			if (sourceRef === id) {
+				var sourceRefNodeName = "",
+					sourceRefNode = $(bimp.parser.xmlFile).find("#" + sourceRef)[0];
+				if (sourceRefNode) {
+					sourceRefNodeName = sourceRefNode.nodeName;
+				}
+				if (sourceRefNodeName == bimp.parser.prefix + "exclusiveGateway" || sourceRefNodeName == bimp.parser.prefix + "inclusiveGateway") {
 					count += 1;
 				}
 			}
 		});
 		return count;
+	},
+	cache: {
+		get: function (name, value) {
+			var cache = bimp.parser.cache.cache,
+				cachedValue = cache[name];
+			if (cachedValue) {
+				return cachedValue;
+			} else {
+				cache[name] = value();
+				return cache[name];
+			}
+		},
+		cache: {}
 	}
 };

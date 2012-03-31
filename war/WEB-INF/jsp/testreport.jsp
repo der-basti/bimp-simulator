@@ -64,17 +64,17 @@
 					</thead>
 					<tbody>
 						<tr>
-							<td>Status:</td>
+							<td><strong>Total duration:</strong></td>
+							<td>${testReport.testDuration} s</td>
+						</tr>
+						<tr>
+							<td><strong>Status:</strong></td>
 							<td class="colorize">${testReport.successfulTestsCount}/${testReport.fileCount}</td>
 							<td class="colorize">${testReport.successPercentage}%</td>
 						</tr>
 						<tr>
-							<td>Total duration:</td>
-							<td>${testReport.testDuration} s</td>
-						</tr>
-						<tr>
 							<td rowspan="2" colspan="3">
-								Completed events:
+								<strong>Completed events:</strong>
 							</td>
 							<th>1</th>
 							<th>2</th>
@@ -190,12 +190,13 @@ tr.error {
 				nrs = $el.text().split("%");
 				pc = parseInt(nrs[0], 10) / 100;
 			}
-			if (pc > 0.5) {
-				red = Math.floor((1 - pc) * red * 100) / 100;
+			if (pc >= 0.9) {
+				red = Math.floor((1 - pc)/0.1 * red);
 				
 			} else {
-				green = Math.floor(pc * green * 100) / 100;
+				green = Math.floor(pc * green);
 			}
+			console.log(red,green);
 			$el.css({"background-color": "rgb(" + red + "," + green + ",0)"});
 		});
 	});
