@@ -1,6 +1,5 @@
 package ee.ut.math.bimp;
 
-import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.createStrictMock;
 import static org.easymock.EasyMock.expect;
 
@@ -13,10 +12,10 @@ import org.junit.Test;
 
 public class SimulationControllerTest extends TestCase {
 
-	@Test(timeout = 1000)
-	public void testSimulationStart() {
-		HttpServletRequest request = createStrictMock(HttpServletRequest.class);
-		expect(request.getRequestDispatcher("/simulate")).andReturn(createStrictMock(RequestDispatcher.class));
-		
-	}
+  @Test(timeout = 1000)
+  public void testSimulationStart() {
+    HttpServletRequest request = createStrictMock(HttpServletRequest.class);
+    expect(request.getRequestDispatcher("/simulate")).andReturn(createStrictMock(RequestDispatcher.class));
+
+  }
 }
