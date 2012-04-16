@@ -26,7 +26,7 @@ public class SeleniumMain {
 
     WebDriver driver = new RemoteWebDriver(new URL("http://viljark:e9d38972-dba8-4713-89ff-e621ebf88c91@ondemand.saucelabs.com:80/wd/hub"),
         capabilities);
-    driver.get("localhost:8080/runtestfiles?action=start");
+    driver.get("test.ee/runtestfiles?action=start");
     System.out.println(driver.getPageSource());
     (new WebDriverWait(driver, 30, 2)).until(new ExpectedCondition<Boolean>() {
       @Override
