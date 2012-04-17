@@ -133,9 +133,10 @@
 			<c:if test="${not empty utilization}">
 			utilization = ${utilization};
 			</c:if>
-			
-			drawDurationsChart();
-			drawWaitingTimesChart();
-			drawCostsChart();
-			drawResourcesChart();
+			if (google) {
+				drawDurationsChart();
+				drawWaitingTimesChart();
+				drawCostsChart();
+				drawResourcesChart();
+			}
 		</script>
