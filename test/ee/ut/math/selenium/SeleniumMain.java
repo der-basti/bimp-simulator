@@ -19,16 +19,16 @@ public class SeleniumMain {
     // WebDriver driver = new FirefoxDriver();
     // driver.get("localhost:8080/runtestfiles?action=start");
 
-    DesiredCapabilities capabilities = DesiredCapabilities.firefox();
-    capabilities.setCapability("version", "7");
+    DesiredCapabilities capabilities = DesiredCapabilities.chrome();
+    // capabilities.setCapability("version", "7");
     capabilities.setCapability("platform", Platform.VISTA);
     capabilities.setCapability("name", "Testing Selenium 2 with Java on Sauce");
 
     WebDriver driver = new RemoteWebDriver(new URL("http://viljark:e9d38972-dba8-4713-89ff-e621ebf88c91@ondemand.saucelabs.com:80/wd/hub"),
         capabilities);
-    driver.get("localhost:8080/runtestfiles?action=start");
+    driver.get("fafafa.fa:8080/runtestfiles?action=start");
     System.out.println(driver.getPageSource());
-    (new WebDriverWait(driver, 120, 5)).until(new ExpectedCondition<Boolean>() {
+    (new WebDriverWait(driver, 60, 5)).until(new ExpectedCondition<Boolean>() {
       @Override
       public Boolean apply(WebDriver d) {
         return d.getTitle().toLowerCase().startsWith("test report");
