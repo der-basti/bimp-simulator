@@ -21,8 +21,8 @@ public class SeleniumMain {
     // driver.get("localhost:8080/runtestfiles?action=start");
 
     DesiredCapabilities capabilities = DesiredCapabilities.firefox();
-    capabilities.setCapability("version", "5");
-    capabilities.setCapability("platform", Platform.XP);
+    capabilities.setCapability("version", "7");
+    capabilities.setCapability("platform", Platform.VISTA);
     capabilities.setCapability("name", "Testing Selenium 2 with Java on Sauce");
 
     WebDriver driver = new RemoteWebDriver(new URL("http://viljark:e9d38972-dba8-4713-89ff-e621ebf88c91@ondemand.saucelabs.com:80/wd/hub"),
