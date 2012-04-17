@@ -133,7 +133,7 @@
 			<c:if test="${not empty utilization}">
 			utilization = ${utilization};
 			</c:if>
-			if (google) {
+			if (typeof(google) != "undefined") {
 				drawDurationsChart();
 				drawWaitingTimesChart();
 				drawCostsChart();
