@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.Platform;
@@ -26,6 +27,7 @@ public class SeleniumMain {
 
     WebDriver driver = new RemoteWebDriver(new URL("http://viljark:e9d38972-dba8-4713-89ff-e621ebf88c91@ondemand.saucelabs.com:80/wd/hub"),
         capabilities);
+    driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
     driver.get("test.ee/runtestfiles?action=start");
     System.out.println(driver.getPageSource());
     (new WebDriverWait(driver, 30, 2)).until(new ExpectedCondition<Boolean>() {
