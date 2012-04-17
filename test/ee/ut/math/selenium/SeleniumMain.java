@@ -28,7 +28,7 @@ public class SeleniumMain {
         capabilities);
     driver.get("localhost:8080/runtestfiles?action=start");
     System.out.println(driver.getPageSource());
-    (new WebDriverWait(driver, 10, 2)).until(new ExpectedCondition<Boolean>() {
+    (new WebDriverWait(driver, 120, 5)).until(new ExpectedCondition<Boolean>() {
       @Override
       public Boolean apply(WebDriver d) {
         return d.getTitle().toLowerCase().startsWith("test report");
