@@ -119,7 +119,14 @@ bimp.parser = {
 	},
 	readTasks : function() {
 		$("body").trigger(bimp.testutil.config.startEvent, ["readTasks"]);
-		var tasks = $(this.xmlFile).find(bimp.parser.prefixEscaped + "task");
+		var tasks = $(this.xmlFile).find(bimp.parser.prefixEscaped + "task"),
+			subProcesses = $(this.xmlFile).find(bimp.parser.prefixEscaped + "subProcess");
+		// handling empty subprocesses as tasks:
+		for (var i = 0; i < subProcesses.length; i++) {
+			if ($(subProcesses[i]).find(bimp.parser.prefixEscaped + "outgoing").length == 0) {
+				tasks.push(subProcesses[i]);
+			}
+		}
 		//console.log("Found",tasks.length,"tasks");
 		$(tasks).each(function(index, task){
 			var data = $(task).find(bimp.parser.prefixEscaped + "documentation");

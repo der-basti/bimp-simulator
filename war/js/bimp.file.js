@@ -139,6 +139,13 @@ bimp.file = {
 		
 			var taskNodes = $(bimp.parser.xmlFile).find(bimp.parser.prefixEscaped + "task");
 			// tasks
+			//handling empty subProcesses as tasks
+			var subProcesses = $(bimp.parser.xmlFile).find(bimp.parser.prefixEscaped + "subProcess");
+			for (var i = 0; i < subProcesses.length; i++) {
+				if ($(subProcesses[i]).find(bimp.parser.prefixEscaped + "outgoing").length == 0) {
+					taskNodes.push(subProcesses[i]);
+				}
+			}
 			$.each(bimp.parser.tasks, function(id, task) {
 				
 				$(taskNodes).each(function(nodeId, taskNode) {

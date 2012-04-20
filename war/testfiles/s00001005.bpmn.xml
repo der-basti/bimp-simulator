@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?><definitions expressionLanguage="http://www.w3.org/1999/XPath" id="_4754004280757104199" targetNamespace="http://www.omg.org/bpmn20" typeLanguage="http://www.w3.org/2001/XMLSchema" xmlns="http://schema.omg.org/spec/BPMN/2.0">
+<process id="_3175672208663186368">
+<startEvent id="_2383741155820908282"/>
+<sequenceFlow id="_62994537311329215" sourceRef="_2383741155820908282" targetRef="s00000959_1756"/>
+<sequenceFlow id="_2412410541102357001" sourceRef="_2383741155820908282" targetRef="s00000981_1751"/>
+<sequenceFlow id="_7732451505680201139" sourceRef="_2383741155820908282" targetRef="s00000959_1756"/>
+<sequenceFlow id="_6610811859166529627" sourceRef="_2383741155820908282" targetRef="s00000915_1753"/>
+<endEvent id="_3224559062186147863"/>
+<sequenceFlow id="_3357267346779009425" sourceRef="s00000915_1754" targetRef="_3224559062186147863"/>
+<sequenceFlow id="_4616486279057061934" sourceRef="s00000915_1754" targetRef="_3224559062186147863"/>
+<startEvent id="s00000705_1743"/>
+<sequenceFlow id="_5091970118371020980" sourceRef="s00000705_1743" targetRef="s00000959_1756"/>
+<endEvent id="s00000706_1744"/>
+<endEvent id="s00000850_1745"/>
+<exclusiveGateway id="s00001006_1747"/>
+<sequenceFlow id="_4275940878527962987" sourceRef="s00001006_1747" targetRef="s00000706_1744"/>
+<sequenceFlow id="_7087876773481397275" sourceRef="s00001006_1747" targetRef="s00001006_1748"/>
+<parallelGateway id="s00001006_1748"/>
+<sequenceFlow id="_1307769273651971838" sourceRef="s00001006_1748" targetRef="s00000915_1753"/>
+<sequenceFlow id="_4932863536634895519" sourceRef="s00001006_1748" targetRef="s00000915_1753"/>
+<parallelGateway id="s00001006_1749"/>
+<sequenceFlow id="_6405734314507241109" sourceRef="s00001006_1749" targetRef="s00001006_1747"/>
+<parallelGateway id="s00000981_1751"/>
+<sequenceFlow id="_2388362149785101363" sourceRef="s00000981_1751" targetRef="s00000959_1756"/>
+<sequenceFlow id="_4778312420380888318" sourceRef="s00000981_1751" targetRef="s00000915_1753"/>
+<task id="s00000915_1752" name="s00000915"/>
+<sequenceFlow id="_8834114996010694979" sourceRef="s00000915_1752" targetRef="s00000915_1754"/>
+<parallelGateway id="s00000915_1753" name="s00000915"/>
+<sequenceFlow id="_3824225148952301025" sourceRef="s00000915_1753" targetRef="s00000915_1752"/>
+<parallelGateway id="s00000915_1754" name="s00000915"/>
+<sequenceFlow id="_5498753106824122763" sourceRef="s00000915_1754" targetRef="s00000850_1745"/>
+<task id="s00000959_1755" name="s00000959"/>
+<sequenceFlow id="_7174388288941524390" sourceRef="s00000959_1755" targetRef="s00000959_1757"/>
+<parallelGateway id="s00000959_1756" name="s00000959"/>
+<sequenceFlow id="_2194078498012135492" sourceRef="s00000959_1756" targetRef="s00000959_1755"/>
+<parallelGateway id="s00000959_1757" name="s00000959"/>
+<sequenceFlow id="_4673110638172875079" sourceRef="s00000959_1757" targetRef="s00001006_1749"/>
+<sequenceFlow id="_1401839467278987878" sourceRef="s00000959_1757" targetRef="s00001006_1749"/>
+</process>
+</definitions>
