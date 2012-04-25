@@ -53,7 +53,7 @@ public class SimulationController {
    * Shows the status of the simulation, writes it out as JSON into the
    * response.
    */
-  @RequestMapping(value = "/getStatus", method = RequestMethod.POST)
+  @RequestMapping(value = "/getStatus", method = RequestMethod.GET)
   @SuppressWarnings("unchecked")
   public void getStatus(HttpServletResponse response, HttpServletRequest request) {
     JSONObject json = new JSONObject();
@@ -152,7 +152,6 @@ public class SimulationController {
             .parseDouble(dec.format((kpi.getResourceUtilization((ee.ut.bpsimulator.model.Resource) resources[i]) * 100)));
         resourcesStr[i] = resources[i].toString().split("id")[0].split("Resource ")[1];
       }
-
       HistogramValue durationsHV = getHistogramValues(kpi.getProcessDurations(), false);
       HistogramValue waitingTimesHV = getHistogramValues(kpi.getProcessWaitingTimes(), false);
       HistogramValue costsHV = getHistogramValues(kpi.getProcessCosts(), true);
@@ -230,8 +229,9 @@ public class SimulationController {
         }
 
         double difference = (max - min) / divisor;
+        log.info("difference = " + difference);
         if (difference == 0) {
-          return new HistogramValue(null, null);
+          return new HistogramValue(new int[] { array.length }, new String[] { Math.floor(max / divisor) + unit });
         }
         String differenceStr = Long.toString((long) difference);
         char first = difference > 0 ? differenceStr.charAt(0) : '0';

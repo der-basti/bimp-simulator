@@ -7,7 +7,6 @@ import java.util.List;
 public class SimulationReport {
   private String fileName;
   private List<Event> events;
-  private boolean hasError;
   private Date startDate;
 
   public SimulationReport(String fileName) {
@@ -38,10 +37,6 @@ public class SimulationReport {
       }
     }
     return false;
-  }
-
-  public void setHasError(boolean hasError) {
-    this.hasError = hasError;
   }
 
   public double getDuration() {

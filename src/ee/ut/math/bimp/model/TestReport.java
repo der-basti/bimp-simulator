@@ -5,7 +5,6 @@ import java.util.List;
 public class TestReport {
   private List<SimulationReport> simulationReports;
   private double testDuration;
-  private int fileCount;
   private int eventCount;
   private int successfulTestsCount;
   private String successPercentage;

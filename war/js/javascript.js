@@ -190,6 +190,7 @@ $(document).ready(function () {
 			$(this).remove();
 		});
 		$("#uploadPage").fadeIn("fast");
+		isResultsShown = false;
 	});
 
 	$("body").delegate(".close", "click", function () {
@@ -380,7 +381,7 @@ getStatus = function() {
 	timer += interval;
 	$.ajax({
 		contentType : 'application/json',
-		type : 'post',
+		type : 'get',
 		url : '/getStatus',
 		success : function(data) {
 			switch (data.status) {
