@@ -88,7 +88,6 @@ bimp.parser = {
 	},
 	init : function () {
 		this.xmlFile = bimp.file.xmlFile;
-
 	},
 	readStartEvent : function() {
 		$("body").trigger(bimp.testutil.config.startEvent, ["readStartEvent"]);
@@ -96,7 +95,7 @@ bimp.parser = {
 		if (doc.length > 0) {
 			//console.log("Found startEvent and added it");
 			try {
-				var simInfo = $.parseJSON(doc.text());
+				var simInfo = JSON.parse(doc.text());
 				$.extend(true, this.startEvent, simInfo);
 			} catch (e) {
 				if (console && console.log) {
@@ -133,7 +132,7 @@ bimp.parser = {
 			var taskObj = {};
 			if (data.length > 0) {
 				try {
-					taskObj = $.parseJSON($(data).text());
+					taskObj = JSON.parse($(data).text());
 				} catch (e) {
 					if (console && console.log) {
 						console.log("Documentation tag contains invalid JSON, ignoring it", e)
@@ -161,7 +160,7 @@ bimp.parser = {
 			var catchEventObj = {};
 			if (data.length > 0) {
 				try {
-					catchEventObj = $.parseJSON($(data).text());
+					catchEventObj = JSON.parse($(data).text());
 				} catch (e) {
 					if (console && console.log) {
 						console.log("Documentation tag contains invalid JSON, ignoring it", e)

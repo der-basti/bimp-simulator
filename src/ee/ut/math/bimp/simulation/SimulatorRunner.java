@@ -1,4 +1,4 @@
-package ee.ut.math.bimp;
+package ee.ut.math.bimp.simulation;
 
 import org.apache.log4j.Logger;
 

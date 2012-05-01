@@ -61,7 +61,6 @@ bimp.file = {
 			$("body").trigger(bimp.testutil.config.startEvent, ["uploadFile"]);
 			$.post("/uploadjson", {"mxmlLog": $("#mxmlLog").is(':checked'),"fileData": new XMLSerializer().serializeToString(bimp.parser.xmlFile)}, function (data) {
 				if (data.status == "Success") {
-					//console.log("file upload successful");
 					if (data.redirect) {
 						$("body").trigger(bimp.testutil.config.endEvent, ["uploadFile"]);
 						openLoadingModal();

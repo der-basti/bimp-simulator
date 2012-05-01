@@ -1,4 +1,4 @@
-package ee.ut.math.bimp;
+package ee.ut.math.bimp.simulation;
 
 import ee.ut.bpsimulator.BPSimulator;
 import ee.ut.bpsimulator.logger.KpiCalculator;

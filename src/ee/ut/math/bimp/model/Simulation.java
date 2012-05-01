@@ -1,7 +1,7 @@
 package ee.ut.math.bimp.model;
 
-import ee.ut.math.bimp.SimulationChecker;
-import ee.ut.math.bimp.SimulatorRunner;
+import ee.ut.math.bimp.simulation.SimulationChecker;
+import ee.ut.math.bimp.simulation.SimulatorRunner;
 
 /**
  * Simulation class for holding all simulation related objects

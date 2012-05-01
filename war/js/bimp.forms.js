@@ -192,9 +192,6 @@ bimp.forms = {
 			});
 			clone ? $(selector).append(htmlObj) : true;
 		},
-		validate : function () {
-			
-		},
 		read : {
 			start : function () {
 				$("body").trigger(bimp.testutil.config.startEvent, ["readForm"]);

@@ -30,9 +30,13 @@ import ee.ut.math.bimp.data.RepresentableActivity;
 import ee.ut.math.bimp.data.ResultItem;
 import ee.ut.math.bimp.model.HistogramValue;
 import ee.ut.math.bimp.model.Simulation;
+import ee.ut.math.bimp.simulation.SimulationChecker;
+import ee.ut.math.bimp.simulation.SimulatorRunner;
 
 /**
- * Simulation controller.
+ * Simulation controller, responsible of simulation related activities like
+ * starting the simulation, providing the status of it and providing the
+ * simulation results.
  * 
  * @author Marko, Viljar
  * 
@@ -187,6 +191,12 @@ public class SimulationController {
 
   }
 
+  /**
+   * 
+   * @param array
+   * @param isCostChart
+   * @return
+   */
   private HistogramValue getHistogramValues(double[] array, boolean isCostChart) {
     try {
       if (array == null) {
@@ -206,15 +216,12 @@ public class SimulationController {
           }
         }
 
-        int divisor;
+        int divisor = 1;
         String unit;
 
         if (isCostChart) {
-          divisor = 1;
           unit = "";
-        }
-
-        else if (max >= 432000) {
+        } else if (max >= 432000) {
           divisor = 86400;
           unit = " days";
         } else if (max >= 18000) {
@@ -224,7 +231,6 @@ public class SimulationController {
           divisor = 60;
           unit = " min";
         } else {
-          divisor = 1;
           unit = " s";
         }
 
@@ -238,11 +244,11 @@ public class SimulationController {
         char second = difference >= 10 ? differenceStr.charAt(1) : '0';
         int powerOfTen = differenceStr.length() - 1;
         int interval;
-
+        log.info("powerOfTen = " + powerOfTen);
         if (powerOfTen >= 2 && (first < '2' || first == '2' && second < '5')) {
           powerOfTen -= 2;
           interval = (int) (25 * (Math.pow(10, powerOfTen)));
-        } else if (first < '5') {
+        } else if (powerOfTen == 1 && first < '5') {
           powerOfTen -= 1;
           interval = (int) (5 * (Math.pow(10, powerOfTen)));
         } else {
@@ -251,9 +257,12 @@ public class SimulationController {
 
         int intervalAmount = (int) Math.ceil(difference / interval);
         log.info("intervalamount is " + intervalAmount);
-        if (intervalAmount > Integer.MAX_VALUE - 5) {
-          // avoiding puddles
-          return new HistogramValue();
+        while (intervalAmount > Integer.MAX_VALUE - 5) {
+          // a failsafe
+          log.error("intervalamount is too big");
+          interval = interval * 1000;
+          intervalAmount = (int) Math.ceil(difference / interval);
+          log.info("new intervalamount is " + intervalAmount);
         }
         int[] counts = new int[intervalAmount];
         String[] intervals = new String[intervalAmount];

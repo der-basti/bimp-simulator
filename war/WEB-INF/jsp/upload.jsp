@@ -14,6 +14,7 @@
 <script type="text/javascript" src="./js/bimp.forms.js"></script>
 <script type="text/javascript" src="./js/bimp.charts.js"></script>
 <script type="text/javascript" src="./js/bimp.testutil.js"></script>
+<script type="text/javascript" src="./js/validate.js"></script>
 <script type="text/javascript" src="./js/javascript.js"></script>
 <script type="text/javascript" src="./js/jquery-ui-timepicker-addon.js"></script>
 <script type="text/javascript" src="./js/xregexp-min.js"></script>
