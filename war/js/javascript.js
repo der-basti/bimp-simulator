@@ -354,7 +354,7 @@ var openLoadingModal = function () {
 	$("body").append("<div id='loading'>" +
 			"<div class='close'><span>x</span></div>" +
 			"<div class='top'><h2 class='title'>Running your simulation, please wait</h2></div>" +
-			"<div><span class='status'>Status</span></div>" +
+			"<div class='status-wrap'><p><span class='status'>Status</span></p></div>" +
 			"<div class='progressBarContainer'><div class='progressBar'></div></div>" +
 			"<h2 class='progress'>Progress</h2>" +
 			"</div>");
@@ -455,9 +455,9 @@ var showLoadingError = function (data) {
 	$("#loading").addClass("error");
 	$(".title").text("Simulation ended with an error, please revise your data.");
 	$(".status").text("Error: " + (data.error ?  + data.error : "Unknown error"));
-	$(".status").parent().append("<a id='details' href='#'>Details</a>");
+	$(".status-wrap").append("<a id='details' href='#'>Details</a>");
 	$("body").on("click", "#details", function () {
-		$("<div style='height: 200px; overflow-x: hidden; '></div>").html(data.stacktrace).dialog({width: "500px", height: "400px", title: "Error details", buttons: { "Ok": function() { $(this).dialog("close"); } }, resizable: false }).css({height: "200px"});
+		$("<div style='height: 200px; overflow-x: hidden; '></div>").html(data.stacktrace ? data.stacktrace : "No information found.").dialog({width: "500px", height: "400px", title: "Error details", buttons: { "Ok": function() { $(this).dialog("close"); } }, resizable: false }).css({height: "200px"});
 		return false;
 	});
 	$(".close").show();
