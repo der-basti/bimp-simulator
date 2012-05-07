@@ -262,7 +262,6 @@ public class SimulationController {
           log.error("intervalamount is too big");
           interval = interval * 1000;
           intervalAmount = (int) Math.ceil(difference / interval);
-          log.info("new intervalamount is " + intervalAmount);
         }
         int[] counts = new int[intervalAmount];
         String[] intervals = new String[intervalAmount];
