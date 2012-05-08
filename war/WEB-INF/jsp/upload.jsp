@@ -104,17 +104,11 @@
 								<tr>
 									<th>Simulation start time:</th>
 									<td>
-										<!-- TODO: date and time input, 
-										get rid of script, 
-										normal handler for starttime onFocus --> <input name="startAt"
-										class="normal datepicker startAtDate medium" type="text"
-										onFocus="if(this.value==this.defaultValue){this.value='';}"
-										value="yyyy-mm-dd" title="YYYY-MM-DD"> 
+										<input name="startAt"
+										class="normal datepicker startAtDate medium" type="text" title="YYYY-MM-DD"> 
 										
 										<input name="startAt"
-										class="normal timepicker startAtTime time" type="text"
-										onFocus="if(this.value==this.defaultValue){this.value='';}"
-										value="HH:MM:SS" title="HH:MM:SS">
+										class="normal timepicker startAtTime time" type="text" title="HH:MM:SS">
 										<script>
 											$(".datepicker").datepicker({
 												dateFormat : 'yy-mm-dd'

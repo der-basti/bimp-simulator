@@ -11,6 +11,7 @@ bimp.forms = {
 				bimp.forms.setDefaultXORValues();
 				updateResourceDropdowns();
 				removeLastButton();
+				setStartTimeDefaults();
 				$(".currencyText").text($(".currency").val());
 				$(".timepicker").timepicker({timeFormat:"hh:mm:ss"});
 			},

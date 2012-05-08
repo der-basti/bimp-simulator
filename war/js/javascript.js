@@ -426,15 +426,16 @@ getStatus = function() {
 							closeLoadingModal();
 							$("#header").after(data);
 							$("body").trigger(bimp.testutil.config.endEvent, ["openLoadingModal"]);
+							isResultsShown = true;
 						}, 
 						error: function (data) {
 							clearInterval(timerId);
 							data.error = "Unable to retrieve results";
 							showLoadingError(data);
+							isResultsShown = false;
 						}
 					});
 				}
-				isResultsShown = true;
 				break;
 			case ("ERROR"):
 				clearInterval(timerId);
@@ -610,3 +611,22 @@ function SimulationError(message, stacktrace) {
 
 SimulationError.prototype = new Error();
 SimulationError.constructor = SimulationError;
+
+function setStartTimeDefaults() {
+	if (!$(".startAtDate").val() || !$(".startAtTime").val()) {
+		var d = new Date(),
+		dateString, timeString;
+		dateString = d.getFullYear() + "-" + formatTime(d.getMonth() + 1) + "-" + formatTime(d.getDay());
+		timeString = formatTime(d.getHours()) + ":" + formatTime(d.getMinutes()) + ":" + formatTime(d.getSeconds());
+		$(".startAtDate").val(dateString);
+		$(".startAtTime").val(timeString);
+	}
+}
+
+function formatTime(input) {
+	input = input.toString();
+	if (input.length == 1) {
+		input = "0" + input;
+	}
+	return input;
+}
