@@ -455,7 +455,7 @@ getStatus = function() {
 var showLoadingError = function (data) {
 	$("#loading").addClass("error");
 	$(".title").text("Simulation ended with an error, please revise your data.");
-	$(".status").text("Error: " + (data.error ?  + data.error : "Unknown error"));
+	$(".status").text("Error: " + (data.error ? data.error : "Unknown error"));
 	$(".status-wrap").append("<a id='details' href='#'>Details</a>");
 	$("body").on("click", "#details", function () {
 		$("<div style='height: 200px; overflow-x: hidden; '></div>").html(data.stacktrace ? data.stacktrace : "No information found.").dialog({width: "500px", height: "400px", title: "Error details", buttons: { "Ok": function() { $(this).dialog("close"); } }, resizable: false }).css({height: "200px"});
