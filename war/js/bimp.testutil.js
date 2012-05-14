@@ -24,7 +24,7 @@ bimp.testutil = bimp.testutil ? bimp.testutil : {
 		filesTotal: ""
 	},
 	init: function () {
-		// 
+		// initialising the testutil, setting the subtasks to actionQueue
 		bimp.testutil.config.fileName = $("#fileName").val();
 		bimp.testutil.config.fileNr = parseInt($("#fileNr").val(), 10);
 		bimp.testutil.config.filesTotal = parseInt($("#filesTotal").val(), 10);
@@ -158,6 +158,7 @@ bimp.testutil = bimp.testutil ? bimp.testutil : {
 		}
 	},
 	watcher: {
+		// an object responsible of observing the status of subtasks and initialising the reporter object.
 		stats: {},
 		start: function () {
 			var config = bimp.testutil.config;
@@ -183,10 +184,6 @@ bimp.testutil = bimp.testutil ? bimp.testutil : {
 				var watcher = bimp.testutil.watcher;
 				console.log("got error in", data["name"], "saying that", data["cause"].toString(), "at", data["cause"].stack);
 				watcher.stats[data["name"]] = watcher.stats[data["name"]] ? watcher.stats[data["name"]] : {};
-//				watcher.stats[data["name"]].error = {
-//						type: data["cause"].toString(),
-//						stack: data["cause"].stack
-//				};
 				watcher.stats[data["name"]].errorCode = data["cause"].errorcode ? data["cause"].errorcode : 1;
 				var simStack = data["cause"].toString().split("||")[1] ? " caused by => " + data["cause"].toString().split("||")[1] : "";
 				watcher.stats[data["name"]].errorMessage = escapeHtml(data["cause"].toString().split("||")[0]); 
@@ -201,6 +198,7 @@ bimp.testutil = bimp.testutil ? bimp.testutil : {
 		
 	},
 	reporter: {
+		// an object responsible for communication with back-end controller in order to provide the results of testfile parsing and simulation
 		start: function () {
 			var stats = bimp.testutil.watcher.stats;
 			var array = [];

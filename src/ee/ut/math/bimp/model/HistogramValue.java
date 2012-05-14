@@ -1,5 +1,11 @@
 package ee.ut.math.bimp.model;
 
+/**
+ * A class to represent histogram values. Contains value counts and intervals. 
+ * Value counts represent the the number of values between calculated intervals.
+ * @author Viljar Kärgenberg
+ *
+ */
 public class HistogramValue {
   private int[] counts;
   private String[] intervals;

@@ -23,7 +23,7 @@ public class MainPageController {
 
 
 	/**
-	 * Default.
+	 * Default controller.
 	 * 
 	 * @return
 	 */
@@ -31,8 +31,6 @@ public class MainPageController {
 	public String init(ModelMap model, HttpServletRequest request) {
 
 		log.debug("/ requested, sending message");
-		model.addAttribute("msg", "It works!");
-
 		return "index";
 	}
 
@@ -64,7 +62,10 @@ public class MainPageController {
 	}
 
 	/**
-	 * Handles for the logfile download. Writes the file to the response.
+	 * Controller for the logfile download. Writes the file to the response.
+	 * @param request
+	 * @param download Represents the type of the requested artifact
+	 * @param response
 	 */
 	@RequestMapping(value = "/file", method = RequestMethod.POST)
 	public void getFile(HttpServletRequest request, String download,

@@ -464,7 +464,6 @@ var showLoadingError = function (data) {
 	});
 	$(".close").show();
 	throw new SimulationError("Simulation error: " +  (data.error ?  + data.error : "Unknown error") + "||"+ data.stacktrace, data.stacktrace);
-//	throw new Error("Simulation error: " +  (data.error ?  + data.error : "Unknown error"));
 };
 
 var preloadTaskResources = function () {

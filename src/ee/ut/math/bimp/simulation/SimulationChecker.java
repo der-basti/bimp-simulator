@@ -4,6 +4,10 @@ import ee.ut.bpsimulator.BPSimulator;
 import ee.ut.bpsimulator.logger.KpiCalculator;
 import ee.ut.bpsimulator.logger.MxmlLogger;
 
+/**
+ * A class that enables simulation status checking while the simulation is running.
+ *
+ */
 public class SimulationChecker extends Thread {
 
   private final BPSimulator simInstance;

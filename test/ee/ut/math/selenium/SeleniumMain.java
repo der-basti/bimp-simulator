@@ -13,6 +13,11 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+/**
+ * A Selenium test to initialise the automated tests in Jenkins by using Saucelabs OnDemand service.
+ * @author Viljar Kärgenberg
+ *
+ */
 public class SeleniumMain {
 
   public static void main(String[] args) throws MalformedURLException {

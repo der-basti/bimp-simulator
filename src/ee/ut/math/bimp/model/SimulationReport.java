@@ -4,6 +4,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * A class representing a simulation-report.
+ * @author Viljar Kärgenberg
+ *
+ */
 public class SimulationReport {
   private String fileName;
   private List<Event> events;

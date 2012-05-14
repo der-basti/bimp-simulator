@@ -10,7 +10,7 @@ import ee.ut.bpsimulator.logger.MxmlLogger;
 /**
  * Simulator runner.
  * 
- * @author Marko
+ * @author Marko & Viljar
  * 
  */
 public class SimulatorRunner {
@@ -48,8 +48,7 @@ public class SimulatorRunner {
   /**
    * Initializes the simulator and stats calculator.
    * 
-   * @param path
-   *          the file path.
+   * @param path the file path.
    */
   public void init(String path) {
     this.path = path;

@@ -6,7 +6,7 @@ import ee.ut.math.bimp.simulation.SimulatorRunner;
 /**
  * Simulation class for holding all simulation related objects
  * 
- * @author Viljar
+ * @author Viljar Kärgenberg
  * 
  */
 public class Simulation {

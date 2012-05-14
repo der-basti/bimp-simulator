@@ -91,7 +91,7 @@ public class SimulationController {
       writer.print(json.toString());
       writer.close();
     } catch (IOException e) {
-      e.printStackTrace();
+      log.error("Writing response JSON failed", e);
     }
 
   }
@@ -118,8 +118,7 @@ public class SimulationController {
       simulation.start();
     } catch (Exception e) {
       simulation.setException(e);
-      log.debug("Simulation failed", e);
-      e.printStackTrace();
+      log.error("Simulation failed", e);
     }
     return "loading";
   }
@@ -152,8 +151,7 @@ public class SimulationController {
       otherSymbols.setGroupingSeparator(' ');
       DecimalFormat dec = new DecimalFormat("###.#", otherSymbols);
       for (int i = 0; i < resources.length; i++) {
-        utilization[i] = Double
-            .parseDouble(dec.format((kpi.getResourceUtilization((ee.ut.bpsimulator.model.Resource) resources[i]) * 100)));
+        utilization[i] = Double.parseDouble(dec.format((kpi.getResourceUtilization((ee.ut.bpsimulator.model.Resource) resources[i]) * 100)));
         resourcesStr[i] = resources[i].toString().split("id")[0].split("Resource ")[1];
       }
       HistogramValue durationsHV = getHistogramValues(kpi.getProcessDurations(), false);
@@ -192,10 +190,11 @@ public class SimulationController {
   }
 
   /**
+   * A method for calculating histogram values, that are used to display histograms with Google Charts
    * 
-   * @param array
-   * @param isCostChart
-   * @return
+   * @param array contains the dataset
+   * @param isCostChart boolean to specify, if the dataset contains process costs
+   * @return HistogramValue object, containing the counts of values between calculated intervals
    */
   private HistogramValue getHistogramValues(double[] array, boolean isCostChart) {
     try {

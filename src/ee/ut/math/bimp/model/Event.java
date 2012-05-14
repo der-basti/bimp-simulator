@@ -1,5 +1,11 @@
 package ee.ut.math.bimp.model;
 
+/**
+ * A class representing BIMP online-simulator event (subtask) and it's result.
+ * @author Viljar Kärgenberg
+ *
+ */
+
 public class Event {
 
   private String name;

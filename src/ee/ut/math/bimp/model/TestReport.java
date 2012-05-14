@@ -2,6 +2,11 @@ package ee.ut.math.bimp.model;
 
 import java.util.List;
 
+/**
+ * A class representing the test report of a testcase
+ * @author Viljar Kärgenberg
+ *
+ */
 public class TestReport {
   private List<SimulationReport> simulationReports;
   private double testDuration;
