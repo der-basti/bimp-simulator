@@ -20,14 +20,14 @@ bimp.file = {
 					try {
 						bimp.file.readTextToDocument(e.target.result);
 					} catch (e) {
-//						alert("Error parsing file, please provide a valid file.");
+						bimp.tools.openError("Invalid file!");
 						console.log(e);
 						throw new Error("Invalid file");
 					}
 				};
 				
 			} catch (e) {
-//				alert("Error reading file, please provide valid file.", e);
+				bimp.tools.openError("Invalid file!");
 				console.log(e);
 				throw new Error("Invalid file");
 			}

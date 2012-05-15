@@ -1,7 +1,6 @@
 package ee.ut.math.bimp;
 
 import java.io.File;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.Type;
@@ -29,8 +28,9 @@ import ee.ut.math.bimp.model.TestReport;
 
 /**
  * A controller for handling the test process.
- * @author viljark
- *
+ * 
+ * @author Viljar Kärgenberg
+ * 
  */
 @Controller
 public class TestProcessController {
@@ -43,8 +43,11 @@ public class TestProcessController {
   private static Gson gson = new Gson();
   private static final Type type = new TypeToken<List<Event>>() {
   }.getType();
+
   /**
-   * A method, that is mapped to "/runtestfiles". It is responsible for starting the testing process and retrieving the test files.
+   * A method, that is mapped to "/runtestfiles". It is responsible for starting
+   * the testing process and retrieving the test files.
+   * 
    * @param response
    * @param request
    * @param model
@@ -77,8 +80,10 @@ public class TestProcessController {
     }
     return "/upload";
   }
+
   /**
    * A method for retrieving the current test report.
+   * 
    * @param response
    * @param request
    * @param model
@@ -95,12 +100,15 @@ public class TestProcessController {
     model.addAttribute("testReport", testReport);
     return "/testreport";
   }
-/**
- * A method, that saves currently processed test file's test result to the test report.
- * @param response
- * @param request
- * @param model
- */
+
+  /**
+   * A method, that saves currently processed test file's test result to the
+   * test report.
+   * 
+   * @param response
+   * @param request
+   * @param model
+   */
   @SuppressWarnings("unchecked")
   @RequestMapping(value = "/runtestfiles", method = RequestMethod.POST)
   public void saveFileSimulationReport(HttpServletResponse response, HttpServletRequest request, Model model) {
@@ -143,6 +151,7 @@ public class TestProcessController {
 
   /**
    * A method that reads the predefined testfiles from disk
+   * 
    * @param request
    * @param model
    * @param fileId
@@ -171,10 +180,13 @@ public class TestProcessController {
     }
 
   }
-/**
- * A method that initialises the set of testfiles to be used in testing process.
- * @param request
- */
+
+  /**
+   * A method that initialises the set of testfiles to be used in testing
+   * process.
+   * 
+   * @param request
+   */
   private void initTestFiles(HttpServletRequest request) {
     File testFileDir = new File(request.getSession().getServletContext().getRealPath(TESTFILES_DIR));
     log.info("testFilesDir is :" + testFileDir.getAbsolutePath());

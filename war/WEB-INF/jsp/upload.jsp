@@ -63,6 +63,7 @@
 			</div>
 			
 			<div id="data-input" class="gill-font">
+				<button id="uploadNewFile" class="button">Upload a new model</button>
 				<div class="currentFile"><span>You are editing: <strong class="currentFileName">N/A</strong></span></div>
 				<div class="layout-right">
 					<a class="toggle-all">Collapse all</a>

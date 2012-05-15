@@ -4,15 +4,17 @@ $(document).ready(function () {
 	
 	loadLikeButton(document, 'script', 'facebook-jssdk');
 	removeLastButton();
-	$.each(validate, function(name, content) {
-		$("body").delegate(validate[name]["class"], "change", function() {
-			validate.validateField(this, name);
+	if (validate) {
+		$.each(validate, function(name, content) {
+			$("body").delegate(validate[name]["class"], "change", function() {
+				validate.validateField(this, name);
+			});
+			
+			$("body").delegate(validate[name]["class"], "keyup", function() {
+				validate.validateField(this, name);
+			});
 		});
-		
-		$("body").delegate(validate[name]["class"], "keyup", function() {
-			validate.validateField(this, name);
-		});
-	});
+	}
 	
 	$('body').delegate(".xor", "keyup", function () {
 		validateXOR(this);
@@ -64,15 +66,13 @@ $(document).ready(function () {
 	
 	$("#continue-button").click(function() {
 		$("#continue-button").attr("disabled", true);
-//		try {
+		try {
 			bimp.parser.start();
 			showForm(400);
-//		} catch (e) {
-//			alert("File not valid");
-//			if (console) {
-//				console.log(e);
-//			}
-//		}
+		} catch (e) {
+			bimp.tools.openError("Unable to parse model! See the browser console for details.");
+			console.log(e);
+		}
 	});
 	
 	$(".toggle-trigger").click(function() {
@@ -261,9 +261,13 @@ $(document).ready(function () {
 		$(".targetIndicator").remove();
 		$(".sourceIndicator").remove();
 	});
-
+	$("body").on("click", "#uploadNewFile", function (e) {
+		e.preventDefault();
+		window.location.reload();
+		return false;
+	});
 });
-
+// namespace the global functions and objects under bimp.util
 var timeTableRow;
 
 var showForm = function (delay) {
@@ -347,7 +351,6 @@ var updateTypeSelection = function (element) {
 	});
 };
 
-// TODO: implement better and more flexible modal solution
 var openLoadingModal = function () {
 	$("body").trigger(bimp.testutil.config.startEvent, ["openLoadingModal"]);
 	$("body").append("<div id='modal-bg'></div>");
@@ -630,3 +633,9 @@ function formatTime(input) {
 	}
 	return input;
 }
+
+bimp.tools = {
+		openError: function (message) {
+			$("<div></div>").html(message).dialog({width : "300px", title: "Error!", buttons: { "Ok": function() { $(this).dialog("close"); } }, resizable: false });
+		}
+};
