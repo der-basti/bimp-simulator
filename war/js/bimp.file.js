@@ -38,13 +38,13 @@ bimp.file = {
 			if ($(bimp.file.xmlFile)[0].documentElement.prefix) {
 				bimp.parser.prefix = $(bimp.file.xmlFile)[0].documentElement.prefix + ":";
 				bimp.parser.prefixEscaped = $(bimp.file.xmlFile)[0].documentElement.prefix + "\\:";
-				bimp.parser.prefixForDocumenation = (bimp.parser.prefixEscaped) ? bimp.parser.prefixEscaped:"";
 				bimp.parser.prefix = bimp.parser.prefix ? bimp.parser.prefix : "";
 				// check if we need to use prefixEscaped for chrome or not
 				if ($(bimp.file.xmlFile).find(bimp.parser.prefixEscaped + "startEvent").size() < $(bimp.file.xmlFile).find("startEvent").size()) {
 					// if we need to use prefix (we get results) then use it, otherwise don't
 					bimp.parser.prefixEscaped = "";
 				}
+				bimp.parser.prefixForDocumenation = (bimp.parser.prefixEscaped) ? bimp.parser.prefixEscaped:"";
 			}
 			//console.log("Parse success..");
 			if($(bimp.file.xmlFile).find(bimp.parser.prefixEscaped + "startEvent").size() == 0) {
@@ -133,7 +133,15 @@ bimp.file = {
 			}
 			
 			// update startEvent
-			$(bimp.parser.xmlFile).find(bimp.parser.prefixEscaped + "startEvent").find(bimp.parser.prefixForDocumenation + "documentation")[0].textContent = JSON.stringify(bimp.parser.startEvent);
+			var startEvents = $(bimp.parser.xmlFile).find(bimp.parser.prefixEscaped + "startEvent");
+			if (startEvents.size() > 1) {
+				for (var i = 0; i < startEvents.size(); i++) {
+					$(startEvents[i]).find(bimp.parser.prefixForDocumenation + "documentation")[0].textContent = JSON.stringify(bimp.parser.startEvent);
+				}
+			} else {
+				startEvents.find(bimp.parser.prefixForDocumenation + "documentation")[0].textContent = JSON.stringify(bimp.parser.startEvent);
+				
+			}
 			//console.log("Found startEvent and updated it");
 		
 			var taskNodes = $(bimp.parser.xmlFile).find(bimp.parser.prefixEscaped + "task");

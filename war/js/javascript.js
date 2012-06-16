@@ -633,7 +633,7 @@ function formatTime(input) {
 	}
 	return input;
 }
-
+bimp = bimp ? bimp : {};
 bimp.tools = {
 		openError: function (message) {
 			$("<div></div>").html(message).dialog({width : "300px", title: "Error!", buttons: { "Ok": function() { $(this).dialog("close"); } }, resizable: false });
