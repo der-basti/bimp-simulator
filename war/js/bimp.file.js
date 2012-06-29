@@ -136,10 +136,14 @@ bimp.file = {
 			var startEvents = $(bimp.parser.xmlFile).find(bimp.parser.prefixEscaped + "startEvent");
 			if (startEvents.size() > 1) {
 				for (var i = 0; i < startEvents.size(); i++) {
-					$(startEvents[i]).find(bimp.parser.prefixForDocumenation + "documentation")[0].textContent = JSON.stringify(bimp.parser.startEvent);
+					if ($(startEvents[i]).find(bimp.parser.prefixForDocumenation + "documentation")[0]) {
+						$(startEvents[i]).find(bimp.parser.prefixForDocumenation + "documentation")[0].textContent = JSON.stringify(bimp.parser.startEvent);
+					}
 				}
 			} else {
-				startEvents.find(bimp.parser.prefixForDocumenation + "documentation")[0].textContent = JSON.stringify(bimp.parser.startEvent);
+				if (startEvents.find(bimp.parser.prefixForDocumenation + "documentation")[0]) {
+					startEvents.find(bimp.parser.prefixForDocumenation + "documentation")[0].textContent = JSON.stringify(bimp.parser.startEvent);
+				}
 				
 			}
 			//console.log("Found startEvent and updated it");
