@@ -24,7 +24,7 @@
 				and then outputs resource utilization statistics.
 			</div>
 			<div id="uploadpageButtonBox">
-				<a id="uploadpageButton" href="/upload">Continue to upload page</a>
+				<a id="uploadpageButton" href="upload">Continue to upload page</a>
 			</div>
 		</div>
 		<jsp:include page="_footer.jsp"></jsp:include>

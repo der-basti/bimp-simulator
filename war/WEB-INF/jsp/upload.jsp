@@ -40,7 +40,7 @@
 				</ol> 
 			</div>
 			<div id="upload-area">
-				<form id="upload" modelAttribute="uploadItem" action="/uploadfile"
+				<form id="upload" modelAttribute="uploadItem" action="uploadfile"
 					method="POST" enctype="multipart/form-data">
 
 					<fieldset>
@@ -68,7 +68,7 @@
 				<div class="layout-right">
 					<a class="toggle-all">Collapse all</a>
 				</div>
-				<form action="">
+				<form action="simulate">
 					<h2 class="toggle-trigger"><a>Process simulation specification</a></h2>
 					<div class="toggle-div">
 						<div class="startEvent">
